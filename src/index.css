@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/* Design system do projeto antigo (variáveis CSS) virou tema do Tailwind.
+   Exemplos: bg-primary, text-texto, bg-fundo, font-titulo */
+@theme {
+  /* Fundos */
+  --color-fundo: #fcfaf5;
+  --color-fundo-2: #e9e5da;
+
+  /* Verdes */
+  --color-primary: #5f6f52;
+  --color-texto: #3e4a3f;
+  --color-verde-medio: #919f88;
+  --color-verde-suave: #afc496;
+
+  /* Marrons */
+  --color-marrom: #6e5a4f;
+  --color-marrom-claro: #9f8675;
+
+  /* Bordas e feedback */
+  --color-borda: #d6d1c8;
+  --color-borda-nav: #d9d4c5;
+  --color-erro: #b3402f;
+
+  /* Fontes */
+  --font-titulo: "Playfair Display", serif;
+  --font-texto: "DM Sans", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-fundo-2);
+  color: var(--color-texto);
+  font-family: var(--font-texto);
+}
