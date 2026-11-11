@@ -49,7 +49,13 @@ function PainelLayout({ children }: PainelLayoutProps) {
     secoes.push({ titulo: 'Profissional', itens: [{ texto: 'Início', para: '/profissional' }] })
     if (profissional.ehAdministrador) {
       perfilTexto = profissional.cargo + ' · Administrador'
-      secoes.push({ titulo: 'Administração', itens: [{ texto: 'Início', para: '/admin' }] })
+      secoes.push({
+        titulo: 'Administração',
+        itens: [
+          { texto: 'Início', para: '/admin' },
+          { texto: 'Cadastrar paciente', para: '/admin/novo-paciente' },
+        ],
+      })
     }
   }
 

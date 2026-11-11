@@ -7,7 +7,7 @@ import { agoraTexto, diaDaSemana, hojeTexto, somarDias } from './datas'
 import { gravarPacientes, gravarProfissionais, gravarTerapeutas, gravarUsuarios, lerUsuarios } from './usuarios'
 
 // Mude este número sempre que o formato dos dados mudar: os dados antigos são apagados.
-const VERSAO_DO_ESQUEMA = '1'
+const VERSAO_DO_ESQUEMA = '3'
 
 const SENHA_DEMONSTRACAO = 'medpics123'
 
@@ -109,7 +109,7 @@ function criarContasDeDemonstracao() {
     areaAtuacao: 'Reabilitação neurológica',
   })
 
-  usuarios.push(novoUsuario(7, 'Dr. Carlos Nogueira', '777.777.777-77', 'recusado@medpics.com', 'Recusada', ''))
+  usuarios.push(novoUsuario(7, 'Dr. Carlos Nogueira', '777.777.777-77', 'recusado@medpics.com', 'Recusado', ''))
   profissionais.push(novoProfissional(7, 'Dentista', 'CRO 20007', 'Endodontia', 30, false))
 
   // Paciente inativo, com último acesso há mais de um ano (serve para testar a nova anamnese na reativação)
@@ -137,6 +137,14 @@ function criarContasDeDemonstracao() {
         { item: 'Enxaqueca', frequencia: '', observacao: 'Duas crises por mês' },
         { item: 'Ansiedade', frequencia: '', observacao: '' },
       ],
+    },
+    {
+      // Anamnese antiga do paciente inativo (será guardada como histórico quando ele refizer)
+      id: 2,
+      idPaciente: 8,
+      dataPreenchimento: haDoisAnos,
+      preenchidaPor: 8,
+      itens: [{ item: 'Tabagismo', frequencia: '5 cigarros por dia', observacao: '' }],
     },
   ]
 

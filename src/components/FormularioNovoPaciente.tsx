@@ -1,0 +1,98 @@
+import { useState } from 'react'
+import { anamneseVazia, semErrosAnamnese, validarAnamnese } from '../data/anamnese'
+import { contaVazia, criarPaciente, origensDoPaciente, semErros, usuarioLogado, validarConta, validarOrigemETermos } from '../data/usuarios'
+import Botao from './Botao'
+import CampoSelect from './CampoSelect'
+import CampoTermos from './CampoTermos'
+import CamposAcesso from './CamposAcesso'
+import CamposDadosPessoais from './CamposDadosPessoais'
+import FormularioAnamnese from './FormularioAnamnese'
+import TituloDaSecao from './TituloDaSecao'
+
+interface FormularioNovoPacienteProps {
+  aoConcluir: (nome: string) => void
+}
+
+// Cadastro de paciente feito pelo administrador (Quadro 7). A conta já nasce Ativa. Dois caminhos:
+// - paciente ao telefone: o administrador preenche a anamnese junto e registra o aceite dos termos;
+// - senão: termos e anamnese ficam pendentes para o primeiro acesso do próprio paciente.
+function FormularioNovoPaciente({ aoConcluir }: FormularioNovoPacienteProps) {
+  const [conta, setConta] = useState(contaVazia())
+  const [origem, setOrigem] = useState('')
+  const [aoTelefone, setAoTelefone] = useState(false)
+  const [termos, setTermos] = useState(false)
+  const [anamnese, setAnamnese] = useState(anamneseVazia())
+  const [erros, setErros] = useState(semErros())
+  const [errosAnamnese, setErrosAnamnese] = useState(semErrosAnamnese())
+
+  function mudarConta(campo: string, valor: string) {
+    setConta({ ...conta, [campo]: valor })
+  }
+
+  function cadastrar() {
+    const administrador = usuarioLogado()
+    if (administrador === null) return
+
+    const novosErros = { ...validarConta(conta), ...validarOrigemETermos(origem, termos, aoTelefone) }
+    const novosErrosAnamnese = aoTelefone ? validarAnamnese(anamnese) : semErrosAnamnese()
+    setErros(novosErros)
+    setErrosAnamnese(novosErrosAnamnese)
+    if (Object.keys(novosErros).length > 0 || Object.keys(novosErrosAnamnese).length > 0) {
+      window.scrollTo({ top: 0 })
+      return
+    }
+
+    criarPaciente(conta, origem, aoTelefone && termos, aoTelefone ? anamnese : null, administrador.id)
+    aoConcluir(conta.nome)
+  }
+
+  const classeDaOpcao = (escolhida: boolean) =>
+    `rounded-2xl border-[1.5px] p-4 text-left transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+      escolhida ? 'border-primary bg-primary/10' : 'border-borda bg-white hover:border-primary active:bg-fundo-2'
+    }`
+
+  return (
+    <form
+      noValidate
+      onSubmit={(evento) => {
+        evento.preventDefault()
+        cadastrar()
+      }}
+    >
+      {erros.geral && (
+        <div role="alert" className="mb-5 rounded-xl border border-erro/40 bg-erro/10 px-4 py-3 text-sm text-erro">
+          {erros.geral}
+        </div>
+      )}
+
+      <CamposDadosPessoais dados={conta} aoMudar={mudarConta} erros={erros} />
+      <CampoSelect id="origem" rotulo="Como chegou até a clínica?" opcoes={origensDoPaciente} valor={origem} aoMudar={setOrigem} erro={erros.origem} />
+      <CamposAcesso dados={conta} aoMudar={mudarConta} erros={erros} />
+
+      <TituloDaSecao comEspacoAcima>Termos e anamnese</TituloDaSecao>
+      <div role="radiogroup" aria-label="Como preencher termos e anamnese" className="mb-6 grid gap-3 sm:grid-cols-2">
+        <button type="button" role="radio" aria-checked={aoTelefone} onClick={() => setAoTelefone(true)} className={classeDaOpcao(aoTelefone)}>
+          <p className="mb-1 font-titulo text-lg text-texto">Paciente ao telefone</p>
+          <p className="text-sm text-marrom">Preencho a anamnese junto com o paciente e registro o aceite dos termos.</p>
+        </button>
+        <button type="button" role="radio" aria-checked={!aoTelefone} onClick={() => setAoTelefone(false)} className={classeDaOpcao(!aoTelefone)}>
+          <p className="mb-1 font-titulo text-lg text-texto">Deixar para o primeiro acesso</p>
+          <p className="text-sm text-marrom">O próprio paciente aceita os termos e preenche a anamnese ao entrar.</p>
+        </button>
+      </div>
+
+      {aoTelefone && (
+        <>
+          <CampoTermos aceito={termos} aoMudar={setTermos} texto="O paciente informou que aceita os Termos de Uso e a Política de Privacidade (LGPD)" erro={erros.termos} />
+          <FormularioAnamnese estado={anamnese} aoMudar={setAnamnese} erros={errosAnamnese} />
+        </>
+      )}
+
+      <Botao enviar larguraTotal>
+        Cadastrar paciente
+      </Botao>
+    </form>
+  )
+}
+
+export default FormularioNovoPaciente

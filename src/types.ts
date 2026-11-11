@@ -2,7 +2,7 @@
 // Datas são texto: "AAAA-MM-DD"; horas "HH:mm"; momentos (login, cancelamento) "AAAA-MM-DDTHH:mm".
 // Campos que o texto do DER deixa vazios aqui ficam com '' (texto vazio) ou 0.
 
-export type StatusConta = 'Aguardando aprovação' | 'Ativa' | 'Recusada' | 'Inativa'
+export type StatusConta = 'Aguardando aprovação' | 'Ativa' | 'Recusado' | 'Inativa'
 export type Cargo = 'Médico' | 'Dentista' | 'Terapeuta'
 export type StatusConsulta = 'Agendada' | 'Realizada' | 'Cancelada' | 'Faltou'
 export type StatusDisponibilidade = 'Ativa' | 'Férias' | 'Licença' | 'Inativa'

@@ -1,25 +1,47 @@
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Botao from '../components/Botao'
-import Campo from '../components/Campo'
+import CamposAcesso from '../components/CamposAcesso'
+import CamposDadosPessoais from '../components/CamposDadosPessoais'
+import CamposProfissionais from '../components/CamposProfissionais'
 import Footer from '../components/Footer'
 import PainelLateral from '../components/PainelLateral'
-import TituloDaSecao from '../components/TituloDaSecao'
+import { contaVazia, criarProfissional, profissionalVazio, semErros, validarConta, validarProfissional } from '../data/usuarios'
+import type { Cargo } from '../types'
 import checkIcone from '../assets/check-cadastro.svg'
 import cadeadoIcone from '../assets/cadeado.svg'
 import celularIcone from '../assets/celular.svg'
 
 interface CadastroProfissionalProps {
-  perfil: string // "Médico", "Dentista" ou "Terapeuta" (vem da rota)
+  perfil: Cargo // "Médico", "Dentista" ou "Terapeuta" (vem da rota)
 }
 
-// Cadastro de médico, dentista ou terapeuta. Versão de apresentação: nada é salvo; ao enviar, vai para o login.
+// Cadastro de médico, dentista ou terapeuta. A conta fica "Aguardando aprovação" até o administrador aprovar.
+// Ao enviar, vai para o login.
 function CadastroProfissional({ perfil }: CadastroProfissionalProps) {
+  const [conta, setConta] = useState(contaVazia())
+  const [dados, setDados] = useState(profissionalVazio())
+  const [erros, setErros] = useState(semErros())
   const navigate = useNavigate()
 
-  // O nome do registro muda conforme o perfil
-  let rotuloDoRegistro = 'Número de registro no conselho'
-  if (perfil === 'Médico') rotuloDoRegistro = 'CRM'
-  if (perfil === 'Dentista') rotuloDoRegistro = 'CRO'
+  function mudarConta(campo: string, valor: string) {
+    setConta({ ...conta, [campo]: valor })
+  }
+
+  function mudarDados(campo: string, valor: string) {
+    setDados({ ...dados, [campo]: valor })
+  }
+
+  function enviar() {
+    const novosErros = { ...validarConta(conta), ...validarProfissional(perfil, dados) }
+    setErros(novosErros)
+    if (Object.keys(novosErros).length > 0) {
+      window.scrollTo({ top: 0 })
+      return
+    }
+    criarProfissional(perfil, conta, dados, 'Aguardando aprovação', false)
+    navigate('/login?cadastro=profissional')
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -51,53 +73,18 @@ function CadastroProfissional({ perfil }: CadastroProfissionalProps) {
                 noValidate
                 onSubmit={(evento) => {
                   evento.preventDefault()
-                  navigate('/login')
+                  enviar()
                 }}
               >
-                <TituloDaSecao>Dados pessoais</TituloDaSecao>
-                <div className="grid gap-x-5 sm:grid-cols-2">
-                  <Campo id="nome" rotulo="Nome" placeholder="Nome completo" />
-                  <Campo id="cpf" rotulo="CPF" placeholder="000.000.000-00" />
-                  <Campo id="nascimento" rotulo="Data de nascimento" placeholder="dd/mm/aaaa" />
-                  <Campo id="telefone" rotulo="Telefone" tipo="tel" placeholder="(11) 99999-9999" />
-                </div>
-                <Campo id="endereco" rotulo="Endereço" placeholder="Rua, número, bairro e cidade" />
-
-                <TituloDaSecao comEspacoAcima>Dados profissionais</TituloDaSecao>
-                <div className="grid gap-x-5 sm:grid-cols-2">
-                  <Campo id="registro" rotulo={rotuloDoRegistro} placeholder="Ex: 123456" />
-                  <Campo id="especialidade" rotulo="Especialidade" placeholder="Ex: Neurologia" />
-                  <Campo id="duracao" rotulo="Duração de cada consulta (minutos)" tipo="number" placeholder="Ex: 30" />
-                </div>
-
-                {/* Dados extras só do terapeuta */}
-                {perfil === 'Terapeuta' && (
-                  <>
-                    <div className="grid gap-x-5 sm:grid-cols-2">
-                      <Campo id="conselho" rotulo="Conselho profissional" placeholder="Ex: CRP, CREFITO" />
-                      <Campo id="graduacao" rotulo="Graduação" placeholder="Ex: Psicologia" />
-                      <Campo id="areaAtuacao" rotulo="Área de atuação" placeholder="Ex: Ansiedade e Depressão" />
-                      <Campo id="posGraduacao" rotulo="Pós-graduação (se houver)" />
-                    </div>
-                    <div className="mb-5">
-                      <label htmlFor="formacoes" className="mb-2 block text-sm font-medium text-marrom">
-                        Formações complementares (se houver)
-                      </label>
-                      <textarea
-                        id="formacoes"
-                        rows={4}
-                        className="w-full rounded-xl border-[1.5px] border-borda bg-fundo px-4 py-3 text-sm text-texto transition-colors duration-200 placeholder:text-[#b8b0a4] hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-suave/60"
-                      />
-                    </div>
-                  </>
+                {erros.geral && (
+                  <div role="alert" className="mb-5 rounded-xl border border-erro/40 bg-erro/10 px-4 py-3 text-sm text-erro">
+                    {erros.geral}
+                  </div>
                 )}
 
-                <TituloDaSecao comEspacoAcima>Acesso ao sistema</TituloDaSecao>
-                <Campo id="email" rotulo="Email" placeholder="seu@email.com" />
-                <div className="grid gap-x-5 sm:grid-cols-2">
-                  <Campo id="senha" rotulo="Senha" tipo="password" placeholder="Mínimo 8 caracteres" />
-                  <Campo id="confirmarSenha" rotulo="Confirmar senha" tipo="password" placeholder="Repita a senha" />
-                </div>
+                <CamposDadosPessoais dados={conta} aoMudar={mudarConta} erros={erros} />
+                <CamposProfissionais cargo={perfil} dados={dados} aoMudar={mudarDados} erros={erros} />
+                <CamposAcesso dados={conta} aoMudar={mudarConta} erros={erros} />
 
                 <Botao enviar larguraTotal>
                   Enviar cadastro

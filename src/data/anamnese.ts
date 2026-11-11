@@ -1,6 +1,8 @@
 // Catálogo fixo da anamnese (7 categorias) e leitura/gravação das anamneses preenchidas.
-import type { Anamnese } from '../types'
-import { gravarTexto, lerTexto } from './armazenamento'
+import { VALIDACOES_ATIVAS } from '../config'
+import type { Anamnese, ItemMarcado } from '../types'
+import { gravarTexto, lerTexto, proximoId } from './armazenamento'
+import { agoraTexto } from './datas'
 
 export interface ItemCatalogo {
   nome: string
@@ -99,4 +101,60 @@ export function anamnesesDoPaciente(idPaciente: number): Anamnese[] {
 export function anamneseAtual(idPaciente: number): Anamnese | null {
   const lista = anamnesesDoPaciente(idPaciente)
   return lista.length === 0 ? null : lista[0]
+}
+
+// ---------- Preenchimento (usado pelos formulários) ----------
+
+// O que o formulário guarda enquanto a pessoa preenche.
+// "habitosNao" são os hábitos respondidos com Não (item não marcado não diferencia "Não" de "não respondeu").
+export interface EstadoAnamnese {
+  itens: ItemMarcado[]
+  habitosNao: string[]
+}
+
+// Mensagem de erro por nome de item, ex.: erros['Tabagismo']
+export interface ErrosAnamnese {
+  [item: string]: string
+}
+
+export function semErrosAnamnese(): ErrosAnamnese {
+  return {}
+}
+
+export function anamneseVazia(): EstadoAnamnese {
+  return { itens: [], habitosNao: [] }
+}
+
+// Cada hábito precisa de resposta Sim ou Não e, se for Sim, de frequência (Quadro 3).
+// Com VALIDACOES_ATIVAS = false não bloqueia nada.
+export function validarAnamnese(estado: EstadoAnamnese): ErrosAnamnese {
+  const erros: ErrosAnamnese = {}
+  if (!VALIDACOES_ATIVAS) return erros
+
+  for (const categoria of catalogo) {
+    for (const item of categoria.itens) {
+      if (!item.comFrequencia) continue
+      const marcado = estado.itens.find((i) => i.item === item.nome)
+      if (marcado) {
+        if (marcado.frequencia.trim() === '') erros[item.nome] = 'Informe a frequência'
+      } else if (!estado.habitosNao.includes(item.nome)) {
+        erros[item.nome] = 'Responda Sim ou Não'
+      }
+    }
+  }
+  return erros
+}
+
+// Guarda uma nova anamnese. As antigas continuam guardadas como histórico.
+// "idPreenchedor" é o paciente ou o administrador (quando preenche por telefone).
+export function salvarAnamnese(idPaciente: number, estado: EstadoAnamnese, idPreenchedor: number) {
+  const lista = lerAnamneses()
+  lista.push({
+    id: proximoId(lista.map((a) => a.id)),
+    idPaciente,
+    dataPreenchimento: agoraTexto(),
+    preenchidaPor: idPreenchedor,
+    itens: estado.itens,
+  })
+  gravarAnamneses(lista)
 }
