@@ -26,6 +26,11 @@ Senha de todas: `medpics123`. As contas são criadas sozinhas quando o armazenam
 
 Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSAO_DO_ESQUEMA` em `src/data/inicializacao.ts`. A sessão fica só na aba (fechou a aba, saiu).
 
+## Telas e menu lateral
+- Cada perfil tem uma tela inicial com dados reais: paciente (próxima consulta, indicadores, calendário, avisos, últimas consultas), profissional (indicadores, agenda de hoje, calendário, atalhos, aviso se não há disponibilidade) e administração (indicadores da clínica e cadastros pendentes). Profissional que também é administrador tem as seções "Meu painel" e "Administração".
+- O menu mostra os itens na ordem final, mas só os de telas que já existem são links; os demais aparecem com a etiqueta "em breve". A lista de telas prontas fica em `src/telas.ts`.
+- Administração: `/admin/cadastros` (aprovar ou recusar profissionais), `/admin/usuarios` (lista com filtro, novo usuário, editar, ativar/inativar) e `/admin/novo-paciente` (atalho para cadastrar paciente).
+
 ## Mapa de pastas
 - `src/App.tsx` — rotas. `/paciente`, `/primeiro-acesso`, `/profissional` e `/admin` ficam dentro de `RotaProtegida`. Cadastros: `/cadastro`, `/cadastro/paciente|medico|dentista|terapeuta`. Admin cadastra paciente em `/admin/novo-paciente`.
 - `src/pages` — uma página por arquivo. `src/components` — peças reutilizáveis (layout do painel, campos, botões, navbar...).
@@ -42,6 +47,9 @@ Aviso: as senhas ficam em texto puro no `localStorage` porque é um protótipo; 
 - `Data_hora` do agendamento foi dividida em `data` e `hora`.
 - O cargo não pode ser editado depois do cadastro (a "lógica da estrutura" prevê criar/remover o registro de Terapeuta ao mudar o cargo).
 - Status da conta "Recusado", como no DER e no Quadro 6.
+- Bloqueios de inativar a própria conta e o último administrador ativo (e de remover a permissão do último administrador) valem sempre, mesmo com as validações desligadas, para o administrador não perder o acesso.
+- Ao criar usuário com as validações desligadas, perfis inválidos (ex.: paciente + administrador) são resolvidos em favor do paciente; só "nenhum perfil/cargo escolhido" sempre bloqueia, pois não há o que cadastrar.
+- Reativar paciente exige nova anamnese se passaram mais de 365 dias desde o último login (ou do cadastro, se nunca entrou).
 - Cadastro, ao enviar, volta para `/login` com um aviso (`?cadastro=paciente` ou `?cadastro=profissional` na URL, sem dados pessoais).
 - A data de nascimento usa o campo de data do navegador (grava AAAA-MM-DD).
 - Na anamnese, cada um dos 5 hábitos exige resposta Sim ou Não (Quadro 3: "exigem resposta"); "Não" fica só na tela, pois o DER não guarda esse dado.

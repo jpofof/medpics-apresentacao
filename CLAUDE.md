@@ -18,8 +18,12 @@ regras-de-negocio-sistema, Descricao_DER_Sistema_Clinica, descricoes-casos-de-us
 ## Logins de demonstração (senha `medpics123`)
 admin@ (Médico + admin), medico@, dentista@, terapeuta@, paciente@ (com anamnese e 3 consultas), aguardando@, recusado@, inativo@ — todos `@medpics.com`.
 
+## Telas e menu
+- `src/telas.ts` lista as rotas que já existem: menu lateral (`PainelLayout`) e atalhos (`AtalhoRapido`) só viram link se a rota estiver lá; as outras aparecem "em breve". Ao criar uma tela, acrescente a rota em `telas.ts`.
+- Componentes das telas iniciais: CartaoIndicador, CartaoProximaConsulta, ListaConsultas, MiniCalendario, AtalhoRapido, AvisosDoPaciente, IconeMenu.
+
 ## Estado das fases
-- Feitas: 1 (tipos, dados, contas demo), 2 (login, rotas por perfil, menus), 3 (FormularioAnamnese), 4 (cadastros, primeiro acesso, admin cadastra paciente em /admin/novo-paciente).
-- Pendentes: 5 admin, 6 disponibilidade, 7 agendar/cancelar/avisos/histórico, 8 férias/licença, 9 agenda/atendimento, 10 relatórios, 11 senha/perfil, 12 limpeza final.
+- Feitas: 1 dados, 2 login/rotas/menus, 3 anamnese, 4 cadastros/primeiro acesso, Visual (telas iniciais e menu), 5 admin (cadastros pendentes e usuários).
+- Pendentes: 6 disponibilidade, 7 agendar/cancelar/avisos/histórico, 8 férias/licença, 9 agenda/atendimento, 10 relatórios, 11 senha/perfil, 12 limpeza final.
 - Provisório: `AgendarConsulta` (horários fixos, não salva, até a Fase 7); cancelar em "Minhas consultas" sem regra das 24h (Fase 7).
 - Status "Recusado" (como no DER). Ao mudar o formato dos dados, aumente `VERSAO_DO_ESQUEMA`.
