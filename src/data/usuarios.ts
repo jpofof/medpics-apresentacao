@@ -65,6 +65,10 @@ export function buscarProfissional(id: number): Profissional | null {
   return lerProfissionais().find((p) => p.idUsuario === id) ?? null
 }
 
+export function buscarTerapeuta(id: number): Terapeuta | null {
+  return lerTerapeutas().find((t) => t.idUsuario === id) ?? null
+}
+
 // ---------- Perfil (calculado, não é guardado) ----------
 
 // Quem tem registro de Paciente é "Paciente"; senão é o cargo do Profissional (Médico, Dentista ou Terapeuta).
@@ -78,6 +82,17 @@ export function perfilDe(id: number): string {
 export function ehAdministrador(id: number): boolean {
   const profissional = buscarProfissional(id)
   return profissional !== null && profissional.ehAdministrador
+}
+
+// Texto do perfil para telas e listas: "Paciente", "Médico", "Médico · Administrador"...
+export function descricaoDoPerfil(id: number): string {
+  const perfil = perfilDe(id)
+  return ehAdministrador(id) ? perfil + ' · Administrador' : perfil
+}
+
+// Quantos administradores com conta Ativa existem
+export function contarAdministradoresAtivos(): number {
+  return lerProfissionais().filter((p) => p.ehAdministrador && buscarUsuario(p.idUsuario)?.statusConta === 'Ativa').length
 }
 
 // Nome de qualquer usuário. Nos profissionais o nome já guarda o título (ex.: "Dr. Rafael Moura")
@@ -251,8 +266,9 @@ export function emailOuCpfJaExiste(email: string, cpf: string, ignorarId: number
 }
 
 // Valida os dados da conta (campos obrigatórios, senhas iguais, e-mail/CPF repetido).
+// "ignorarId" = conta que está sendo editada (0 em cadastro novo). Na edição a senha é opcional.
 // Com VALIDACOES_ATIVAS = false não bloqueia nada.
-export function validarConta(dados: DadosDaConta): Erros {
+export function validarConta(dados: DadosDaConta, ignorarId = 0, exigeSenha = true): Erros {
   const erros: Erros = {}
   if (!VALIDACOES_ATIVAS) return erros
 
@@ -263,12 +279,12 @@ export function validarConta(dados: DadosDaConta): Erros {
   if (dados.telefone.trim() === '') erros.telefone = obrigatorio
   if (dados.endereco.trim() === '') erros.endereco = obrigatorio
   if (dados.email.trim() === '') erros.email = obrigatorio
-  if (dados.senha === '') erros.senha = obrigatorio
-  if (dados.confirmarSenha === '') erros.confirmarSenha = obrigatorio
-  if (dados.senha !== '' && dados.confirmarSenha !== '' && dados.senha !== dados.confirmarSenha) {
+  if (exigeSenha && dados.senha === '') erros.senha = obrigatorio
+  if (exigeSenha && dados.confirmarSenha === '') erros.confirmarSenha = obrigatorio
+  if (dados.senha !== dados.confirmarSenha) {
     erros.confirmarSenha = 'As senhas não coincidem'
   }
-  if (emailOuCpfJaExiste(dados.email, dados.cpf, 0)) {
+  if (emailOuCpfJaExiste(dados.email, dados.cpf, ignorarId)) {
     erros.geral = 'Já existe uma conta com este e-mail ou CPF'
   }
   return erros

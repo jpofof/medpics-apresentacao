@@ -55,7 +55,7 @@ function PacienteConsultas() {
   function cancelar(id: number) {
     const usuario = usuarioLogado()
     if (usuario === null) return
-    cancelarAgendamento(id, usuario.id)
+    cancelarAgendamento(id, usuario.id, '')
     setConsultas(carregarConsultas())
   }
 

@@ -1,7 +1,9 @@
 import { Route, Routes } from 'react-router-dom'
 import RotaProtegida from './components/RotaProtegida'
 import AdminInicio from './pages/AdminInicio'
+import AdminCadastros from './pages/AdminCadastros'
 import AdminNovoPaciente from './pages/AdminNovoPaciente'
+import AdminUsuarios from './pages/AdminUsuarios'
 import AgendarConsulta from './pages/AgendarConsulta'
 import CadastroPaciente from './pages/CadastroPaciente'
 import CadastroProfissional from './pages/CadastroProfissional'
@@ -37,7 +39,9 @@ function App() {
       <Route path="/profissional" element={<RotaProtegida area="profissional"><ProfissionalInicio /></RotaProtegida>} />
 
       <Route path="/admin" element={<RotaProtegida area="admin"><AdminInicio /></RotaProtegida>} />
+      <Route path="/admin/cadastros" element={<RotaProtegida area="admin"><AdminCadastros /></RotaProtegida>} />
       <Route path="/admin/novo-paciente" element={<RotaProtegida area="admin"><AdminNovoPaciente /></RotaProtegida>} />
+      <Route path="/admin/usuarios" element={<RotaProtegida area="admin"><AdminUsuarios /></RotaProtegida>} />
 
       <Route path="*" element={<NaoEncontrada />} />
     </Routes>

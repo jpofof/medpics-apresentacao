@@ -16,6 +16,21 @@ export function hojeTexto(): string {
   return dataParaTexto(new Date())
 }
 
+// Primeiro (domingo) e último (sábado) dia da semana de hoje
+export function inicioDaSemana(): string {
+  const hoje = hojeTexto()
+  return somarDias(hoje, -diaDaSemana(hoje))
+}
+
+export function fimDaSemana(): string {
+  return somarDias(inicioDaSemana(), 6)
+}
+
+// Mês de hoje, ex: "2026-11" (compare com data.slice(0, 7))
+export function mesDeHoje(): string {
+  return hojeTexto().slice(0, 7)
+}
+
 // Agora, ex: "2026-11-11T14:30" (usado em último login, data de cancelamento, etc.)
 export function agoraTexto(): string {
   const agora = new Date()
