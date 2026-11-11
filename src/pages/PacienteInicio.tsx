@@ -3,6 +3,9 @@ import BotaoLink from '../components/BotaoLink'
 import CabecalhoPagina from '../components/CabecalhoPagina'
 import Cartao from '../components/Cartao'
 import PainelLayout from '../components/PainelLayout'
+import { agendamentosDoPaciente } from '../data/agenda'
+import { formatarData } from '../data/datas'
+import { especialidadeDoProfissional, nomeDoUsuario, usuarioLogado } from '../data/usuarios'
 import folhaIcone from '../assets/icones/icon-folha.svg'
 import agendamentosIcone from '../assets/icones/icon-agendamentos.svg'
 import consultasIcone from '../assets/icones/icon-consultas.svg'
@@ -13,7 +16,7 @@ interface Consulta {
   especialidade: string
   data: string // dd/mm/aaaa
   hora: string
-  status: string // "Agendada", "Realizada" ou "Cancelada"
+  status: string // "Agendada", "Realizada", "Cancelada" ou "Faltou"
 }
 
 const diasDaSemana = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB']
@@ -23,23 +26,30 @@ const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julh
 // Cores da barrinha lateral de cada atividade
 const coresDasAtividades = ['bg-marrom-claro', 'bg-marrom', 'bg-primary', 'bg-marrom-claro', 'bg-marrom']
 
-// A consulta futura de exemplo é sempre daqui a 4 dias, para aparecer no calendário
-const daquiA4Dias = new Date()
-daquiA4Dias.setDate(daquiA4Dias.getDate() + 4)
-
-const consultas: Consulta[] = [
-  { profissional: 'Dr. Rafael Moura', especialidade: 'Neurologia', data: daquiA4Dias.toLocaleDateString('pt-BR'), hora: '10:00', status: 'Agendada' },
-  { profissional: 'Dra. Camila Torres', especialidade: 'Ortodontia', data: '16/10/2026', hora: '09:00', status: 'Realizada' },
-  { profissional: 'Júlia Souza', especialidade: 'Psicologia Clínica', data: '28/09/2026', hora: '15:00', status: 'Cancelada' },
-]
-
 // Painel do paciente: próxima consulta, agenda da semana, números e próximas atividades
 function PacienteInicio() {
   // Quantos dias a agenda andou para frente (ou para trás) a partir de hoje
   const [deslocamento, setDeslocamento] = useState(0)
 
+  const usuario = usuarioLogado()
+  const primeiroNome = usuario === null ? '' : usuario.nome.split(' ')[0]
+
+  // Consultas reais do paciente (da mais recente para a mais antiga)
+  const consultas: Consulta[] = []
+  if (usuario !== null) {
+    for (const agendamento of agendamentosDoPaciente(usuario.id)) {
+      consultas.push({
+        profissional: nomeDoUsuario(agendamento.idProfissional),
+        especialidade: especialidadeDoProfissional(agendamento.idProfissional),
+        data: formatarData(agendamento.data),
+        hora: agendamento.hora,
+        status: agendamento.status,
+      })
+    }
+  }
+
   const hoje = new Date()
-  const proximas = consultas.filter((c) => c.status === 'Agendada')
+  const proximas = consultas.filter((c) => c.status === 'Agendada').reverse() // a mais próxima primeiro
   const proxima = proximas[0]
 
   const numeros = [
@@ -61,9 +71,9 @@ function PacienteInicio() {
     'h-8 w-8 rounded-full border border-black/10 text-lg text-marrom transition-colors duration-200 hover:bg-fundo-2 focus-visible:outline-2 focus-visible:outline-primary active:bg-fundo-2'
 
   return (
-    <PainelLayout nome="Maria">
+    <PainelLayout>
       <CabecalhoPagina
-        titulo="Olá, Maria!"
+        titulo={'Olá, ' + primeiroNome + '!'}
         icone={folhaIcone}
         subtitulo={hoje.toLocaleDateString('pt-BR', { weekday: 'long' }) + ', ' + hoje.toLocaleDateString('pt-BR')}
         acao={<BotaoLink para="/paciente/agendar">+ Agendar Consulta</BotaoLink>}
@@ -148,7 +158,7 @@ function PacienteInicio() {
                 key={consulta.data + consulta.hora}
                 className="relative flex items-center gap-4 overflow-hidden rounded-[18px] border border-black/10 bg-[#f7f5f0] p-5"
               >
-                <span className={`absolute left-0 top-[10%] h-4/5 w-1 rounded ${coresDasAtividades[indice]}`} />
+                <span className={`absolute left-0 top-[10%] h-4/5 w-1 rounded ${coresDasAtividades[indice % coresDasAtividades.length]}`} />
                 <div className="min-w-14 text-center text-[13px] font-semibold text-texto">{consulta.data.slice(0, 5)}</div>
                 <div>
                   <strong className="block text-[14px] text-texto">{consulta.especialidade}</strong>

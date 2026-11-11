@@ -4,18 +4,7 @@ import Botao from '../components/Botao'
 import CabecalhoPagina from '../components/CabecalhoPagina'
 import CampoSelect from '../components/CampoSelect'
 import PainelLayout from '../components/PainelLayout'
-
-interface Profissional {
-  nome: string
-  especialidade: string
-}
-
-const profissionais: Profissional[] = [
-  { nome: 'Dra. Helena Duarte', especialidade: 'Endocanabinologia' },
-  { nome: 'Dr. Rafael Moura', especialidade: 'Neurologia' },
-  { nome: 'Dra. Camila Torres', especialidade: 'Ortodontia' },
-  { nome: 'Júlia Souza', especialidade: 'Psicologia Clínica' },
-]
+import { profissionaisAtivos } from '../data/usuarios'
 
 const horarios = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00']
 
@@ -27,7 +16,8 @@ for (let i = 1; i <= 14; i++) {
   datas.push(dia.toLocaleDateString('pt-BR', { weekday: 'long' }) + ', ' + dia.toLocaleDateString('pt-BR'))
 }
 
-// Tela de agendar consulta. Nesta versão a consulta não é salva: só aparece a mensagem de sucesso.
+// PROVISÓRIO até a Fase 7: a lista de profissionais já é real, mas datas e horários ainda são fixos
+// e a consulta ainda não é salva (só aparece a mensagem de sucesso).
 function AgendarConsulta() {
   const [profissional, setProfissional] = useState('') // "Nome — Especialidade"
   const [data, setData] = useState('')
@@ -35,7 +25,7 @@ function AgendarConsulta() {
   const [mensagem, setMensagem] = useState('')
 
   // Textos da lista de profissionais: "Dr. Rafael Moura — Neurologia"
-  const opcoesDeProfissionais = profissionais.map((p) => p.nome + ' — ' + p.especialidade)
+  const opcoesDeProfissionais = profissionaisAtivos().map((p) => p.nome + ' — ' + p.especialidade)
 
   function agendar() {
     const nome = profissional.split(' — ')[0]
@@ -45,7 +35,7 @@ function AgendarConsulta() {
   }
 
   return (
-    <PainelLayout nome="Maria">
+    <PainelLayout>
       <CabecalhoPagina titulo="Agendar consulta" subtitulo="Escolha o profissional, a data e um horário livre" />
 
       <div className="max-w-3xl rounded-2xl border border-black/10 bg-fundo p-6 sm:p-8">

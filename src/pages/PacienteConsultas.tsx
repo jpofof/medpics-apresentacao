@@ -4,6 +4,9 @@ import BotaoLink from '../components/BotaoLink'
 import CabecalhoPagina from '../components/CabecalhoPagina'
 import Cartao from '../components/Cartao'
 import PainelLayout from '../components/PainelLayout'
+import { agendamentosDoPaciente, cancelarAgendamento } from '../data/agenda'
+import { formatarData } from '../data/datas'
+import { especialidadeDoProfissional, nomeDoUsuario, usuarioLogado } from '../data/usuarios'
 import agendamentosIcone from '../assets/icones/icon-agendamentos.svg'
 
 interface Consulta {
@@ -12,37 +15,48 @@ interface Consulta {
   especialidade: string
   data: string // dd/mm/aaaa
   hora: string
-  status: string // "Agendada", "Realizada" ou "Cancelada"
+  status: string // "Agendada", "Realizada", "Cancelada" ou "Faltou"
 }
 
 const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
-// A consulta futura de exemplo é sempre daqui a 4 dias
-const daquiA4Dias = new Date()
-daquiA4Dias.setDate(daquiA4Dias.getDate() + 4)
-
-const consultasDeExemplo: Consulta[] = [
-  { id: 1, profissional: 'Dr. Rafael Moura', especialidade: 'Neurologia', data: daquiA4Dias.toLocaleDateString('pt-BR'), hora: '10:00', status: 'Agendada' },
-  { id: 2, profissional: 'Dra. Camila Torres', especialidade: 'Ortodontia', data: '16/10/2026', hora: '09:00', status: 'Realizada' },
-  { id: 3, profissional: 'Júlia Souza', especialidade: 'Psicologia Clínica', data: '28/09/2026', hora: '15:00', status: 'Cancelada' },
-]
+// Lê do armazenamento as consultas do paciente logado (da mais recente para a mais antiga)
+function carregarConsultas(): Consulta[] {
+  const usuario = usuarioLogado()
+  const consultas: Consulta[] = []
+  if (usuario === null) return consultas
+  for (const a of agendamentosDoPaciente(usuario.id)) {
+    consultas.push({
+      id: a.id,
+      profissional: nomeDoUsuario(a.idProfissional),
+      especialidade: especialidadeDoProfissional(a.idProfissional),
+      data: formatarData(a.data),
+      hora: a.hora,
+      status: a.status,
+    })
+  }
+  return consultas
+}
 
 const classeDoBotaoSeta =
   'h-8 w-8 rounded-full border border-black/10 text-lg text-marrom transition-colors duration-200 hover:bg-fundo-2 focus-visible:outline-2 focus-visible:outline-primary active:bg-fundo-2'
 
 // Tela "Minhas consultas": próximas consultas (com cancelamento), histórico e calendário.
-// Cancelar muda só a lista desta tela (nada é salvo).
+// Cancelar grava no armazenamento. As regras (24h, confirmação, avisos) entram na Fase 7.
 function PacienteConsultas() {
-  const [consultas, setConsultas] = useState(consultasDeExemplo)
-  // O calendário abre no mês da consulta futura
-  const [mes, setMes] = useState(daquiA4Dias.getMonth())
-  const [ano, setAno] = useState(daquiA4Dias.getFullYear())
+  const [consultas, setConsultas] = useState(carregarConsultas)
+  // O calendário abre no mês atual
+  const [mes, setMes] = useState(new Date().getMonth())
+  const [ano, setAno] = useState(new Date().getFullYear())
 
-  const proximas = consultas.filter((c) => c.status === 'Agendada')
+  const proximas = consultas.filter((c) => c.status === 'Agendada').reverse() // a mais próxima primeiro
   const historico = consultas.filter((c) => c.status !== 'Agendada')
 
   function cancelar(id: number) {
-    setConsultas(consultas.map((c) => (c.id === id ? { ...c, status: 'Cancelada' } : c)))
+    const usuario = usuarioLogado()
+    if (usuario === null) return
+    cancelarAgendamento(id, usuario.id)
+    setConsultas(carregarConsultas())
   }
 
   function mudarMes(passo: number) {
@@ -67,7 +81,7 @@ function PacienteConsultas() {
   }
 
   return (
-    <PainelLayout nome="Maria">
+    <PainelLayout>
       <CabecalhoPagina
         titulo="Minhas consultas"
         subtitulo="Gerencie suas consultas agendadas"
