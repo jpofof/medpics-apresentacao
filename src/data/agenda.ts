@@ -2,7 +2,7 @@
 import { VALIDACOES_ATIVAS } from '../config'
 import type { Agendamento, Aviso, Disponibilidade } from '../types'
 import { gravarTexto, lerTexto, proximoId } from './armazenamento'
-import { agoraTexto, diaDaSemana, formatarData, hojeTexto, horaParaMinutos, minutosParaHora, somarDias } from './datas'
+import { agoraTexto, diaDaSemana, formatarData, hojeTexto, horaParaMinutos, horasAte, minutosParaHora, somarDias } from './datas'
 import { buscarProfissional, nomeDoUsuario, profissionaisAtivos } from './usuarios'
 import type { Erros } from './usuarios'
 
@@ -133,6 +133,41 @@ export function cancelarAgendamento(idAgendamento: number, idQuemCancelou: numbe
         ' foi cancelada ' + motivo + '. Escolha outro horário em "Agendar consulta".',
     )
   }
+}
+
+// ---------- Agendar e cancelar (Quadros 8 e 9) ----------
+
+// Cria a consulta com status Agendada. Devolve '' se deu certo, ou "Horário indisponível, escolha outro"
+// se o profissional já tem consulta nesse horário (regra checada só com VALIDACOES_ATIVAS = true).
+export function agendarConsulta(idPaciente: number, idProfissional: number, data: string, hora: string, idQuemAgenda: number): string {
+  const lista = lerAgendamentos()
+  const ocupado = lista.some((a) => a.idProfissional === idProfissional && a.data === data && a.hora === hora && a.status === 'Agendada')
+  if (VALIDACOES_ATIVAS && ocupado) return 'Horário indisponível, escolha outro'
+
+  lista.push({
+    id: proximoId(lista.map((a) => a.id)),
+    idPaciente,
+    idProfissional,
+    data,
+    hora,
+    status: 'Agendada',
+    agendadoPor: idQuemAgenda,
+    canceladoPor: 0,
+    dataCancelamento: '',
+  })
+  gravarAgendamentos(lista)
+  return ''
+}
+
+// Paciente só cancela até 24 horas antes; o administrador cancela a qualquer momento.
+// Devolve '' se pode cancelar, ou a mensagem de erro. Só vale com VALIDACOES_ATIVAS = true.
+export function verificarCancelamento(agendamento: Agendamento, idQuemCancela: number): string {
+  if (!VALIDACOES_ATIVAS) return ''
+  const ehOPaciente = idQuemCancela === agendamento.idPaciente
+  if (ehOPaciente && horasAte(agendamento.data, agendamento.hora) < 24) {
+    return 'Cancelamento permitido somente até 24 horas antes da consulta'
+  }
+  return ''
 }
 
 // ---------- Disponibilidade (Quadro 11: cadastrar e alterar) ----------

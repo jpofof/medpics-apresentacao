@@ -37,6 +37,12 @@ Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSA
 - Editar ou desativar um bloco com consultas marcadas mantém as consultas e mostra um aviso ao profissional.
 - Interpretação: blocos em Férias/Licença voltam a gerar horários nos dias depois do término do período (o documento diz que o status volta a Ativa nessa data).
 
+## Agendar, cancelar, avisos e histórico
+- `/paciente/agendar`: lista de profissionais com horário livre (cargo e especialidade), data e horário; "Consulta agendada com sucesso" ou "Horário indisponível, escolha outro". Sem nenhum horário livre aparece uma mensagem amigável. O administrador agenda em `/admin/agendar` escolhendo antes o paciente (nome ou CPF). O agendamento grava `agendadoPor`.
+- Cancelar: em `/paciente/consultas` (paciente, só até 24 horas antes, com validações ativas: "Cancelamento permitido somente até 24 horas antes da consulta") e em `/admin/cancelar` (administrador, a qualquer momento, pesquisando o paciente). Os dois pedem confirmação e gravam `canceladoPor` e `dataCancelamento`. Cancelamento que não foi do próprio paciente gera um aviso no painel dele, com botão Dispensar.
+- `/paciente/historico` ("Meu histórico"): data, horário, profissional e status, da mais recente para a mais antiga, com filtro por período e status.
+- Com `VALIDACOES_ATIVAS = false` o conflito de horário e a regra das 24h não bloqueiam.
+
 ## Mapa de pastas
 - `src/App.tsx` — rotas. `/paciente`, `/primeiro-acesso`, `/profissional` e `/admin` ficam dentro de `RotaProtegida`. Cadastros: `/cadastro`, `/cadastro/paciente|medico|dentista|terapeuta`. Admin cadastra paciente em `/admin/novo-paciente`.
 - `src/pages` — uma página por arquivo. `src/components` — peças reutilizáveis (layout do painel, campos, botões, navbar...).

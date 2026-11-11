@@ -4,12 +4,15 @@ const telasProntas = [
   '/paciente',
   '/paciente/agendar',
   '/paciente/consultas',
+  '/paciente/historico',
   '/profissional',
   '/profissional/disponibilidade',
   '/admin',
   '/admin/cadastros',
   '/admin/usuarios',
   '/admin/novo-paciente',
+  '/admin/agendar',
+  '/admin/cancelar',
 ]
 
 export function telaPronta(rota: string): boolean {

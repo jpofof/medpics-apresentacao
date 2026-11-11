@@ -69,6 +69,17 @@ export function buscarTerapeuta(id: number): Terapeuta | null {
   return lerTerapeutas().find((t) => t.idUsuario === id) ?? null
 }
 
+// Pacientes cujo nome ou CPF contém o texto (para o administrador pesquisar). Texto vazio devolve todos.
+export function pesquisarPacientes(texto: string, somenteAtivos: boolean): Usuario[] {
+  const nomeBusca = texto.trim().toLowerCase()
+  const cpfBusca = apenasNumeros(texto)
+  return lerUsuarios()
+    .filter((u) => buscarPaciente(u.id) !== null)
+    .filter((u) => !somenteAtivos || u.statusConta === 'Ativa')
+    .filter((u) => nomeBusca === '' || u.nome.toLowerCase().includes(nomeBusca) || (cpfBusca !== '' && apenasNumeros(u.cpf).includes(cpfBusca)))
+    .sort((x, y) => x.nome.localeCompare(y.nome))
+}
+
 // ---------- Perfil (calculado, não é guardado) ----------
 
 // Quem tem registro de Paciente é "Paciente"; senão é o cargo do Profissional (Médico, Dentista ou Terapeuta).

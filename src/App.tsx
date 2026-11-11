@@ -1,7 +1,9 @@
 import { Route, Routes } from 'react-router-dom'
 import RotaProtegida from './components/RotaProtegida'
 import AdminInicio from './pages/AdminInicio'
+import AdminAgendar from './pages/AdminAgendar'
 import AdminCadastros from './pages/AdminCadastros'
+import AdminCancelar from './pages/AdminCancelar'
 import AdminNovoPaciente from './pages/AdminNovoPaciente'
 import AdminUsuarios from './pages/AdminUsuarios'
 import AgendarConsulta from './pages/AgendarConsulta'
@@ -12,6 +14,7 @@ import Login from './pages/Login'
 import NaoEncontrada from './pages/NaoEncontrada'
 import NovoCadastro from './pages/NovoCadastro'
 import PacienteConsultas from './pages/PacienteConsultas'
+import PacienteHistorico from './pages/PacienteHistorico'
 import PacienteInicio from './pages/PacienteInicio'
 import PrimeiroAcesso from './pages/PrimeiroAcesso'
 import ProfissionalDisponibilidade from './pages/ProfissionalDisponibilidade'
@@ -37,6 +40,8 @@ function App() {
       <Route path="/paciente/agendar" element={<RotaProtegida area="paciente"><AgendarConsulta /></RotaProtegida>} />
       <Route path="/paciente/consultas" element={<RotaProtegida area="paciente"><PacienteConsultas /></RotaProtegida>} />
 
+      <Route path="/paciente/historico" element={<RotaProtegida area="paciente"><PacienteHistorico /></RotaProtegida>} />
+
       <Route path="/profissional" element={<RotaProtegida area="profissional"><ProfissionalInicio /></RotaProtegida>} />
 
       <Route path="/profissional/disponibilidade" element={<RotaProtegida area="profissional"><ProfissionalDisponibilidade /></RotaProtegida>} />
@@ -44,6 +49,8 @@ function App() {
       <Route path="/admin" element={<RotaProtegida area="admin"><AdminInicio /></RotaProtegida>} />
       <Route path="/admin/cadastros" element={<RotaProtegida area="admin"><AdminCadastros /></RotaProtegida>} />
       <Route path="/admin/novo-paciente" element={<RotaProtegida area="admin"><AdminNovoPaciente /></RotaProtegida>} />
+      <Route path="/admin/agendar" element={<RotaProtegida area="admin"><AdminAgendar /></RotaProtegida>} />
+      <Route path="/admin/cancelar" element={<RotaProtegida area="admin"><AdminCancelar /></RotaProtegida>} />
       <Route path="/admin/usuarios" element={<RotaProtegida area="admin"><AdminUsuarios /></RotaProtegida>} />
 
       <Route path="*" element={<NaoEncontrada />} />
