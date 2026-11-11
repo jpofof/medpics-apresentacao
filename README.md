@@ -31,6 +31,12 @@ Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSA
 - O menu mostra os itens na ordem final, mas só os de telas que já existem são links; os demais aparecem com a etiqueta "em breve". A lista de telas prontas fica em `src/telas.ts`.
 - Administração: `/admin/cadastros` (aprovar ou recusar profissionais), `/admin/usuarios` (lista com filtro, novo usuário, editar, ativar/inativar) e `/admin/novo-paciente` (atalho para cadastrar paciente).
 
+## Disponibilidade e horários livres
+- `/profissional/disponibilidade`: lista dos blocos (dia da semana, início, término, status Ativa ou Inativa), nova disponibilidade e edição. Valida término maior que início e sobreposição no mesmo dia (mensagens do Quadro 11).
+- `horariosLivres(idProfissional)` em `src/data/agenda.ts` é a função única: divide cada bloco pela duração da consulta, descarta a sobra, tira horários já agendados e passados e os dias de férias/licença, até 30 dias à frente. Alterar a duração (pelo administrador) ou um bloco muda os horários na hora.
+- Editar ou desativar um bloco com consultas marcadas mantém as consultas e mostra um aviso ao profissional.
+- Interpretação: blocos em Férias/Licença voltam a gerar horários nos dias depois do término do período (o documento diz que o status volta a Ativa nessa data).
+
 ## Mapa de pastas
 - `src/App.tsx` — rotas. `/paciente`, `/primeiro-acesso`, `/profissional` e `/admin` ficam dentro de `RotaProtegida`. Cadastros: `/cadastro`, `/cadastro/paciente|medico|dentista|terapeuta`. Admin cadastra paciente em `/admin/novo-paciente`.
 - `src/pages` — uma página por arquivo. `src/components` — peças reutilizáveis (layout do painel, campos, botões, navbar...).

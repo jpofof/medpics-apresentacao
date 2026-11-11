@@ -1,8 +1,10 @@
 // Disponibilidades, agendamentos (consultas) e avisos ao paciente.
+import { VALIDACOES_ATIVAS } from '../config'
 import type { Agendamento, Aviso, Disponibilidade } from '../types'
 import { gravarTexto, lerTexto, proximoId } from './armazenamento'
-import { agoraTexto, formatarData } from './datas'
-import { buscarProfissional, nomeDoUsuario } from './usuarios'
+import { agoraTexto, diaDaSemana, formatarData, hojeTexto, horaParaMinutos, minutosParaHora, somarDias } from './datas'
+import { buscarProfissional, nomeDoUsuario, profissionaisAtivos } from './usuarios'
+import type { Erros } from './usuarios'
 
 // Consulta já com os textos prontos para mostrar em listas e cartões
 export interface ConsultaResumo {
@@ -131,4 +133,136 @@ export function cancelarAgendamento(idAgendamento: number, idQuemCancelou: numbe
         ' foi cancelada ' + motivo + '. Escolha outro horário em "Agendar consulta".',
     )
   }
+}
+
+// ---------- Disponibilidade (Quadro 11: cadastrar e alterar) ----------
+
+// Blocos de disponibilidade do profissional, por dia da semana e horário
+export function disponibilidadesDoProfissional(idProfissional: number): Disponibilidade[] {
+  return lerDisponibilidades()
+    .filter((d) => d.idProfissional === idProfissional)
+    .sort((x, y) => x.diaSemana - y.diaSemana || x.horaInicio.localeCompare(y.horaInicio))
+}
+
+// Valida um bloco: campos preenchidos, término maior que início e sem sobreposição com outro bloco do mesmo dia.
+// "idIgnorar" é o bloco que está sendo editado (0 se for novo). Com VALIDACOES_ATIVAS = false não bloqueia nada.
+export function validarDisponibilidade(idProfissional: number, idIgnorar: number, diaSemana: number, horaInicio: string, horaFim: string): Erros {
+  const erros: Erros = {}
+  if (!VALIDACOES_ATIVAS) return erros
+
+  if (diaSemana < 0) erros.dia = 'Campo obrigatório'
+  if (horaInicio === '') erros.horaInicio = 'Campo obrigatório'
+  if (horaFim === '') erros.horaFim = 'Campo obrigatório'
+  if (horaInicio === '' || horaFim === '' || diaSemana < 0) return erros
+
+  if (horaFim <= horaInicio) {
+    erros.horaFim = 'O horário de término deve ser maior que o de início'
+    return erros
+  }
+  const sobrepoe = disponibilidadesDoProfissional(idProfissional).some(
+    (d) => d.id !== idIgnorar && d.diaSemana === diaSemana && horaInicio < d.horaFim && horaFim > d.horaInicio,
+  )
+  if (sobrepoe) erros.geral = 'Este horário se sobrepõe a outra disponibilidade sua no mesmo dia'
+  return erros
+}
+
+// Quantas consultas futuras estavam dentro do bloco antigo e agora ficaram fora de qualquer bloco Ativo.
+// Elas são mantidas (não são canceladas); a tela só avisa o profissional.
+function consultasForaDaDisponibilidade(idProfissional: number, antigo: Disponibilidade): number {
+  const blocosAtivos = disponibilidadesDoProfissional(idProfissional).filter((d) => d.status === 'Ativa')
+  return consultasFuturasDoProfissional(idProfissional).filter((c) => {
+    const dentroDoAntigo = diaDaSemana(c.data) === antigo.diaSemana && c.hora >= antigo.horaInicio && c.hora < antigo.horaFim
+    const coberta = blocosAtivos.some((d) => d.diaSemana === diaDaSemana(c.data) && c.hora >= d.horaInicio && c.hora < d.horaFim)
+    return dentroDoAntigo && !coberta
+  }).length
+}
+
+// Cadastra (idExistente = 0) ou altera um bloco. "status" é Ativa ou Inativa; Férias e Licença só mudam pelo registro de período.
+// Devolve quantas consultas ficaram fora da nova disponibilidade (só na alteração).
+export function salvarDisponibilidade(
+  idProfissional: number,
+  idExistente: number,
+  diaSemana: number,
+  horaInicio: string,
+  horaFim: string,
+  status: string,
+): number {
+  const lista = lerDisponibilidades()
+  const novoStatus = status === 'Inativa' ? 'Inativa' : 'Ativa'
+
+  if (idExistente === 0) {
+    lista.push({
+      id: proximoId(lista.map((d) => d.id)),
+      idProfissional,
+      diaSemana,
+      horaInicio,
+      horaFim,
+      status: novoStatus,
+      inicioBloqueio: '',
+      fimBloqueio: '',
+    })
+    gravarDisponibilidades(lista)
+    return 0
+  }
+
+  const bloco = lista.find((d) => d.id === idExistente)
+  if (!bloco) return 0
+  const antigo = { ...bloco }
+  bloco.diaSemana = diaSemana
+  bloco.horaInicio = horaInicio
+  bloco.horaFim = horaFim
+  if (bloco.status === 'Ativa' || bloco.status === 'Inativa') bloco.status = novoStatus
+  gravarDisponibilidades(lista)
+  return consultasForaDaDisponibilidade(idProfissional, antigo)
+}
+
+// ---------- Horários livres (função única usada pelo agendamento) ----------
+
+export interface HorarioLivre {
+  data: string // AAAA-MM-DD
+  hora: string // HH:mm
+}
+
+const DIAS_A_FRENTE = 30
+
+// Horários livres do profissional nos próximos 30 dias. Divide cada bloco (não Inativo) pela duração da consulta,
+// descarta a sobra que não completa uma consulta, tira horários já agendados e já passados e os dias de Férias/Licença.
+export function horariosLivres(idProfissional: number): HorarioLivre[] {
+  const profissional = buscarProfissional(idProfissional)
+  if (profissional === null || !(profissional.duracaoConsulta > 0)) return []
+
+  const duracao = profissional.duracaoConsulta
+  const blocos = disponibilidadesDoProfissional(idProfissional).filter((d) => d.status !== 'Inativa')
+  const ocupados = agendamentosDoProfissional(idProfissional)
+    .filter((a) => a.status === 'Agendada')
+    .map((a) => a.data + 'T' + a.hora)
+  const agora = agoraTexto()
+  const hoje = hojeTexto()
+  const lista: HorarioLivre[] = []
+
+  for (let i = 0; i <= DIAS_A_FRENTE; i++) {
+    const data = somarDias(hoje, i)
+    const diaDaData = diaDaSemana(data)
+    for (const bloco of blocos) {
+      if (bloco.diaSemana !== diaDaData) continue
+      // Dentro do período de Férias ou Licença nenhum horário aparece
+      const emPeriodo = (bloco.status === 'Férias' || bloco.status === 'Licença') && data >= bloco.inicioBloqueio && data <= bloco.fimBloqueio
+      if (emPeriodo) continue
+
+      let inicio = horaParaMinutos(bloco.horaInicio)
+      const fim = horaParaMinutos(bloco.horaFim)
+      while (inicio + duracao <= fim) {
+        const hora = minutosParaHora(inicio)
+        const momento = data + 'T' + hora
+        if (momento > agora && !ocupados.includes(momento)) lista.push({ data, hora })
+        inicio += duracao
+      }
+    }
+  }
+  return lista.sort((x, y) => (x.data + x.hora).localeCompare(y.data + y.hora))
+}
+
+// Profissionais com conta Ativa que têm pelo menos um horário livre nos próximos 30 dias
+export function profissionaisComHorarioLivre() {
+  return profissionaisAtivos().filter((p) => horariosLivres(p.id).length > 0)
 }
