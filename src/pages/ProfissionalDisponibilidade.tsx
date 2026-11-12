@@ -6,6 +6,7 @@ import EtiquetaStatus from '../components/EtiquetaStatus'
 import FormularioDisponibilidade from '../components/FormularioDisponibilidade'
 import Mensagem from '../components/Mensagem'
 import PainelLayout from '../components/PainelLayout'
+import PeriodoFeriasLicenca from '../components/PeriodoFeriasLicenca'
 import { disponibilidadesDoProfissional, horariosLivres } from '../data/agenda'
 import { formatarData, nomesDiasSemana } from '../data/datas'
 import { buscarProfissional, usuarioLogado } from '../data/usuarios'
@@ -16,6 +17,7 @@ function ProfissionalDisponibilidade() {
   const [modo, setModo] = useState('lista')
   const [editandoId, setEditandoId] = useState(0) // 0 = nova disponibilidade
   const [mensagem, setMensagem] = useState('')
+  const [, setAlteracoes] = useState(0) // só serve para redesenhar a lista depois de mudar o período
 
   const usuario = usuarioLogado()
   const profissional = usuario === null ? null : buscarProfissional(usuario.id)
@@ -104,6 +106,16 @@ function ProfissionalDisponibilidade() {
         <p className="mt-4 text-[13px] text-marrom">
           Horários livres para agendamento nos próximos 30 dias: <strong>{horariosLivres(usuario.id).length}</strong>
         </p>
+      </Cartao>
+
+      <Cartao titulo="Férias e licença">
+        <PeriodoFeriasLicenca
+          idProfissional={usuario.id}
+          aoMudar={() => {
+            setMensagem('')
+            setAlteracoes((n) => n + 1)
+          }}
+        />
       </Cartao>
     </PainelLayout>
   )

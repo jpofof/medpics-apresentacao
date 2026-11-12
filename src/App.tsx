@@ -1,10 +1,13 @@
+import { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import RotaProtegida from './components/RotaProtegida'
+import { voltarAtivasAposTermino } from './data/agenda'
 import AdminInicio from './pages/AdminInicio'
 import AdminAgendar from './pages/AdminAgendar'
 import AdminCadastros from './pages/AdminCadastros'
 import AdminCancelar from './pages/AdminCancelar'
 import AdminNovoPaciente from './pages/AdminNovoPaciente'
+import AdminPeriodos from './pages/AdminPeriodos'
 import AdminUsuarios from './pages/AdminUsuarios'
 import AgendarConsulta from './pages/AgendarConsulta'
 import CadastroPaciente from './pages/CadastroPaciente'
@@ -23,6 +26,12 @@ import ProfissionalInicio from './pages/ProfissionalInicio'
 // Todas as rotas do site. Cada endereço abre uma página da pasta "pages".
 // As telas de /paciente, /primeiro-acesso, /profissional e /admin ficam dentro de RotaProtegida.
 function App() {
+  // ÚNICO useEffect do sistema para as checagens automáticas: ao abrir o app, as disponibilidades em Férias ou
+  // Licença cuja data de término já passou voltam a Ativa e os horários voltam a aparecer, sem ação manual.
+  useEffect(() => {
+    voltarAtivasAposTermino()
+  }, [])
+
   return (
     <Routes>
       <Route path="/" element={<Inicio />} />
@@ -49,6 +58,7 @@ function App() {
       <Route path="/admin" element={<RotaProtegida area="admin"><AdminInicio /></RotaProtegida>} />
       <Route path="/admin/cadastros" element={<RotaProtegida area="admin"><AdminCadastros /></RotaProtegida>} />
       <Route path="/admin/novo-paciente" element={<RotaProtegida area="admin"><AdminNovoPaciente /></RotaProtegida>} />
+      <Route path="/admin/ferias" element={<RotaProtegida area="admin"><AdminPeriodos /></RotaProtegida>} />
       <Route path="/admin/agendar" element={<RotaProtegida area="admin"><AdminAgendar /></RotaProtegida>} />
       <Route path="/admin/cancelar" element={<RotaProtegida area="admin"><AdminCancelar /></RotaProtegida>} />
       <Route path="/admin/usuarios" element={<RotaProtegida area="admin"><AdminUsuarios /></RotaProtegida>} />

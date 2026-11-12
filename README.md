@@ -43,6 +43,14 @@ Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSA
 - `/paciente/historico` ("Meu histórico"): data, horário, profissional e status, da mais recente para a mais antiga, com filtro por período e status.
 - Com `VALIDACOES_ATIVAS = false` o conflito de horário e a regra das 24h não bloqueiam.
 
+## Férias, licença e cancelamentos automáticos
+- Em `/profissional/disponibilidade` (cartão "Férias e licença") o profissional registra Férias ou Licença (início pode ser hoje, término é a previsão de retorno), prorroga ou encerra antes. O registro exige ao menos uma disponibilidade Ativa ("Cadastre uma disponibilidade antes de registrar férias ou licença"), lista as consultas afetadas e pede confirmação. O período vale para todas as disponibilidades Ativas.
+- As consultas do período são canceladas (responsável = quem registrou, com data e hora) e cada paciente recebe um aviso. A prorrogação cancela só as consultas do trecho novo.
+- O administrador registra em nome do profissional em `/admin/ferias` (escolhe o profissional antes e fica como responsável pelos cancelamentos).
+- Disponibilidade nova criada durante um período em vigor herda o mesmo status e período.
+- Um único `useEffect` em `src/App.tsx` volta a Ativa as disponibilidades cujo período já terminou.
+- A exigência de ter disponibilidade Ativa vale sempre (sem ela não há o que aplicar); as validações de datas só com `VALIDACOES_ATIVAS = true`.
+
 ## Mapa de pastas
 - `src/App.tsx` — rotas. `/paciente`, `/primeiro-acesso`, `/profissional` e `/admin` ficam dentro de `RotaProtegida`. Cadastros: `/cadastro`, `/cadastro/paciente|medico|dentista|terapeuta`. Admin cadastra paciente em `/admin/novo-paciente`.
 - `src/pages` — uma página por arquivo. `src/components` — peças reutilizáveis (layout do painel, campos, botões, navbar...).

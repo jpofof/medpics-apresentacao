@@ -23,6 +23,7 @@ admin@ (Médico + admin), medico@, dentista@, terapeuta@, paciente@ (com anamnes
 - Componentes das telas iniciais: CartaoIndicador, CartaoProximaConsulta, ListaConsultas, MiniCalendario, AtalhoRapido, AvisosDoPaciente, IconeMenu.
 
 ## Estado das fases
-- Feitas: 1 dados, 2 login/rotas/menus, 3 anamnese, 4 cadastros/primeiro acesso, Visual (telas iniciais e menu), 5 admin (cadastros pendentes e usuários), 6 disponibilidade e `horariosLivres` (src/data/agenda.ts), 7 agendar/cancelar/avisos/histórico.
-- Pendentes: 8 férias/licença, 9 agenda/atendimento, 10 relatórios, 11 senha/perfil, 12 limpeza final.
+- Feitas: 1 dados, 2 login/rotas/menus, 3 anamnese, 4 cadastros/primeiro acesso, Visual (telas iniciais e menu), 5 admin (cadastros pendentes e usuários), 6 disponibilidade e `horariosLivres` (src/data/agenda.ts), 7 agendar/cancelar/avisos/histórico, 8 férias/licença (código e testes em modo livre prontos).
+- Pendentes: 9 agenda/atendimento, 10 relatórios, 11 senha/perfil, 12 limpeza final.
 - Status "Recusado" (como no DER). Ao mudar o formato dos dados, aumente `VERSAO_DO_ESQUEMA`.
+- PENDENTE DA FASE 8 (retomar aqui): testar com `VALIDACOES_ATIVAS = true` os erros de datas do período ("A data de término não pode ser anterior à data de início"); medir responsividade (360/390/768/1280) de `/admin/ferias` e do cartão "Férias e licença" em `/profissional/disponibilidade`. Depois seguir para a Fase 9.

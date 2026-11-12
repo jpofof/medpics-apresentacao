@@ -226,15 +226,17 @@ export function salvarDisponibilidade(
   const novoStatus = status === 'Inativa' ? 'Inativa' : 'Ativa'
 
   if (idExistente === 0) {
+    // Bloco novo (Ativo) criado enquanto há férias/licença em vigor herda o mesmo status e período
+    const periodo = novoStatus === 'Ativa' ? periodoEmVigor(idProfissional) : null
     lista.push({
       id: proximoId(lista.map((d) => d.id)),
       idProfissional,
       diaSemana,
       horaInicio,
       horaFim,
-      status: novoStatus,
-      inicioBloqueio: '',
-      fimBloqueio: '',
+      status: periodo === null ? novoStatus : periodo.tipo,
+      inicioBloqueio: periodo === null ? '' : periodo.inicio,
+      fimBloqueio: periodo === null ? '' : periodo.fim,
     })
     gravarDisponibilidades(lista)
     return 0
@@ -300,4 +302,119 @@ export function horariosLivres(idProfissional: number): HorarioLivre[] {
 // Profissionais com conta Ativa que têm pelo menos um horário livre nos próximos 30 dias
 export function profissionaisComHorarioLivre() {
   return profissionaisAtivos().filter((p) => horariosLivres(p.id).length > 0)
+}
+
+// ---------- Férias e licença (Quadro 11: registrar, prorrogar e encerrar) ----------
+
+export interface PeriodoBloqueio {
+  tipo: 'Férias' | 'Licença'
+  inicio: string // AAAA-MM-DD
+  fim: string
+}
+
+// Período de férias ou licença registrado (ainda não terminou), ou null. Todos os blocos do período têm os mesmos dados.
+export function periodoEmVigor(idProfissional: number): PeriodoBloqueio | null {
+  const bloco = disponibilidadesDoProfissional(idProfissional).find(
+    (d) => (d.status === 'Férias' || d.status === 'Licença') && d.fimBloqueio >= hojeTexto(),
+  )
+  if (!bloco || (bloco.status !== 'Férias' && bloco.status !== 'Licença')) return null
+  return { tipo: bloco.status, inicio: bloco.inicioBloqueio, fim: bloco.fimBloqueio }
+}
+
+// O registro de período exige pelo menos uma disponibilidade Ativa
+export function temDisponibilidadeAtiva(idProfissional: number): boolean {
+  return disponibilidadesDoProfissional(idProfissional).some((d) => d.status === 'Ativa')
+}
+
+// Consultas Agendadas, que ainda não aconteceram, entre duas datas (inclusive)
+export function consultasNoPeriodo(idProfissional: number, inicio: string, fim: string): Agendamento[] {
+  return consultasFuturasDoProfissional(idProfissional).filter((c) => c.data >= inicio && c.data <= fim)
+}
+
+// Cancela as consultas do trecho, em nome de quem registrou, e avisa cada paciente
+function cancelarConsultasDoPeriodo(idProfissional: number, tipo: string, inicio: string, fim: string, idResponsavel: number) {
+  const motivo = 'porque o profissional estará de ' + tipo.toLowerCase() + ' no período'
+  for (const consulta of consultasNoPeriodo(idProfissional, inicio, fim)) {
+    cancelarAgendamento(consulta.id, idResponsavel, motivo)
+  }
+}
+
+// Valida as datas do período (término não pode ser anterior ao início) e a exigência de disponibilidade Ativa.
+// A exigência de disponibilidade vale sempre; a das datas só com VALIDACOES_ATIVAS = true.
+export function validarPeriodo(idProfissional: number, inicio: string, fim: string): string {
+  if (!temDisponibilidadeAtiva(idProfissional)) return 'Cadastre uma disponibilidade antes de registrar férias ou licença'
+  if (VALIDACOES_ATIVAS && (inicio === '' || fim === '')) return 'Informe a data de início e a data de término'
+  if (VALIDACOES_ATIVAS && fim < inicio) return 'A data de término não pode ser anterior à data de início'
+  return ''
+}
+
+// Valida a nova data de término na prorrogação (não pode ser anterior ao início). Só vale com VALIDACOES_ATIVAS = true.
+export function validarNovoFim(inicio: string, novoFim: string): string {
+  if (VALIDACOES_ATIVAS && novoFim < inicio) return 'A data de término não pode ser anterior à data de início'
+  return ''
+}
+
+// Aplica Férias ou Licença a TODAS as disponibilidades Ativas e cancela as consultas do período.
+// "idResponsavel" é quem registrou (o profissional ou o administrador em nome dele).
+export function registrarPeriodo(idProfissional: number, tipo: 'Férias' | 'Licença', inicio: string, fim: string, idResponsavel: number) {
+  const lista = lerDisponibilidades()
+  for (const bloco of lista) {
+    if (bloco.idProfissional === idProfissional && bloco.status === 'Ativa') {
+      bloco.status = tipo
+      bloco.inicioBloqueio = inicio
+      bloco.fimBloqueio = fim
+    }
+  }
+  gravarDisponibilidades(lista)
+  cancelarConsultasDoPeriodo(idProfissional, tipo, inicio, fim, idResponsavel)
+}
+
+// Consultas que serão canceladas se o período for prorrogado até "novoFim" (só o trecho novo)
+export function consultasDoTrechoNovo(idProfissional: number, novoFim: string): Agendamento[] {
+  const periodo = periodoEmVigor(idProfissional)
+  if (periodo === null || novoFim <= periodo.fim) return []
+  return consultasNoPeriodo(idProfissional, somarDias(periodo.fim, 1), novoFim)
+}
+
+// Muda a data de término. Se for adiada, cancela as consultas do trecho novo e avisa os pacientes.
+export function prorrogarPeriodo(idProfissional: number, novoFim: string, idResponsavel: number) {
+  const periodo = periodoEmVigor(idProfissional)
+  if (periodo === null) return
+  cancelarConsultasDoPeriodo(idProfissional, periodo.tipo, somarDias(periodo.fim, 1), novoFim, idResponsavel)
+
+  const lista = lerDisponibilidades()
+  for (const bloco of lista) {
+    if (bloco.idProfissional === idProfissional && (bloco.status === 'Férias' || bloco.status === 'Licença')) {
+      bloco.fimBloqueio = novoFim
+    }
+  }
+  gravarDisponibilidades(lista)
+}
+
+// Encerra o período antes do fim: os blocos voltam a Ativa e os horários são liberados
+export function encerrarPeriodo(idProfissional: number) {
+  const lista = lerDisponibilidades()
+  for (const bloco of lista) {
+    if (bloco.idProfissional === idProfissional && (bloco.status === 'Férias' || bloco.status === 'Licença')) {
+      bloco.status = 'Ativa'
+      bloco.inicioBloqueio = ''
+      bloco.fimBloqueio = ''
+    }
+  }
+  gravarDisponibilidades(lista)
+}
+
+// Passou a data de término: o status volta a Ativa. É chamada pelo useEffect único do App.tsx.
+export function voltarAtivasAposTermino() {
+  const lista = lerDisponibilidades()
+  let mudou = false
+  for (const bloco of lista) {
+    if ((bloco.status === 'Férias' || bloco.status === 'Licença') && bloco.fimBloqueio < hojeTexto()) {
+      bloco.status = 'Ativa'
+      bloco.inicioBloqueio = ''
+      bloco.fimBloqueio = ''
+      mudou = true
+    }
+  }
+  if (mudou) gravarDisponibilidades(lista)
 }

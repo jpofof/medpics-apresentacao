@@ -46,6 +46,7 @@ const itensDaAdministracao: ItemDoMenu[] = [
   { texto: 'Novo paciente', para: '/admin/novo-paciente', icone: 'novo' },
   { texto: 'Agendar para paciente', para: '/admin/agendar', icone: 'agendar' },
   { texto: 'Cancelar consultas', para: '/admin/cancelar', icone: 'cancelar' },
+  { texto: 'Férias e licença', para: '/admin/ferias', icone: 'ferias' },
 ]
 
 const classeDoItem = 'flex min-h-11 w-full items-center gap-2.5 rounded-[10px] px-3 py-2.5 text-left text-[13px] font-medium'
