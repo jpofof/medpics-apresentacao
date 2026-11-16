@@ -15,7 +15,7 @@ import consultasIcone from '../assets/icones/icon-consultas.svg'
 import atividadesIcone from '../assets/icones/icon-atividades.svg'
 
 // Início do profissional (Médico, Dentista ou Terapeuta): indicadores, agenda de hoje, calendário e atalhos.
-// Só mostra dados de agendamento. Os atalhos de telas que ainda não existem aparecem como "em breve".
+// Só mostra dados de agendamento.
 function ProfissionalInicio() {
   const usuario = usuarioLogado()
   const profissional = usuario === null ? null : buscarProfissional(usuario.id)

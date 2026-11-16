@@ -9,7 +9,7 @@ import { consultasDoPeriodo, registrarAtendimento } from '../data/agenda'
 import { diaDaSemana, formatarData, hojeTexto, nomesDiasSemana, somarDias } from '../data/datas'
 import { usuarioLogado } from '../data/usuarios'
 
-// Agenda do profissional (Quadros 10 e 12): consultas do dia ou da semana, com os dados do paciente.
+// Agenda do profissional (Quadros 12 e 13): consultas do dia ou da semana, com os dados do paciente.
 // Cada profissional vê só a própria agenda. Aqui também se registra "Realizada" ou "Paciente faltou".
 function ProfissionalAgenda() {
   const [modo, setModo] = useState('dia') // 'dia' ou 'semana'

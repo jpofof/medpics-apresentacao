@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { telaPronta } from '../telas'
 import IconeMenu from './IconeMenu'
 
 interface AtalhoRapidoProps {
@@ -11,7 +10,7 @@ interface AtalhoRapidoProps {
 
 const classeBase = 'flex min-h-11 items-center gap-3 rounded-2xl border p-4'
 
-// Atalho para uma tela. Se a tela ainda não existe, aparece desabilitado com a etiqueta "em breve" (sem link).
+// Atalho para uma tela, com ícone, título e descrição.
 function AtalhoRapido({ texto, descricao, para, icone }: AtalhoRapidoProps) {
   const conteudo = (
     <>
@@ -24,15 +23,6 @@ function AtalhoRapido({ texto, descricao, para, icone }: AtalhoRapidoProps) {
       </span>
     </>
   )
-
-  if (!telaPronta(para)) {
-    return (
-      <div aria-disabled="true" className={`${classeBase} cursor-not-allowed border-black/5 bg-fundo opacity-60`}>
-        {conteudo}
-        <span className="shrink-0 whitespace-nowrap rounded-full bg-black/10 px-2 py-0.5 text-[10px] font-medium text-marrom">em breve</span>
-      </div>
-    )
-  }
 
   return (
     <Link

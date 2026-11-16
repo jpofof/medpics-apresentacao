@@ -16,7 +16,7 @@ function Introducao() {
   }
 
   const botaoSeta =
-    'absolute top-1/2 -translate-y-1/2 rounded-full bg-black/30 px-3 py-2 text-xl text-white transition-colors duration-200 hover:bg-black/50 focus-visible:outline-2 focus-visible:outline-white active:bg-black/60'
+    'absolute top-1/2 min-h-11 min-w-11 -translate-y-1/2 rounded-full bg-black/30 px-3 py-2 text-xl text-white transition-colors duration-200 hover:bg-black/50 focus-visible:outline-2 focus-visible:outline-white active:bg-black/60'
 
   return (
     <section id="introducao" className="scroll-mt-20 bg-fundo py-16 md:py-24">
@@ -61,10 +61,10 @@ function Introducao() {
                 type="button"
                 aria-label={`Ir para a imagem ${indice + 1}`}
                 onClick={() => setSlideAtual(indice)}
-                className={`h-2.5 w-2.5 rounded-full transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-white ${
-                  indice === slideAtual ? 'bg-white' : 'bg-white/50 hover:bg-white/80'
-                }`}
-              />
+                className="group flex h-11 w-6 items-center justify-center focus-visible:outline-2 focus-visible:outline-white"
+              >
+                <span className={`h-2.5 w-2.5 rounded-full transition-colors duration-200 ${indice === slideAtual ? 'bg-white' : 'bg-white/50 group-hover:bg-white/80'}`} />
+              </button>
             ))}
           </div>
         </div>

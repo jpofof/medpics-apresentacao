@@ -1,6 +1,6 @@
 # MedPics (React) — versão completa
 
-Sistema de Gestão de Clínica do Projeto Integrador da Fatec Votorantim. Só front-end (React + TypeScript + Tailwind), sem back-end: os dados ficam no `localStorage` do navegador. Esta branch (`projeto-completo`) está sendo construída por fases; a `main` guarda a versão de apresentação (só visual).
+Sistema de Gestão de Clínica do Projeto Integrador da Fatec Votorantim. Só front-end (React + TypeScript + Tailwind), sem back-end: os dados ficam no `localStorage` do navegador. Esta branch (`projeto-completo`) tem o front-end completo (todas as telas); a `main` guarda a versão de apresentação (só visual).
 
 ## Como rodar
 `npm install` (só na primeira vez), `npm run dev` e abra o endereço mostrado. `npm run build` gera a versão final e `npm run lint` confere o código.
@@ -29,7 +29,7 @@ Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSA
 
 ## Telas e menu lateral
 - Cada perfil tem uma tela inicial com dados reais: paciente (próxima consulta, indicadores, calendário, avisos, últimas consultas), profissional (indicadores, agenda de hoje, calendário, atalhos, aviso se não há disponibilidade) e administração (indicadores da clínica e cadastros pendentes). Profissional que também é administrador tem as seções "Meu painel" e "Administração".
-- O menu mostra os itens na ordem final, mas só os de telas que já existem são links; os demais aparecem com a etiqueta "em breve". A lista de telas prontas fica em `src/telas.ts`.
+- O menu lateral (`PainelLayout`) tem ícones, página ativa destacada e seções; no celular vira uma gaveta (abre, fecha e fecha ao navegar).
 - Administração: `/admin/cadastros` (aprovar ou recusar profissionais), `/admin/usuarios` (lista com filtro, novo usuário, editar, ativar/inativar) e `/admin/novo-paciente` (atalho para cadastrar paciente).
 
 ## Disponibilidade e horários livres
@@ -52,9 +52,9 @@ Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSA
 - Um único `useEffect` em `src/App.tsx` volta a Ativa as disponibilidades cujo período já terminou.
 - A exigência de ter disponibilidade Ativa vale sempre (sem ela não há o que aplicar); as validações de datas só com `VALIDACOES_ATIVAS = true`.
 
-## Agenda, atendimento e histórico do profissional
+## Agenda, atendimento e histórico do profissional (Quadros 10, 12 e 13)
 - `/profissional/agenda`: consultas do dia ou da semana (botões Anterior, Hoje, Próximo), com paciente, telefone, data, horário e status. Cada profissional vê só a própria agenda. Consulta que já passou e continua "Agendada" fica destacada ("Aguardando registro do atendimento").
-- Registrar "Realizada" ou "Paciente faltou": os botões ficam desabilitados até o horário da consulta chegar; não guarda dado clínico; mensagem "Atendimento registrado com sucesso".
+- Registrar "Realizada" ou "Paciente faltou" (Quadro 13): os botões ficam desabilitados até o horário da consulta chegar; não guarda dado clínico; mensagem "Atendimento registrado com sucesso".
 - `/profissional/historico`: busca por nome ou CPF só acha pacientes que já tiveram consulta com o profissional; mostra todas as consultas dele com o paciente, com o status.
 
 ## Relatórios
@@ -66,17 +66,38 @@ Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSA
 - `/redefinir-senha?codigo=...`: nova senha + confirmação. "As senhas não coincidem", "Senha redefinida com sucesso" e, com link vencido ou já usado, orientação para nova solicitação.
 - `/perfil` (todos os perfis): Nome, Telefone, E-mail, Endereço e Senha com confirmação. "E-mail já cadastrado" e "Alteração efetuada com sucesso". CPF, nascimento e cargo só aparecem para consulta. Código em `src/data/senha.ts`.
 
+## Cobertura dos Quadros (casos de uso)
+| Quadro | Status | Onde |
+| --- | --- | --- |
+| 1 Login | Parcial (login livre, por decisão do projeto) | `/login`, `data/usuarios.ts` |
+| 2 Cadastro | Parcial (cadastro livre, sem validações, por decisão do projeto) | `/cadastro/*`, `/admin/novo-paciente` |
+| 3 Preencher anamnese | Parcial (sem exigir respostas, por decisão do projeto) | `FormularioAnamnese`, `/primeiro-acesso`, cadastro do paciente |
+| 4 Redefinir senha | Coberto | `/esqueci-senha`, `/redefinir-senha` |
+| 5 Editar perfil | Coberto | `/perfil` |
+| 6 Gerenciar cadastros | Coberto | `/admin/cadastros` |
+| 7 Gerenciar usuários | Coberto | `/admin/usuarios`, `/admin/novo-paciente` |
+| 8 Agendar consulta | Coberto | `/paciente/agendar`, `/admin/agendar` |
+| 9 Cancelar consulta | Coberto | `/paciente/consultas`, `/admin/cancelar` |
+| 10 Histórico de consultas | Coberto | `/paciente/historico`, `/profissional/historico` |
+| 11 Gerenciar disponibilidade | Coberto | `/profissional/disponibilidade`, `/admin/ferias` |
+| 12 Visualizar agenda | Coberto | `/profissional/agenda` |
+| 13 Registrar atendimento | Coberto | `/profissional/agenda` |
+| 14 Gerar relatórios | Coberto | `/profissional/relatorios` |
+
 ## Mapa de pastas
-- `src/App.tsx` — rotas. `/paciente`, `/primeiro-acesso`, `/profissional` e `/admin` ficam dentro de `RotaProtegida`. Cadastros: `/cadastro`, `/cadastro/paciente|medico|dentista|terapeuta`. Admin cadastra paciente em `/admin/novo-paciente`.
+- `src/App.tsx` — rotas. `/paciente`, `/primeiro-acesso`, `/profissional`, `/admin` e `/perfil` ficam dentro de `RotaProtegida`. Públicas: `/`, `/login`, `/cadastro/*`, `/esqueci-senha`, `/redefinir-senha`. Cadastros: `/cadastro`, `/cadastro/paciente|medico|dentista|terapeuta`. Admin cadastra paciente em `/admin/novo-paciente`.
 - `src/pages` — uma página por arquivo. `src/components` — peças reutilizáveis (layout do painel, campos, botões, navbar...).
 - `src/types.ts` — modelos do DER (Usuário, Paciente, Profissional, Terapeuta, Disponibilidade, Agendamento, Anamnese, Aviso).
-- `src/data` — funções de dados: `armazenamento` (localStorage), `datas`, `usuarios` (login, sessão, perfil), `agenda`, `anamnese` (catálogo fixo, validação e gravação), `inicializacao` (contas de demonstração).
+- `src/data` — funções de dados: `armazenamento` (localStorage), `datas`, `usuarios` (login, sessão, perfil, cadastros), `agenda` (disponibilidade, consultas, férias, atendimento), `admin`, `relatorios`, `senha` (redefinir senha e perfil), `anamnese` (catálogo fixo e gravação), `inicializacao` (contas de demonstração).
 - `src/config.ts` — `VALIDACOES_ATIVAS` (`true` = valem as regras dos documentos). Login e cadastro são livres e não dependem dele. As regras que alteram dados (cancelamentos automáticos, inativar) valem sempre.
 - `docs/` — documentos de regras, DER, casos de uso e lógica da estrutura (fonte da verdade).
 
 Aviso: as senhas ficam em texto puro no `localStorage` porque é um protótipo; num sistema real isso vai para o back-end com hash.
 
 ## Divergências em relação aos documentos
+- Login e cadastro são livres por decisão do projeto (Quadros 1, 2 e 3 ficam parciais): não conferem senha, status, campos, e-mail/CPF repetido, termos nem anamnese. Por isso contas Aguardando, Recusado e Inativa também entram.
+- Redefinir senha é simulado: o link aparece na tela (válido por 15 minutos, uso único) em vez de ser enviado por e-mail.
+- O mecanismo "em breve" do menu foi removido porque todas as telas existem.
 - Avisos ao paciente são guardados (coleção `avisos`) e somem quando ele dispensa; as regras (seção 12) falam em envio simples, sem histórico, por e-mail.
 - Campos extras além do DER: `exigeNovaAnamnese` (Paciente), `preenchidaPor` (Anamnese) e a coleção de avisos.
 - `Data_hora` do agendamento foi dividida em `data` e `hora`.

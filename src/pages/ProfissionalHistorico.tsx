@@ -6,7 +6,7 @@ import PainelLayout from '../components/PainelLayout'
 import { historicoComPaciente, pacientesDoProfissional, resumoParaProfissional } from '../data/agenda'
 import { usuarioLogado } from '../data/usuarios'
 
-// Histórico por paciente (Quadro 13): o profissional busca por nome ou CPF e vê todas as consultas dele com aquele paciente.
+// Histórico por paciente (Quadro 10): o profissional busca por nome ou CPF e vê todas as consultas dele com aquele paciente.
 // A busca só acha pacientes que já tiveram consulta com ele.
 function ProfissionalHistorico() {
   const [texto, setTexto] = useState('')

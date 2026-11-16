@@ -124,10 +124,6 @@ export function profissionaisAtivos(): ProfissionalComNome[] {
   return lista
 }
 
-export function especialidadeDoProfissional(id: number): string {
-  const profissional = buscarProfissional(id)
-  return profissional === null ? '' : profissional.especialidade
-}
 
 // ---------- Login e sessão ----------
 

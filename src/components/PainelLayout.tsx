@@ -2,7 +2,6 @@ import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { buscarPaciente, buscarProfissional, descricaoDoPerfil, encerrarSessao, usuarioLogado } from '../data/usuarios'
-import { telaPronta } from '../telas'
 import IconeMenu from './IconeMenu'
 import sairIcone from '../assets/icones/icon-sair.svg'
 
@@ -21,7 +20,7 @@ interface SecaoDoMenu {
   itens: ItemDoMenu[]
 }
 
-// Itens já na ordem final. Só viram link se a tela existir (veja src/telas.ts); os outros aparecem como "em breve".
+// Itens do menu de cada perfil, já na ordem final.
 const itensDoPaciente: ItemDoMenu[] = [
   { texto: 'Início', para: '/paciente', icone: 'inicio' },
   { texto: 'Agendar consulta', para: '/paciente/agendar', icone: 'agendar' },
@@ -107,7 +106,7 @@ function PainelLayout({ children }: PainelLayoutProps) {
             type="button"
             aria-label="Fechar menu"
             onClick={() => setMenuAberto(false)}
-            className="rounded-lg px-2 py-1 text-xl text-marrom transition-colors duration-200 hover:bg-fundo-2 focus-visible:outline-2 focus-visible:outline-primary lg:hidden"
+            className="min-h-11 min-w-11 rounded-lg px-2 py-1 text-xl text-marrom transition-colors duration-200 hover:bg-fundo-2 focus-visible:outline-2 focus-visible:outline-primary lg:hidden"
           >
             ✕
           </button>
@@ -120,27 +119,19 @@ function PainelLayout({ children }: PainelLayoutProps) {
               <ul className="flex flex-col gap-0.5">
                 {secao.itens.map((item) => (
                   <li key={item.para}>
-                    {telaPronta(item.para) ? (
-                      <NavLink
-                        to={item.para}
-                        end
-                        onClick={() => setMenuAberto(false)}
-                        className={({ isActive }) =>
-                          `${classeDoItem} transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-primary ${
-                            isActive ? 'bg-primary text-white shadow-sm' : 'text-marrom hover:bg-fundo-2 hover:text-texto active:bg-fundo-2'
-                          }`
-                        }
-                      >
-                        <IconeMenu nome={item.icone} />
-                        {item.texto}
-                      </NavLink>
-                    ) : (
-                      <div aria-disabled="true" className={`${classeDoItem} cursor-not-allowed text-marrom opacity-50`}>
-                        <IconeMenu nome={item.icone} />
-                        <span className="flex-1">{item.texto}</span>
-                        <span className="shrink-0 whitespace-nowrap rounded-full bg-black/10 px-1.5 py-0.5 text-[10px] font-medium">em breve</span>
-                      </div>
-                    )}
+                    <NavLink
+                      to={item.para}
+                      end
+                      onClick={() => setMenuAberto(false)}
+                      className={({ isActive }) =>
+                        `${classeDoItem} transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-primary ${
+                          isActive ? 'bg-primary text-white shadow-sm' : 'text-marrom hover:bg-fundo-2 hover:text-texto active:bg-fundo-2'
+                        }`
+                      }
+                    >
+                      <IconeMenu nome={item.icone} />
+                      {item.texto}
+                    </NavLink>
                   </li>
                 ))}
               </ul>
@@ -168,7 +159,7 @@ function PainelLayout({ children }: PainelLayoutProps) {
             aria-label="Abrir menu"
             aria-expanded={menuAberto}
             onClick={() => setMenuAberto(true)}
-            className="rounded-lg px-3 py-1 text-2xl transition-colors duration-200 hover:bg-fundo-2 focus-visible:outline-2 focus-visible:outline-primary"
+            className="min-h-11 min-w-11 rounded-lg px-3 py-1 text-2xl transition-colors duration-200 hover:bg-fundo-2 focus-visible:outline-2 focus-visible:outline-primary"
           >
             ☰
           </button>

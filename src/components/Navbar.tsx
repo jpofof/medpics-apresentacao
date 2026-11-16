@@ -31,7 +31,7 @@ function Navbar() {
           aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
           aria-expanded={menuAberto}
           onClick={() => setMenuAberto(!menuAberto)}
-          className="rounded-lg px-3 py-1 text-2xl transition-colors duration-200 hover:bg-fundo-2 focus-visible:outline-2 focus-visible:outline-primary xl:hidden"
+          className="min-h-11 min-w-11 rounded-lg px-3 py-1 text-2xl transition-colors duration-200 hover:bg-fundo-2 focus-visible:outline-2 focus-visible:outline-primary xl:hidden"
         >
           {menuAberto ? '✕' : '☰'}
         </button>

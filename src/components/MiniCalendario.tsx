@@ -10,7 +10,7 @@ interface MiniCalendarioProps {
 const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
 const classeDoBotaoSeta =
-  'h-10 w-10 rounded-full border border-black/10 text-lg text-marrom transition-colors duration-200 hover:bg-fundo-2 focus-visible:outline-2 focus-visible:outline-primary active:bg-fundo-2'
+  'h-11 w-11 rounded-full border border-black/10 text-lg text-marrom transition-colors duration-200 hover:bg-fundo-2 focus-visible:outline-2 focus-visible:outline-primary active:bg-fundo-2'
 
 // Calendário do mês com os dias que têm consulta marcados
 function MiniCalendario({ diasMarcados, legenda }: MiniCalendarioProps) {

@@ -419,7 +419,7 @@ export function voltarAtivasAposTermino() {
   if (mudou) gravarDisponibilidades(lista)
 }
 
-// ---------- Agenda e atendimento do profissional (Quadros 10, 12 e 13) ----------
+// ---------- Agenda e atendimento do profissional (Quadros 12 e 13) ----------
 
 // Consultas do profissional entre duas datas (inclusive), da mais antiga para a mais recente
 export function consultasDoPeriodo(idProfissional: number, de: string, ate: string): Agendamento[] {
@@ -431,7 +431,7 @@ export function horarioJaChegou(agendamento: Agendamento): boolean {
   return agendamento.data + 'T' + agendamento.hora <= agoraTexto()
 }
 
-// Registrar atendimento só é permitido a partir do horário da consulta (regra do Quadro 12).
+// Registrar atendimento só é permitido a partir do horário da consulta (Quadro 13).
 export function podeRegistrarAtendimento(agendamento: Agendamento): boolean {
   if (agendamento.status !== 'Agendada') return false
   return !VALIDACOES_ATIVAS || horarioJaChegou(agendamento)
