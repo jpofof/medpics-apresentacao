@@ -22,6 +22,7 @@ import PacienteInicio from './pages/PacienteInicio'
 import PrimeiroAcesso from './pages/PrimeiroAcesso'
 import ProfissionalAgenda from './pages/ProfissionalAgenda'
 import ProfissionalDisponibilidade from './pages/ProfissionalDisponibilidade'
+import ProfissionalRelatorios from './pages/ProfissionalRelatorios'
 import ProfissionalHistorico from './pages/ProfissionalHistorico'
 import ProfissionalInicio from './pages/ProfissionalInicio'
 
@@ -59,6 +60,8 @@ function App() {
 
       <Route path="/profissional/agenda" element={<RotaProtegida area="profissional"><ProfissionalAgenda /></RotaProtegida>} />
       <Route path="/profissional/historico" element={<RotaProtegida area="profissional"><ProfissionalHistorico /></RotaProtegida>} />
+
+      <Route path="/profissional/relatorios" element={<RotaProtegida area="profissional"><ProfissionalRelatorios /></RotaProtegida>} />
 
       <Route path="/admin" element={<RotaProtegida area="admin"><AdminInicio /></RotaProtegida>} />
       <Route path="/admin/cadastros" element={<RotaProtegida area="admin"><AdminCadastros /></RotaProtegida>} />

@@ -57,6 +57,10 @@ Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSA
 - Registrar "Realizada" ou "Paciente faltou": os botões ficam desabilitados até o horário da consulta chegar; não guarda dado clínico; mensagem "Atendimento registrado com sucesso".
 - `/profissional/historico`: busca por nome ou CPF só acha pacientes que já tiveram consulta com o profissional; mostra todas as consultas dele com o paciente, com o status.
 
+## Relatórios
+- `/profissional/relatorios`: Consultas por período, Faltas e cancelamentos e Atendimentos por profissional, com filtros Período e Profissional, totais e tabela que vira cartões no celular (sem gráficos nem exportação). Sem resultado: "Nenhum registro encontrado para os filtros selecionados".
+- Visibilidade (só o cargo conta, ser administrador não muda): Terapeuta vê só os próprios; Médico e Dentista veem os próprios e os dos Terapeutas, nunca um do outro. O filtro de profissional lista só quem o usuário pode ver (`profissionaisVisiveis` em `src/data/relatorios.ts`).
+
 ## Mapa de pastas
 - `src/App.tsx` — rotas. `/paciente`, `/primeiro-acesso`, `/profissional` e `/admin` ficam dentro de `RotaProtegida`. Cadastros: `/cadastro`, `/cadastro/paciente|medico|dentista|terapeuta`. Admin cadastra paciente em `/admin/novo-paciente`.
 - `src/pages` — uma página por arquivo. `src/components` — peças reutilizáveis (layout do painel, campos, botões, navbar...).

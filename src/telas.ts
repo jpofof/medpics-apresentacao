@@ -9,6 +9,7 @@ const telasProntas = [
   '/profissional/disponibilidade',
   '/profissional/agenda',
   '/profissional/historico',
+  '/profissional/relatorios',
   '/admin',
   '/admin/cadastros',
   '/admin/usuarios',
