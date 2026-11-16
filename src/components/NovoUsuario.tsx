@@ -1,11 +1,9 @@
 import { useState } from 'react'
-import { validarPerfil } from '../data/admin'
 import type { Cargo } from '../types'
 import Botao from './Botao'
 import CampoSelect from './CampoSelect'
 import FormularioNovoPaciente from './FormularioNovoPaciente'
 import FormularioNovoProfissional from './FormularioNovoProfissional'
-import Mensagem from './Mensagem'
 import TituloDaSecao from './TituloDaSecao'
 
 interface NovoUsuarioProps {
@@ -23,47 +21,35 @@ function cargoDaEscolha(texto: string): Cargo {
 }
 
 // Novo usuário (Quadro 7). Etapa 1: escolher o perfil. Etapa 2: o formulário do perfil escolhido.
-// Perfis: Paciente, ou Profissional (Médico, Dentista, Terapeuta) com a opção extra de administrador.
+// Cadastro livre: nenhuma combinação é bloqueada, tudo é aceito e salvo. Como a conta tem um perfil só:
+// Paciente tem prioridade se vier marcado; nada marcado vira Paciente; Profissional sem cargo vira Médico;
+// Administrador sozinho vira Médico + Administrador (a permissão só existe dentro de um Profissional).
 function NovoUsuario({ aoConcluir, aoCancelar }: NovoUsuarioProps) {
   const [ehPaciente, setEhPaciente] = useState(false)
   const [ehProfissional, setEhProfissional] = useState(false)
   const [cargo, setCargo] = useState('')
   const [ehAdmin, setEhAdmin] = useState(false)
   const [etapa, setEtapa] = useState(1)
-  const [erro, setErro] = useState('')
+
+  // Perfil realmente cadastrado, já resolvido a partir do que foi marcado
+  const comoPaciente = ehPaciente || (!ehProfissional && !ehAdmin)
+  const cargoFinal = cargoDaEscolha(cargo)
 
   function continuar() {
-    // Combinações inválidas (mensagens do Quadro 7, com validações ativas)
-    const erroDoPerfil = validarPerfil(ehPaciente, ehProfissional, ehAdmin)
-    if (erroDoPerfil !== '') {
-      setErro(erroDoPerfil)
-      return
-    }
-    // Sem escolha não há o que cadastrar (vale sempre)
-    if (!ehPaciente && !ehProfissional) {
-      setErro('Selecione o perfil do usuário')
-      return
-    }
-    if (!ehPaciente && cargo === '') {
-      setErro('Selecione o cargo: Médico, Dentista ou Terapeuta')
-      return
-    }
-    setErro('')
     setEtapa(2)
   }
 
   const classeDaCaixa = 'flex min-h-11 cursor-pointer items-center gap-3 text-sm text-texto'
   const classeDoCheckbox = 'h-5 w-5 shrink-0 cursor-pointer accent-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary'
 
-  // Paciente tem prioridade se vier junto com outro perfil (só acontece com as validações desligadas)
   if (etapa === 2) {
     return (
       <div>
-        <p className="mb-4 text-sm text-marrom">{ehPaciente ? 'Perfil: Paciente' : 'Perfil: ' + cargo + (ehAdmin ? ' + Administrador' : '')}</p>
-        {ehPaciente ? (
+        <p className="mb-4 text-sm text-marrom">{comoPaciente ? 'Perfil: Paciente' : 'Perfil: ' + cargoFinal + (ehAdmin ? ' + Administrador' : '')}</p>
+        {comoPaciente ? (
           <FormularioNovoPaciente aoConcluir={aoConcluir} />
         ) : (
-          <FormularioNovoProfissional cargo={cargoDaEscolha(cargo)} ehAdmin={ehAdmin} aoConcluir={aoConcluir} />
+          <FormularioNovoProfissional cargo={cargoFinal} ehAdmin={ehAdmin} aoConcluir={aoConcluir} />
         )}
         <div className="mt-4">
           <Botao variante="secundario" aoClicar={() => setEtapa(1)}>
@@ -77,12 +63,6 @@ function NovoUsuario({ aoConcluir, aoCancelar }: NovoUsuarioProps) {
   return (
     <div>
       <TituloDaSecao>Perfil do novo usuário</TituloDaSecao>
-      {erro && (
-        <div className="mb-5">
-          <Mensagem tipo="erro">{erro}</Mensagem>
-        </div>
-      )}
-
       <div className="mb-5 flex flex-col">
         <label className={classeDaCaixa}>
           <input type="checkbox" checked={ehPaciente} onChange={(e) => setEhPaciente(e.target.checked)} className={classeDoCheckbox} />

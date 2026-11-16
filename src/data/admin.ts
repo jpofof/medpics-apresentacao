@@ -1,5 +1,4 @@
 // Operações do administrador: aprovar/recusar cadastros, editar usuários e ativar/inativar contas.
-import { VALIDACOES_ATIVAS } from '../config'
 import type { StatusConta, Usuario } from '../types'
 import { cancelarAgendamento, consultasFuturasDoProfissional } from './agenda'
 import { diasDesde } from './datas'
@@ -130,14 +129,6 @@ export function extrasDoProfissional(idUsuario: number): DadosProfissional {
     extras.formacoes = terapeuta.formacoesComplementares
   }
   return extras
-}
-
-// Mensagem de erro da combinação de perfis escolhida ao criar usuário (Quadro 7). Só vale com VALIDACOES_ATIVAS = true.
-export function validarPerfil(ehPaciente: boolean, ehProfissional: boolean, ehAdmin: boolean): string {
-  if (!VALIDACOES_ATIVAS) return ''
-  if (ehPaciente && (ehProfissional || ehAdmin)) return 'Paciente não pode acumular outro perfil'
-  if (ehAdmin && !ehProfissional) return 'Administrador só pode ser atribuído a um Médico, Dentista ou Terapeuta'
-  return ''
 }
 
 // Grava a edição feita pelo administrador. O cargo não muda. Devolve '' se deu certo, ou a mensagem de erro.

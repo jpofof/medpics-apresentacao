@@ -21,9 +21,9 @@ Senha de todas: `medpics123`. As contas são criadas sozinhas quando o armazenam
 
 ## Login e cadastro livres (regra permanente do projeto)
 - **Login:** "Entrar" sempre entra, com campos vazios ou preenchidos, sem checar senha nem status da conta. E-mail de conta existente entra nela; vazio ou desconhecido entra como paciente@medpics.com. A faixa "Acesso rápido" com as 8 contas fica sempre visível. Sem mensagens de erro. A sessão é só da aba e as rotas por perfil continuam protegidas.
-- **Cadastro** (paciente, médico, dentista, terapeuta, cadastro pelo administrador e primeiro acesso): nenhum campo é obrigatório, não confere e-mail/CPF repetido, termos nem anamnese, e não mostra erro. Salva o que foi preenchido (campo vazio recebe padrão: nome "Sem nome", especialidade "Clínica geral", duração 30 min) e vai para /login. Paciente nasce Ativo e profissional "Aguardando aprovação" (a aprovação no painel do administrador continua funcionando, mas o login ignora o status).
+- **Cadastro** (paciente, médico, dentista, terapeuta, cadastros feitos pelo administrador — Novo usuário, Novo paciente e Novo profissional — e primeiro acesso): nenhum campo é obrigatório, não confere e-mail/CPF repetido, termos nem anamnese, e não mostra erro. Salva o que foi preenchido (campo vazio recebe padrão: nome "Sem nome", especialidade "Clínica geral", duração 30 min) e vai para /login. Paciente nasce Ativo e profissional "Aguardando aprovação" (a aprovação no painel do administrador continua funcionando, mas o login ignora o status).
 - Isso **não depende** de `VALIDACOES_ATIVAS`. O resto do sistema segue os documentos (regra das 24h, sobreposição, datas de férias, visibilidade de relatórios, bloqueio do último administrador, mensagens dos quadros) e passa por `VALIDACOES_ATIVAS`, que fica `true`.
-- Edição de usuário e de perfil continuam validando (campos obrigatórios, e-mail/CPF repetido, senhas iguais).
+- Edição de usuário e de perfil, redefinição de senha e regras de agenda continuam seguindo `VALIDACOES_ATIVAS = true`.
 
 Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSAO_DO_ESQUEMA` em `src/data/inicializacao.ts`. A sessão fica só na aba (fechou a aba, saiu).
 
@@ -75,7 +75,7 @@ Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSA
 | 4 Redefinir senha | Coberto | `/esqueci-senha`, `/redefinir-senha` |
 | 5 Editar perfil | Coberto | `/perfil` |
 | 6 Gerenciar cadastros | Coberto | `/admin/cadastros` |
-| 7 Gerenciar usuários | Coberto | `/admin/usuarios`, `/admin/novo-paciente` |
+| 7 Gerenciar usuários | Parcial, por decisão do autor (cadastro livre) | `/admin/usuarios`, `/admin/novo-paciente` |
 | 8 Agendar consulta | Coberto | `/paciente/agendar`, `/admin/agendar` |
 | 9 Cancelar consulta | Coberto | `/paciente/consultas`, `/admin/cancelar` |
 | 10 Histórico de consultas | Coberto | `/paciente/historico`, `/profissional/historico` |
@@ -104,7 +104,7 @@ Aviso: as senhas ficam em texto puro no `localStorage` porque é um protótipo; 
 - O cargo não pode ser editado depois do cadastro (a "lógica da estrutura" prevê criar/remover o registro de Terapeuta ao mudar o cargo).
 - Status da conta "Recusado", como no DER e no Quadro 6.
 - Bloqueios de inativar a própria conta e o último administrador ativo (e de remover a permissão do último administrador) valem sempre, mesmo com as validações desligadas, para o administrador não perder o acesso.
-- Ao criar usuário com as validações desligadas, perfis inválidos (ex.: paciente + administrador) são resolvidos em favor do paciente; só "nenhum perfil/cargo escolhido" sempre bloqueia, pois não há o que cadastrar.
+- "Novo usuário" (admin) aceita qualquer combinação, sem as mensagens do Quadro 7. Como a conta tem um perfil só: Paciente tem prioridade; nada marcado vira Paciente; Profissional sem cargo vira Médico; Administrador sozinho vira Médico + Administrador. E-mail repetido cria uma conta nova (id novo), sem alterar a existente.
 - Reativar paciente exige nova anamnese se passaram mais de 365 dias desde o último login (ou do cadastro, se nunca entrou).
 - Cadastro, ao enviar, volta para `/login` com um aviso (`?cadastro=paciente` ou `?cadastro=profissional` na URL, sem dados pessoais).
 - A data de nascimento usa o campo de data do navegador (grava AAAA-MM-DD).
