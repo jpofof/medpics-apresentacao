@@ -8,52 +8,32 @@ import CamposDadosPessoais from '../components/CamposDadosPessoais'
 import Footer from '../components/Footer'
 import FormularioAnamnese from '../components/FormularioAnamnese'
 import PainelLateral from '../components/PainelLateral'
-import { anamneseVazia, semErrosAnamnese, validarAnamnese } from '../data/anamnese'
-import { contaVazia, criarPaciente, origensDoPaciente, semErros, validarConta, validarOrigemETermos } from '../data/usuarios'
+import { anamneseVazia } from '../data/anamnese'
+import { contaVazia, criarPaciente, origensDoPaciente, semErros } from '../data/usuarios'
 import checkIcone from '../assets/check-cadastro.svg'
 import cadeadoIcone from '../assets/cadeado.svg'
 import celularIcone from '../assets/celular.svg'
 
 // Cadastro do paciente em duas etapas: 1) dados e termos  2) anamnese.
-// Ao concluir, a conta já fica Ativa e a pessoa vai para o login.
+// Cadastro livre: nenhum campo é obrigatório e nada é conferido. Ao concluir, a conta fica Ativa e a pessoa vai para o login.
 function CadastroPaciente() {
   const [etapa, setEtapa] = useState(1)
   const [conta, setConta] = useState(contaVazia())
   const [origem, setOrigem] = useState('')
   const [termos, setTermos] = useState(false)
   const [anamnese, setAnamnese] = useState(anamneseVazia())
-  const [erros, setErros] = useState(semErros())
-  const [errosAnamnese, setErrosAnamnese] = useState(semErrosAnamnese())
   const navigate = useNavigate()
 
   function mudarConta(campo: string, valor: string) {
     setConta({ ...conta, [campo]: valor })
   }
 
-  // Etapa 1: confere os dados e os termos antes de abrir a anamnese
   function irParaAnamnese() {
-    const novosErros = { ...validarConta(conta), ...validarOrigemETermos(origem, termos, true) }
-    setErros(novosErros)
-    if (Object.keys(novosErros).length > 0) return
     setEtapa(2)
     window.scrollTo({ top: 0 })
   }
 
-  // Etapa 2: confere a anamnese e cria a conta
   function concluir() {
-    const novosErrosAnamnese = validarAnamnese(anamnese)
-    setErrosAnamnese(novosErrosAnamnese)
-    if (Object.keys(novosErrosAnamnese).length > 0) return
-
-    // Confere de novo e-mail e CPF (podem ter sido usados enquanto a pessoa preenchia a anamnese)
-    const novosErros = validarConta(conta)
-    if (Object.keys(novosErros).length > 0) {
-      setErros(novosErros)
-      setEtapa(1)
-      window.scrollTo({ top: 0 })
-      return
-    }
-
     criarPaciente(conta, origem, termos, anamnese, 0)
     navigate('/login?cadastro=paciente')
   }
@@ -97,16 +77,10 @@ function CadastroPaciente() {
                     irParaAnamnese()
                   }}
                 >
-                  {erros.geral && (
-                    <div role="alert" className="mb-5 rounded-xl border border-erro/40 bg-erro/10 px-4 py-3 text-sm text-erro">
-                      {erros.geral}
-                    </div>
-                  )}
-
-                  <CamposDadosPessoais dados={conta} aoMudar={mudarConta} erros={erros} />
-                  <CampoSelect id="origem" rotulo="Como chegou até a clínica?" opcoes={origensDoPaciente} valor={origem} aoMudar={setOrigem} erro={erros.origem} />
-                  <CamposAcesso dados={conta} aoMudar={mudarConta} erros={erros} />
-                  <CampoTermos aceito={termos} aoMudar={setTermos} erro={erros.termos} />
+                  <CamposDadosPessoais dados={conta} aoMudar={mudarConta} erros={semErros()} />
+                  <CampoSelect id="origem" rotulo="Como chegou até a clínica?" opcoes={origensDoPaciente} valor={origem} aoMudar={setOrigem} />
+                  <CamposAcesso dados={conta} aoMudar={mudarConta} erros={semErros()} />
+                  <CampoTermos aceito={termos} aoMudar={setTermos} />
 
                   <Botao enviar larguraTotal>
                     Continuar para a anamnese
@@ -123,7 +97,7 @@ function CadastroPaciente() {
                     concluir()
                   }}
                 >
-                  <FormularioAnamnese estado={anamnese} aoMudar={setAnamnese} erros={errosAnamnese} />
+                  <FormularioAnamnese estado={anamnese} aoMudar={setAnamnese} />
 
                   <div className="flex flex-col gap-3 sm:flex-row">
                     <Botao variante="secundario" aoClicar={() => setEtapa(1)}>

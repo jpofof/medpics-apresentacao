@@ -8,7 +8,7 @@ Quem mantém é estudante iniciante: código SIMPLES e legível. Branch de traba
 - PROIBIDO: Context, Redux, useReducer, hooks customizados, generics, Partial/Omit/Pick, enums, `as`, `any`, libs novas.
 - Um componente por arquivo, nomes em português, comentários curtos em português. Reutilizar o design system (classes Tailwind e componentes existentes).
 - Dados: funções simples em `src/data/` (armazenamento, datas, usuarios, agenda, anamnese, inicializacao). Modelos do DER em `src/types.ts`.
-- Validações passam por `VALIDACOES_ATIVAS` em `src/config.ts` (false em desenvolvimento; true ao final, Fase 12). Com false: login livre + faixa "Acesso rápido". Regras que mudam dados valem sempre.
+- Validações do sistema passam por `VALIDACOES_ATIVAS` (`src/config.ts`, deve ficar `true`). LOGIN e CADASTRO são SEMPRE livres (sem validação, sem erro, sem `required`), independente do interruptor. Regras que mudam dados valem sempre.
 - Datas: texto AAAA-MM-DD e HH:mm; exibir dd/mm/aaaa. Perfil é calculado (tem registro de Paciente? senão cargo do Profissional); administrador = `ehAdministrador` de um Profissional.
 - Responsividade (360/390/768/1280px): sem rolagem horizontal, botões >= 44px, menus mobile, estados vazios amigáveis.
 

@@ -15,14 +15,15 @@ Senha de todas: `medpics123`. As contas são criadas sozinhas quando o armazenam
 | dentista@medpics.com | Dentista | entra |
 | terapeuta@medpics.com | Terapeuta | entra |
 | paciente@medpics.com | Paciente | entra; tem anamnese e 3 consultas (futura, realizada, cancelada) |
-| aguardando@medpics.com | Terapeuta | com validações ativas: "Cadastro aguardando aprovação do administrador" |
-| recusado@medpics.com | Dentista (status Recusado) | com validações ativas: "Cadastro recusado. Entre em contato com a clínica" |
-| inativo@medpics.com | Paciente | com validações ativas: "Conta inativa. Entre em contato com a clínica" |
+| aguardando@medpics.com | Terapeuta (status Aguardando aprovação) | entra normalmente (o status não bloqueia o login) |
+| recusado@medpics.com | Dentista (status Recusado) | entra normalmente |
+| inativo@medpics.com | Paciente (status Inativa) | entra normalmente |
 
-## Como o login funciona (dois modos, controlados só por `VALIDACOES_ATIVAS` em `src/config.ts`)
-- **`false` (modo teste, padrão no desenvolvimento):** o login é livre. "Entrar" sempre entra, com campos vazios ou preenchidos, sem checar senha nem status da conta. Se o e-mail for de uma conta existente, entra nela; se estiver vazio ou não existir, entra como paciente@medpics.com. A tela de login mostra a faixa "Acesso rápido (modo teste)" com botões das 8 contas de demonstração. Continua gravando o último login, a sessão é só da aba e as rotas por perfil continuam protegidas.
-- **`true`:** vale o Quadro 1: e-mail e senha corretos, as 4 mensagens literais ("E-mail ou senha inválidos", "Conta inativa. Entre em contato com a clínica", "Cadastro aguardando aprovação do administrador", "Cadastro recusado. Entre em contato com a clínica") e só conta Ativa entra. A faixa de acesso rápido some.
-- Nos dois modos, paciente com termos/anamnese pendentes é levado a `/primeiro-acesso` (é um fluxo, não uma validação).
+## Login e cadastro livres (regra permanente do projeto)
+- **Login:** "Entrar" sempre entra, com campos vazios ou preenchidos, sem checar senha nem status da conta. E-mail de conta existente entra nela; vazio ou desconhecido entra como paciente@medpics.com. A faixa "Acesso rápido" com as 8 contas fica sempre visível. Sem mensagens de erro. A sessão é só da aba e as rotas por perfil continuam protegidas.
+- **Cadastro** (paciente, médico, dentista, terapeuta, cadastro pelo administrador e primeiro acesso): nenhum campo é obrigatório, não confere e-mail/CPF repetido, termos nem anamnese, e não mostra erro. Salva o que foi preenchido (campo vazio recebe padrão: nome "Sem nome", especialidade "Clínica geral", duração 30 min) e vai para /login. Paciente nasce Ativo e profissional "Aguardando aprovação" (a aprovação no painel do administrador continua funcionando, mas o login ignora o status).
+- Isso **não depende** de `VALIDACOES_ATIVAS`. O resto do sistema segue os documentos (regra das 24h, sobreposição, datas de férias, visibilidade de relatórios, bloqueio do último administrador, mensagens dos quadros) e passa por `VALIDACOES_ATIVAS`, que fica `true`.
+- Edição de usuário e de perfil continuam validando (campos obrigatórios, e-mail/CPF repetido, senhas iguais).
 
 Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSAO_DO_ESQUEMA` em `src/data/inicializacao.ts`. A sessão fica só na aba (fechou a aba, saiu).
 
@@ -56,7 +57,7 @@ Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSA
 - `src/pages` — uma página por arquivo. `src/components` — peças reutilizáveis (layout do painel, campos, botões, navbar...).
 - `src/types.ts` — modelos do DER (Usuário, Paciente, Profissional, Terapeuta, Disponibilidade, Agendamento, Anamnese, Aviso).
 - `src/data` — funções de dados: `armazenamento` (localStorage), `datas`, `usuarios` (login, sessão, perfil), `agenda`, `anamnese` (catálogo fixo, validação e gravação), `inicializacao` (contas de demonstração).
-- `src/config.ts` — `VALIDACOES_ATIVAS`: `false` = nenhuma validação bloqueia e o login é livre (para testar rápido); `true` = valem todas as regras dos documentos. As regras que alteram dados (cancelamentos automáticos, inativar) valem sempre. Deve ficar `true` ao final do projeto.
+- `src/config.ts` — `VALIDACOES_ATIVAS` (`true` = valem as regras dos documentos). Login e cadastro são livres e não dependem dele. As regras que alteram dados (cancelamentos automáticos, inativar) valem sempre.
 - `docs/` — documentos de regras, DER, casos de uso e lógica da estrutura (fonte da verdade).
 
 Aviso: as senhas ficam em texto puro no `localStorage` porque é um protótipo; num sistema real isso vai para o back-end com hash.

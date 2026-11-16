@@ -1,10 +1,9 @@
 import { catalogo } from '../data/anamnese'
-import type { ErrosAnamnese, EstadoAnamnese } from '../data/anamnese'
+import type { EstadoAnamnese } from '../data/anamnese'
 
 interface FormularioAnamneseProps {
   estado: EstadoAnamnese
   aoMudar: (estado: EstadoAnamnese) => void
-  erros: ErrosAnamnese // mensagens por item (a página calcula com validarAnamnese)
 }
 
 const classeDoCampoPequeno =
@@ -12,7 +11,7 @@ const classeDoCampoPequeno =
 
 // Formulário de anamnese (7 categorias do catálogo). A página dona guarda o "estado" e o passa para cá.
 // Hábitos com frequência: Sim/Não, e se Sim, frequência. Demais itens: caixa de marcar. Observação é opcional.
-function FormularioAnamnese({ estado, aoMudar, erros }: FormularioAnamneseProps) {
+function FormularioAnamnese({ estado, aoMudar }: FormularioAnamneseProps) {
   function responderHabito(nome: string, sim: boolean) {
     const semEste = estado.itens.filter((i) => i.item !== nome)
     const semNao = estado.habitosNao.filter((h) => h !== nome)
@@ -58,7 +57,7 @@ function FormularioAnamnese({ estado, aoMudar, erros }: FormularioAnamneseProps)
                 return (
                   <div
                     key={item.nome}
-                    className={`rounded-xl border bg-fundo p-4 sm:col-span-2 ${erros[item.nome] ? 'border-erro' : 'border-black/10'}`}
+                    className="rounded-xl border border-black/10 bg-fundo p-4 sm:col-span-2"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
                       <p className="text-[15px] font-medium text-texto">{item.nome}</p>
@@ -95,7 +94,7 @@ function FormularioAnamnese({ estado, aoMudar, erros }: FormularioAnamneseProps)
                             placeholder="Ex: 3x por semana"
                             value={marcado.frequencia}
                             onChange={(e) => mudarTexto(item.nome, 'frequencia', e.target.value)}
-                            className={`${classeDoCampoPequeno} mt-1 ${erros[item.nome] ? 'border-erro' : ''}`}
+                            className={`${classeDoCampoPequeno} mt-1`}
                           />
                         </label>
                         <label className="block text-xs font-medium text-marrom">
@@ -108,11 +107,6 @@ function FormularioAnamnese({ estado, aoMudar, erros }: FormularioAnamneseProps)
                           />
                         </label>
                       </div>
-                    )}
-                    {erros[item.nome] && (
-                      <p role="alert" className="mt-2 text-xs text-erro">
-                        {erros[item.nome]}
-                      </p>
                     )}
                   </div>
                 )

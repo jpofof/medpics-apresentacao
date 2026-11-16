@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { contaVazia, criarProfissional, profissionalVazio, semErros, validarConta, validarProfissional } from '../data/usuarios'
+import { contaVazia, criarProfissional, profissionalVazio, semErros } from '../data/usuarios'
 import type { Cargo } from '../types'
 import Botao from './Botao'
 import CamposAcesso from './CamposAcesso'
@@ -12,11 +12,10 @@ interface FormularioNovoProfissionalProps {
   aoConcluir: (nome: string) => void
 }
 
-// Cadastro de Médico, Dentista ou Terapeuta feito pelo administrador: a conta já nasce Ativa (sem aprovação)
+// Cadastro de Médico, Dentista ou Terapeuta feito pelo administrador (cadastro livre, nada é obrigatório): a conta já nasce Ativa
 function FormularioNovoProfissional({ cargo, ehAdmin, aoConcluir }: FormularioNovoProfissionalProps) {
   const [conta, setConta] = useState(contaVazia())
   const [dados, setDados] = useState(profissionalVazio())
-  const [erros, setErros] = useState(semErros())
 
   function mudarConta(campo: string, valor: string) {
     setConta({ ...conta, [campo]: valor })
@@ -27,12 +26,6 @@ function FormularioNovoProfissional({ cargo, ehAdmin, aoConcluir }: FormularioNo
   }
 
   function cadastrar() {
-    const novosErros = { ...validarConta(conta), ...validarProfissional(cargo, dados) }
-    setErros(novosErros)
-    if (Object.keys(novosErros).length > 0) {
-      window.scrollTo({ top: 0 })
-      return
-    }
     criarProfissional(cargo, conta, dados, 'Ativa', ehAdmin)
     aoConcluir(conta.nome)
   }
@@ -45,15 +38,9 @@ function FormularioNovoProfissional({ cargo, ehAdmin, aoConcluir }: FormularioNo
         cadastrar()
       }}
     >
-      {erros.geral && (
-        <div role="alert" className="mb-5 rounded-xl border border-erro/40 bg-erro/10 px-4 py-3 text-sm text-erro">
-          {erros.geral}
-        </div>
-      )}
-
-      <CamposDadosPessoais dados={conta} aoMudar={mudarConta} erros={erros} />
-      <CamposProfissionais cargo={cargo} dados={dados} aoMudar={mudarDados} erros={erros} />
-      <CamposAcesso dados={conta} aoMudar={mudarConta} erros={erros} />
+      <CamposDadosPessoais dados={conta} aoMudar={mudarConta} erros={semErros()} />
+      <CamposProfissionais cargo={cargo} dados={dados} aoMudar={mudarDados} erros={semErros()} />
+      <CamposAcesso dados={conta} aoMudar={mudarConta} erros={semErros()} />
 
       <Botao enviar larguraTotal>
         {'Cadastrar ' + cargo.toLowerCase()}

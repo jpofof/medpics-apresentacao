@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { contaDoUsuario, extrasDoProfissional, salvarEdicao } from '../data/admin'
-import { buscarPaciente, buscarProfissional, buscarUsuario, contaVazia, origensDoPaciente, semErros, validarConta, validarOrigemETermos, validarProfissional } from '../data/usuarios'
+import { buscarPaciente, buscarProfissional, buscarUsuario, contaVazia, origensDoPaciente, semErros, validarConta, validarOrigem, validarProfissional } from '../data/usuarios'
 import Botao from './Botao'
 import CampoSelect from './CampoSelect'
 import CamposAcesso from './CamposAcesso'
@@ -38,7 +38,7 @@ function FormularioEditarUsuario({ idUsuario, aoConcluir, aoCancelar }: Formular
 
   function salvar() {
     let novosErros = validarConta(conta, idUsuario, false)
-    if (paciente !== null) novosErros = { ...novosErros, ...validarOrigemETermos(origem, false, false) }
+    if (paciente !== null) novosErros = { ...novosErros, ...validarOrigem(origem) }
     if (profissional !== null) novosErros = { ...novosErros, ...validarProfissional(profissional.cargo, extras) }
     setErros(novosErros)
     setErroGeral('')

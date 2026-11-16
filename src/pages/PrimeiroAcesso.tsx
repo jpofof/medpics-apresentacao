@@ -5,8 +5,8 @@ import CampoTermos from '../components/CampoTermos'
 import Footer from '../components/Footer'
 import FormularioAnamnese from '../components/FormularioAnamnese'
 import PainelLateral from '../components/PainelLateral'
-import { anamneseAtual, anamneseVazia, semErrosAnamnese, validarAnamnese } from '../data/anamnese'
-import { buscarPaciente, concluirPrimeiroAcesso, encerrarSessao, semErros, usuarioLogado, validarTermos } from '../data/usuarios'
+import { anamneseAtual, anamneseVazia } from '../data/anamnese'
+import { buscarPaciente, concluirPrimeiroAcesso, encerrarSessao, usuarioLogado } from '../data/usuarios'
 import checkIcone from '../assets/check-cadastro.svg'
 import cadeadoIcone from '../assets/cadeado.svg'
 import celularIcone from '../assets/celular.svg'
@@ -17,8 +17,6 @@ import celularIcone from '../assets/celular.svg'
 function PrimeiroAcesso() {
   const [termos, setTermos] = useState(false)
   const [anamnese, setAnamnese] = useState(anamneseVazia())
-  const [erros, setErros] = useState(semErros())
-  const [errosAnamnese, setErrosAnamnese] = useState(semErrosAnamnese())
   const navigate = useNavigate()
 
   const usuario = usuarioLogado()
@@ -30,12 +28,7 @@ function PrimeiroAcesso() {
 
   function concluir() {
     if (usuario === null) return
-    const novosErros = termosPendentes ? validarTermos(termos) : semErros()
-    const novosErrosAnamnese = anamnesePendente ? validarAnamnese(anamnese) : semErrosAnamnese()
-    setErros(novosErros)
-    setErrosAnamnese(novosErrosAnamnese)
-    if (Object.keys(novosErros).length > 0 || Object.keys(novosErrosAnamnese).length > 0) return
-
+    // Sem validação: o aceite dos termos e a anamnese são gravados como estiverem (cadastro livre)
     concluirPrimeiroAcesso(usuario.id, termosPendentes, anamnesePendente ? anamnese : null)
     navigate('/paciente')
   }
@@ -76,8 +69,8 @@ function PrimeiroAcesso() {
                   concluir()
                 }}
               >
-                {termosPendentes && <CampoTermos aceito={termos} aoMudar={setTermos} erro={erros.termos} />}
-                {anamnesePendente && <FormularioAnamnese estado={anamnese} aoMudar={setAnamnese} erros={errosAnamnese} />}
+                {termosPendentes && <CampoTermos aceito={termos} aoMudar={setTermos} />}
+                {anamnesePendente && <FormularioAnamnese estado={anamnese} aoMudar={setAnamnese} />}
 
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <Botao variante="secundario" aoClicar={sair}>

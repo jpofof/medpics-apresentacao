@@ -1,5 +1,4 @@
 // Catálogo fixo da anamnese (7 categorias) e leitura/gravação das anamneses preenchidas.
-import { VALIDACOES_ATIVAS } from '../config'
 import type { Anamnese, ItemMarcado } from '../types'
 import { gravarTexto, lerTexto, proximoId } from './armazenamento'
 import { agoraTexto } from './datas'
@@ -112,37 +111,8 @@ export interface EstadoAnamnese {
   habitosNao: string[]
 }
 
-// Mensagem de erro por nome de item, ex.: erros['Tabagismo']
-export interface ErrosAnamnese {
-  [item: string]: string
-}
-
-export function semErrosAnamnese(): ErrosAnamnese {
-  return {}
-}
-
 export function anamneseVazia(): EstadoAnamnese {
   return { itens: [], habitosNao: [] }
-}
-
-// Cada hábito precisa de resposta Sim ou Não e, se for Sim, de frequência (Quadro 3).
-// Com VALIDACOES_ATIVAS = false não bloqueia nada.
-export function validarAnamnese(estado: EstadoAnamnese): ErrosAnamnese {
-  const erros: ErrosAnamnese = {}
-  if (!VALIDACOES_ATIVAS) return erros
-
-  for (const categoria of catalogo) {
-    for (const item of categoria.itens) {
-      if (!item.comFrequencia) continue
-      const marcado = estado.itens.find((i) => i.item === item.nome)
-      if (marcado) {
-        if (marcado.frequencia.trim() === '') erros[item.nome] = 'Informe a frequência'
-      } else if (!estado.habitosNao.includes(item.nome)) {
-        erros[item.nome] = 'Responda Sim ou Não'
-      }
-    }
-  }
-  return erros
 }
 
 // Guarda uma nova anamnese. As antigas continuam guardadas como histórico.

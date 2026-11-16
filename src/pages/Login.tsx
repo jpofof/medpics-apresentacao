@@ -4,13 +4,12 @@ import Botao from '../components/Botao'
 import Campo from '../components/Campo'
 import Footer from '../components/Footer'
 import PainelLateral from '../components/PainelLateral'
-import { VALIDACOES_ATIVAS } from '../config'
-import { entrarSemValidar, salvarSessao, telaInicialDo, tentarLogin, usuarioLogado } from '../data/usuarios'
+import { entrarNaConta, salvarSessao, telaInicialDo, usuarioLogado } from '../data/usuarios'
 import checkIcone from '../assets/check-cadastro.svg'
 import cadeadoIcone from '../assets/cadeado.svg'
 import celularIcone from '../assets/celular.svg'
 
-// Contas de demonstração do "Acesso rápido" (aparece só no modo teste, VALIDACOES_ATIVAS = false)
+// Contas de demonstração do "Acesso rápido" (sempre visível: o login é livre)
 const acessoRapido = [
   { texto: 'Paciente', email: 'paciente@medpics.com' },
   { texto: 'Médico', email: 'medico@medpics.com' },
@@ -23,11 +22,10 @@ const acessoRapido = [
 ]
 
 // Tela de login única (e-mail + senha). O perfil é descoberto pelos dados da conta.
-// Com VALIDACOES_ATIVAS = false o login é livre: "Entrar" sempre entra (veja tentarLogin em data/usuarios.ts).
+// LOGIN LIVRE (não depende de VALIDACOES_ATIVAS): "Entrar" sempre entra, sem checar senha nem status da conta (veja entrarNaConta).
 function Login() {
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
-  const [erro, setErro] = useState('')
   const navigate = useNavigate()
   const { search } = useLocation() // ex: "?cadastro=paciente", vindo do fim do cadastro
 
@@ -37,24 +35,12 @@ function Login() {
 
   let aviso = ''
   if (search === '?cadastro=paciente') aviso = 'Cadastro efetuado com sucesso. Entre com seu e-mail e senha.'
-  if (search === '?cadastro=profissional') aviso = 'Cadastro enviado para aprovação. Você poderá entrar depois que o administrador aprovar.'
+  if (search === '?cadastro=profissional') aviso = 'Cadastro enviado para aprovação do administrador. Você já pode entrar.'
 
-  function entrar() {
-    const resultado = tentarLogin(email, senha)
-    if (resultado.usuario === null) {
-      setErro(resultado.erro)
-      return
-    }
-    salvarSessao(resultado.usuario.id)
-    navigate(telaInicialDo(resultado.usuario))
-  }
-
+  // A senha digitada não é conferida
   function entrarComConta(emailDaConta: string) {
-    const resultado = entrarSemValidar(emailDaConta)
-    if (resultado.usuario === null) {
-      setErro(resultado.erro)
-      return
-    }
+    const resultado = entrarNaConta(emailDaConta)
+    if (resultado.usuario === null) return
     salvarSessao(resultado.usuario.id)
     navigate(telaInicialDo(resultado.usuario))
   }
@@ -90,15 +76,9 @@ function Login() {
                 noValidate
                 onSubmit={(evento) => {
                   evento.preventDefault()
-                  entrar()
+                  entrarComConta(email)
                 }}
               >
-                {erro && (
-                  <div role="alert" className="mb-5 rounded-xl border border-erro/40 bg-erro/10 px-4 py-3 text-sm text-erro">
-                    {erro}
-                  </div>
-                )}
-
                 <Campo id="email" rotulo="Email" tipo="email" placeholder="seu@email.com" valor={email} aoMudar={setEmail} autoComplete="email" />
                 <Campo id="senha" rotulo="Senha" tipo="password" placeholder="••••••••" valor={senha} aoMudar={setSenha} autoComplete="current-password" />
 
@@ -107,25 +87,23 @@ function Login() {
                 </Botao>
               </form>
 
-              {/* Só no modo teste: entra direto numa conta de demonstração */}
-              {!VALIDACOES_ATIVAS && (
-                <div className="mt-8 rounded-2xl border border-dashed border-marrom-claro bg-fundo-2/40 p-4">
-                  <p className="mb-1 text-sm font-semibold text-texto">Acesso rápido (modo teste)</p>
-                  <p className="mb-3 text-xs text-marrom">Clique para entrar direto numa conta de demonstração.</p>
-                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                    {acessoRapido.map((conta) => (
-                      <button
-                        key={conta.email}
-                        type="button"
-                        onClick={() => entrarComConta(conta.email)}
-                        className="min-h-11 rounded-xl border border-borda bg-white px-2 py-2 text-xs font-medium text-marrom transition-colors duration-200 hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:bg-fundo-2"
-                      >
-                        {conta.texto}
-                      </button>
-                    ))}
-                  </div>
+              {/* Entra direto numa conta de demonstração */}
+              <div className="mt-8 rounded-2xl border border-dashed border-marrom-claro bg-fundo-2/40 p-4">
+                <p className="mb-1 text-sm font-semibold text-texto">Acesso rápido</p>
+                <p className="mb-3 text-xs text-marrom">Clique para entrar direto numa conta de demonstração.</p>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  {acessoRapido.map((conta) => (
+                    <button
+                      key={conta.email}
+                      type="button"
+                      onClick={() => entrarComConta(conta.email)}
+                      className="min-h-11 rounded-xl border border-borda bg-white px-2 py-2 text-xs font-medium text-marrom transition-colors duration-200 hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:bg-fundo-2"
+                    >
+                      {conta.texto}
+                    </button>
+                  ))}
                 </div>
-              )}
+                </div>
 
               <p className="mt-8 border-t border-borda pt-6 text-center text-sm text-marrom">
                 Ainda não tem conta?{' '}

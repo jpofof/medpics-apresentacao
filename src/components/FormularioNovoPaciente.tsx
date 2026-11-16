@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { anamneseVazia, semErrosAnamnese, validarAnamnese } from '../data/anamnese'
-import { contaVazia, criarPaciente, origensDoPaciente, semErros, usuarioLogado, validarConta, validarOrigemETermos } from '../data/usuarios'
+import { anamneseVazia } from '../data/anamnese'
+import { contaVazia, criarPaciente, origensDoPaciente, semErros, usuarioLogado } from '../data/usuarios'
 import Botao from './Botao'
 import CampoSelect from './CampoSelect'
 import CampoTermos from './CampoTermos'
@@ -13,7 +13,7 @@ interface FormularioNovoPacienteProps {
   aoConcluir: (nome: string) => void
 }
 
-// Cadastro de paciente feito pelo administrador (Quadro 7). A conta já nasce Ativa. Dois caminhos:
+// Cadastro de paciente feito pelo administrador (Quadro 7). Cadastro livre: nada é obrigatório nem conferido. A conta já nasce Ativa. Dois caminhos:
 // - paciente ao telefone: o administrador preenche a anamnese junto e registra o aceite dos termos;
 // - senão: termos e anamnese ficam pendentes para o primeiro acesso do próprio paciente.
 function FormularioNovoPaciente({ aoConcluir }: FormularioNovoPacienteProps) {
@@ -22,8 +22,6 @@ function FormularioNovoPaciente({ aoConcluir }: FormularioNovoPacienteProps) {
   const [aoTelefone, setAoTelefone] = useState(false)
   const [termos, setTermos] = useState(false)
   const [anamnese, setAnamnese] = useState(anamneseVazia())
-  const [erros, setErros] = useState(semErros())
-  const [errosAnamnese, setErrosAnamnese] = useState(semErrosAnamnese())
 
   function mudarConta(campo: string, valor: string) {
     setConta({ ...conta, [campo]: valor })
@@ -32,15 +30,6 @@ function FormularioNovoPaciente({ aoConcluir }: FormularioNovoPacienteProps) {
   function cadastrar() {
     const administrador = usuarioLogado()
     if (administrador === null) return
-
-    const novosErros = { ...validarConta(conta), ...validarOrigemETermos(origem, termos, aoTelefone) }
-    const novosErrosAnamnese = aoTelefone ? validarAnamnese(anamnese) : semErrosAnamnese()
-    setErros(novosErros)
-    setErrosAnamnese(novosErrosAnamnese)
-    if (Object.keys(novosErros).length > 0 || Object.keys(novosErrosAnamnese).length > 0) {
-      window.scrollTo({ top: 0 })
-      return
-    }
 
     criarPaciente(conta, origem, aoTelefone && termos, aoTelefone ? anamnese : null, administrador.id)
     aoConcluir(conta.nome)
@@ -59,15 +48,9 @@ function FormularioNovoPaciente({ aoConcluir }: FormularioNovoPacienteProps) {
         cadastrar()
       }}
     >
-      {erros.geral && (
-        <div role="alert" className="mb-5 rounded-xl border border-erro/40 bg-erro/10 px-4 py-3 text-sm text-erro">
-          {erros.geral}
-        </div>
-      )}
-
-      <CamposDadosPessoais dados={conta} aoMudar={mudarConta} erros={erros} />
-      <CampoSelect id="origem" rotulo="Como chegou até a clínica?" opcoes={origensDoPaciente} valor={origem} aoMudar={setOrigem} erro={erros.origem} />
-      <CamposAcesso dados={conta} aoMudar={mudarConta} erros={erros} />
+      <CamposDadosPessoais dados={conta} aoMudar={mudarConta} erros={semErros()} />
+      <CampoSelect id="origem" rotulo="Como chegou até a clínica?" opcoes={origensDoPaciente} valor={origem} aoMudar={setOrigem} />
+      <CamposAcesso dados={conta} aoMudar={mudarConta} erros={semErros()} />
 
       <TituloDaSecao comEspacoAcima>Termos e anamnese</TituloDaSecao>
       <div role="radiogroup" aria-label="Como preencher termos e anamnese" className="mb-6 grid gap-3 sm:grid-cols-2">
@@ -83,8 +66,8 @@ function FormularioNovoPaciente({ aoConcluir }: FormularioNovoPacienteProps) {
 
       {aoTelefone && (
         <>
-          <CampoTermos aceito={termos} aoMudar={setTermos} texto="O paciente informou que aceita os Termos de Uso e a Política de Privacidade (LGPD)" erro={erros.termos} />
-          <FormularioAnamnese estado={anamnese} aoMudar={setAnamnese} erros={errosAnamnese} />
+          <CampoTermos aceito={termos} aoMudar={setTermos} texto="O paciente informou que aceita os Termos de Uso e a Política de Privacidade (LGPD)" />
+          <FormularioAnamnese estado={anamnese} aoMudar={setAnamnese} />
         </>
       )}
 

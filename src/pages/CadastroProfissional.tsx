@@ -6,7 +6,7 @@ import CamposDadosPessoais from '../components/CamposDadosPessoais'
 import CamposProfissionais from '../components/CamposProfissionais'
 import Footer from '../components/Footer'
 import PainelLateral from '../components/PainelLateral'
-import { contaVazia, criarProfissional, profissionalVazio, semErros, validarConta, validarProfissional } from '../data/usuarios'
+import { contaVazia, criarProfissional, profissionalVazio, semErros } from '../data/usuarios'
 import type { Cargo } from '../types'
 import checkIcone from '../assets/check-cadastro.svg'
 import cadeadoIcone from '../assets/cadeado.svg'
@@ -17,11 +17,10 @@ interface CadastroProfissionalProps {
 }
 
 // Cadastro de médico, dentista ou terapeuta. A conta fica "Aguardando aprovação" até o administrador aprovar.
-// Ao enviar, vai para o login.
+// Cadastro livre: nenhum campo é obrigatório e nada é conferido. Ao enviar, vai para o login.
 function CadastroProfissional({ perfil }: CadastroProfissionalProps) {
   const [conta, setConta] = useState(contaVazia())
   const [dados, setDados] = useState(profissionalVazio())
-  const [erros, setErros] = useState(semErros())
   const navigate = useNavigate()
 
   function mudarConta(campo: string, valor: string) {
@@ -33,12 +32,6 @@ function CadastroProfissional({ perfil }: CadastroProfissionalProps) {
   }
 
   function enviar() {
-    const novosErros = { ...validarConta(conta), ...validarProfissional(perfil, dados) }
-    setErros(novosErros)
-    if (Object.keys(novosErros).length > 0) {
-      window.scrollTo({ top: 0 })
-      return
-    }
     criarProfissional(perfil, conta, dados, 'Aguardando aprovação', false)
     navigate('/login?cadastro=profissional')
   }
@@ -76,15 +69,9 @@ function CadastroProfissional({ perfil }: CadastroProfissionalProps) {
                   enviar()
                 }}
               >
-                {erros.geral && (
-                  <div role="alert" className="mb-5 rounded-xl border border-erro/40 bg-erro/10 px-4 py-3 text-sm text-erro">
-                    {erros.geral}
-                  </div>
-                )}
-
-                <CamposDadosPessoais dados={conta} aoMudar={mudarConta} erros={erros} />
-                <CamposProfissionais cargo={perfil} dados={dados} aoMudar={mudarDados} erros={erros} />
-                <CamposAcesso dados={conta} aoMudar={mudarConta} erros={erros} />
+                <CamposDadosPessoais dados={conta} aoMudar={mudarConta} erros={semErros()} />
+                <CamposProfissionais cargo={perfil} dados={dados} aoMudar={mudarDados} erros={semErros()} />
+                <CamposAcesso dados={conta} aoMudar={mudarConta} erros={semErros()} />
 
                 <Botao enviar larguraTotal>
                   Enviar cadastro

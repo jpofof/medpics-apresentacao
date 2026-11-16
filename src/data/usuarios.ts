@@ -132,7 +132,7 @@ export function especialidadeDoProfissional(id: number): string {
 // ---------- Login e sessão ----------
 
 const CHAVE_SESSAO = 'medpics:sessao'
-const EMAIL_PADRAO_DO_MODO_TESTE = 'paciente@medpics.com'
+const EMAIL_PADRAO_DO_LOGIN = 'paciente@medpics.com'
 
 interface ResultadoLogin {
   erro: string // '' = deu certo
@@ -145,32 +145,14 @@ function registrarAcesso(usuarios: Usuario[], usuario: Usuario) {
   gravarUsuarios(usuarios)
 }
 
-// MODO TESTE (VALIDACOES_ATIVAS = false): entra sempre, sem conferir senha nem status.
+// LOGIN LIVRE (regra do projeto, não depende de VALIDACOES_ATIVAS): entra sempre, sem conferir senha nem status da conta.
 // Entra na conta do e-mail informado; se o e-mail estiver vazio ou não existir, entra como paciente@medpics.com.
-export function entrarSemValidar(email: string): ResultadoLogin {
+export function entrarNaConta(email: string): ResultadoLogin {
   const emailLimpo = email.trim().toLowerCase()
   const usuarios = lerUsuarios()
   let usuario = usuarios.find((u) => u.email.toLowerCase() === emailLimpo)
-  if (!usuario) usuario = usuarios.find((u) => u.email === EMAIL_PADRAO_DO_MODO_TESTE)
+  if (!usuario) usuario = usuarios.find((u) => u.email === EMAIL_PADRAO_DO_LOGIN)
   if (!usuario) return { erro: 'Nenhuma conta de demonstração encontrada', usuario: null }
-
-  registrarAcesso(usuarios, usuario)
-  return { erro: '', usuario }
-}
-
-// Login. Com VALIDACOES_ATIVAS = true segue o Quadro 1: confere e-mail e senha e o status da conta.
-// Só conta "Ativa" entra. Com false, o login é livre (veja entrarSemValidar).
-export function tentarLogin(email: string, senha: string): ResultadoLogin {
-  if (!VALIDACOES_ATIVAS) return entrarSemValidar(email)
-
-  const emailLimpo = email.trim().toLowerCase()
-  const usuarios = lerUsuarios()
-  const usuario = usuarios.find((u) => u.email.toLowerCase() === emailLimpo && u.senha === senha)
-
-  if (!usuario) return { erro: 'E-mail ou senha inválidos', usuario: null }
-  if (usuario.statusConta === 'Inativa') return { erro: 'Conta inativa. Entre em contato com a clínica', usuario: null }
-  if (usuario.statusConta === 'Aguardando aprovação') return { erro: 'Cadastro aguardando aprovação do administrador', usuario: null }
-  if (usuario.statusConta === 'Recusado') return { erro: 'Cadastro recusado. Entre em contato com a clínica', usuario: null }
 
   registrarAcesso(usuarios, usuario)
   return { erro: '', usuario }
@@ -185,13 +167,12 @@ export function encerrarSessao() {
   sessionStorage.removeItem(CHAVE_SESSAO)
 }
 
-// Usuário logado, ou null (sem sessão). Com as validações ativas, conta que deixou de estar Ativa também sai.
+// Usuário logado, ou null (sem sessão). O status da conta não bloqueia o acesso (login livre).
 export function usuarioLogado(): Usuario | null {
   const texto = sessionStorage.getItem(CHAVE_SESSAO)
   if (texto === null) return null
   const usuario = buscarUsuario(Number(texto))
   if (usuario === null) return null
-  if (VALIDACOES_ATIVAS && usuario.statusConta !== 'Ativa') return null
   return usuario
 }
 
@@ -276,10 +257,10 @@ export function emailOuCpfJaExiste(email: string, cpf: string, ignorarId: number
   )
 }
 
-// Valida os dados da conta (campos obrigatórios, senhas iguais, e-mail/CPF repetido).
-// "ignorarId" = conta que está sendo editada (0 em cadastro novo). Na edição a senha é opcional.
+// Valida os dados da conta na EDIÇÃO (campos obrigatórios, senhas iguais, e-mail/CPF repetido). O cadastro não usa isto: é livre.
+// "ignorarId" = conta que está sendo editada. Na edição a senha é opcional.
 // Com VALIDACOES_ATIVAS = false não bloqueia nada.
-export function validarConta(dados: DadosDaConta, ignorarId = 0, exigeSenha = true): Erros {
+export function validarConta(dados: DadosDaConta, ignorarId: number, exigeSenha: boolean): Erros {
   const erros: Erros = {}
   if (!VALIDACOES_ATIVAS) return erros
 
@@ -303,23 +284,14 @@ export function validarConta(dados: DadosDaConta, ignorarId = 0, exigeSenha = tr
 
 export const origensDoPaciente = ['Instagram', 'Indicação', 'Google', 'Anúncio', 'Outro']
 
-// Valida a origem do paciente e o aceite dos termos (quando exigido)
-export function validarOrigemETermos(origem: string, termosAceitos: boolean, exigeTermos: boolean): Erros {
+// Valida a origem do paciente (só na edição: o cadastro é livre)
+export function validarOrigem(origem: string): Erros {
   const erros: Erros = {}
-  if (!VALIDACOES_ATIVAS) return erros
-  if (origem === '') erros.origem = 'Campo obrigatório'
-  if (exigeTermos && !termosAceitos) erros.termos = 'É preciso aceitar os termos de uso para continuar'
+  if (VALIDACOES_ATIVAS && origem === '') erros.origem = 'Campo obrigatório'
   return erros
 }
 
-// Só o aceite dos termos (primeiro acesso)
-export function validarTermos(termosAceitos: boolean): Erros {
-  const erros: Erros = {}
-  if (VALIDACOES_ATIVAS && !termosAceitos) erros.termos = 'É preciso aceitar os termos de uso para continuar'
-  return erros
-}
-
-// Valida os dados profissionais: obrigatórios, duração de 15 a 120 minutos e, no terapeuta, os dados extras
+// Valida os dados profissionais na EDIÇÃO: obrigatórios, duração de 15 a 120 minutos e, no terapeuta, os dados extras
 export function validarProfissional(cargo: Cargo, dados: DadosProfissional): Erros {
   const erros: Erros = {}
   if (!VALIDACOES_ATIVAS) return erros
@@ -341,10 +313,16 @@ export function validarProfissional(cargo: Cargo, dados: DadosProfissional): Err
   return erros
 }
 
+// Duração da consulta: o que foi digitado se estiver entre 15 e 120 minutos; senão 30 (padrão)
+function duracaoOuPadrao(texto: string): number {
+  const duracao = Number(texto)
+  return Number.isInteger(duracao) && duracao >= 15 && duracao <= 120 ? duracao : 30
+}
+
 function montarUsuario(id: number, dados: DadosDaConta, status: StatusConta): Usuario {
   return {
     id,
-    nome: dados.nome.trim(),
+    nome: dados.nome.trim() === '' ? 'Sem nome' : dados.nome.trim(), // cadastro livre: campo vazio recebe um padrão
     cpf: dados.cpf.trim(),
     email: dados.email.trim(),
     senha: dados.senha, // texto puro só porque é protótipo; num sistema real a senha vai para o back-end com hash
@@ -393,8 +371,8 @@ export function criarProfissional(cargo: Cargo, dados: DadosDaConta, extras: Dad
     idUsuario: id,
     cargo,
     numeroRegistro: extras.registro.trim(),
-    especialidade: extras.especialidade.trim(),
-    duracaoConsulta: Number(extras.duracao),
+    especialidade: extras.especialidade.trim() === '' ? 'Clínica geral' : extras.especialidade.trim(),
+    duracaoConsulta: duracaoOuPadrao(extras.duracao),
     ehAdministrador: ehAdmin,
   })
   gravarProfissionais(profissionais)
