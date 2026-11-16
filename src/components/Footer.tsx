@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import logo from '../assets/medpics-logo.png'
+import RedesSociais from './RedesSociais'
 
 interface FooterProps {
   compacto?: boolean // versão menor, usada no login e no cadastro
@@ -20,6 +21,8 @@ function Footer({ compacto = false }: FooterProps) {
               Cannabis Medicinal e Práticas Integrativas e Complementares. Transformando vidas com ciência, cuidado e
               humanização.
             </p>
+            {/* Redes sociais só no rodapé completo (a página inicial) */}
+            {!compacto && <RedesSociais />}
           </div>
 
           <div>
