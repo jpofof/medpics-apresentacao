@@ -3,7 +3,7 @@ import { VALIDACOES_ATIVAS } from '../config'
 import type { Agendamento, Aviso, Disponibilidade } from '../types'
 import { gravarTexto, lerTexto, proximoId } from './armazenamento'
 import { agoraTexto, diaDaSemana, formatarData, hojeTexto, horaParaMinutos, horasAte, minutosParaHora, somarDias } from './datas'
-import { buscarProfissional, nomeDoUsuario, profissionaisAtivos } from './usuarios'
+import { apenasNumeros, buscarProfissional, buscarUsuario, nomeDoUsuario, profissionaisAtivos } from './usuarios'
 import type { Erros } from './usuarios'
 
 // Consulta já com os textos prontos para mostrar em listas e cartões
@@ -417,4 +417,61 @@ export function voltarAtivasAposTermino() {
     }
   }
   if (mudou) gravarDisponibilidades(lista)
+}
+
+// ---------- Agenda e atendimento do profissional (Quadros 10, 12 e 13) ----------
+
+// Consultas do profissional entre duas datas (inclusive), da mais antiga para a mais recente
+export function consultasDoPeriodo(idProfissional: number, de: string, ate: string): Agendamento[] {
+  return agendamentosDoProfissional(idProfissional).filter((a) => a.data >= de && a.data <= ate)
+}
+
+// A consulta já passou do horário? (consulta Agendada nesse caso espera o registro do atendimento)
+export function horarioJaChegou(agendamento: Agendamento): boolean {
+  return agendamento.data + 'T' + agendamento.hora <= agoraTexto()
+}
+
+// Registrar atendimento só é permitido a partir do horário da consulta (regra do Quadro 12).
+export function podeRegistrarAtendimento(agendamento: Agendamento): boolean {
+  if (agendamento.status !== 'Agendada') return false
+  return !VALIDACOES_ATIVAS || horarioJaChegou(agendamento)
+}
+
+// Marca a consulta como Realizada ou Faltou. Não guarda nenhum dado clínico. Devolve '' se deu certo, ou a mensagem de erro.
+export function registrarAtendimento(idAgendamento: number, idProfissional: number, novoStatus: string): string {
+  const lista = lerAgendamentos()
+  const agendamento = lista.find((a) => a.id === idAgendamento)
+  if (!agendamento || agendamento.idProfissional !== idProfissional) return 'Consulta não encontrada'
+  if (novoStatus !== 'Realizada' && novoStatus !== 'Faltou') return 'Escolha Realizada ou Paciente faltou'
+  if (!podeRegistrarAtendimento(agendamento)) return 'O atendimento só pode ser registrado a partir do horário da consulta'
+  agendamento.status = novoStatus
+  gravarAgendamentos(lista)
+  return ''
+}
+
+// Pacientes que já tiveram consulta com o profissional (qualquer status), filtrados por nome ou CPF.
+// Texto vazio devolve todos. Quem nunca teve consulta com ele não aparece (privacidade).
+export function pacientesDoProfissional(idProfissional: number, texto: string): { id: number; nome: string; cpf: string }[] {
+  const nomeBusca = texto.trim().toLowerCase()
+  const cpfBusca = apenasNumeros(texto)
+  const ids: number[] = []
+  for (const consulta of agendamentosDoProfissional(idProfissional)) {
+    if (!ids.includes(consulta.idPaciente)) ids.push(consulta.idPaciente)
+  }
+
+  const pacientes: { id: number; nome: string; cpf: string }[] = []
+  for (const id of ids) {
+    const usuario = buscarUsuario(id)
+    if (usuario === null) continue
+    const achou = nomeBusca === '' || usuario.nome.toLowerCase().includes(nomeBusca) || (cpfBusca !== '' && apenasNumeros(usuario.cpf).includes(cpfBusca))
+    if (achou) pacientes.push({ id: usuario.id, nome: usuario.nome, cpf: usuario.cpf })
+  }
+  return pacientes.sort((x, y) => x.nome.localeCompare(y.nome))
+}
+
+// Todas as consultas do profissional com um paciente, da mais recente para a mais antiga
+export function historicoComPaciente(idProfissional: number, idPaciente: number): Agendamento[] {
+  return agendamentosDoProfissional(idProfissional)
+    .filter((a) => a.idPaciente === idPaciente)
+    .reverse()
 }

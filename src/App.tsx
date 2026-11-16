@@ -20,7 +20,9 @@ import PacienteConsultas from './pages/PacienteConsultas'
 import PacienteHistorico from './pages/PacienteHistorico'
 import PacienteInicio from './pages/PacienteInicio'
 import PrimeiroAcesso from './pages/PrimeiroAcesso'
+import ProfissionalAgenda from './pages/ProfissionalAgenda'
 import ProfissionalDisponibilidade from './pages/ProfissionalDisponibilidade'
+import ProfissionalHistorico from './pages/ProfissionalHistorico'
 import ProfissionalInicio from './pages/ProfissionalInicio'
 
 // Todas as rotas do site. Cada endereço abre uma página da pasta "pages".
@@ -54,6 +56,9 @@ function App() {
       <Route path="/profissional" element={<RotaProtegida area="profissional"><ProfissionalInicio /></RotaProtegida>} />
 
       <Route path="/profissional/disponibilidade" element={<RotaProtegida area="profissional"><ProfissionalDisponibilidade /></RotaProtegida>} />
+
+      <Route path="/profissional/agenda" element={<RotaProtegida area="profissional"><ProfissionalAgenda /></RotaProtegida>} />
+      <Route path="/profissional/historico" element={<RotaProtegida area="profissional"><ProfissionalHistorico /></RotaProtegida>} />
 
       <Route path="/admin" element={<RotaProtegida area="admin"><AdminInicio /></RotaProtegida>} />
       <Route path="/admin/cadastros" element={<RotaProtegida area="admin"><AdminCadastros /></RotaProtegida>} />

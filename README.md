@@ -52,6 +52,11 @@ Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSA
 - Um único `useEffect` em `src/App.tsx` volta a Ativa as disponibilidades cujo período já terminou.
 - A exigência de ter disponibilidade Ativa vale sempre (sem ela não há o que aplicar); as validações de datas só com `VALIDACOES_ATIVAS = true`.
 
+## Agenda, atendimento e histórico do profissional
+- `/profissional/agenda`: consultas do dia ou da semana (botões Anterior, Hoje, Próximo), com paciente, telefone, data, horário e status. Cada profissional vê só a própria agenda. Consulta que já passou e continua "Agendada" fica destacada ("Aguardando registro do atendimento").
+- Registrar "Realizada" ou "Paciente faltou": os botões ficam desabilitados até o horário da consulta chegar; não guarda dado clínico; mensagem "Atendimento registrado com sucesso".
+- `/profissional/historico`: busca por nome ou CPF só acha pacientes que já tiveram consulta com o profissional; mostra todas as consultas dele com o paciente, com o status.
+
 ## Mapa de pastas
 - `src/App.tsx` — rotas. `/paciente`, `/primeiro-acesso`, `/profissional` e `/admin` ficam dentro de `RotaProtegida`. Cadastros: `/cadastro`, `/cadastro/paciente|medico|dentista|terapeuta`. Admin cadastra paciente em `/admin/novo-paciente`.
 - `src/pages` — uma página por arquivo. `src/components` — peças reutilizáveis (layout do painel, campos, botões, navbar...).
