@@ -5,6 +5,7 @@ const telasProntas = [
   '/paciente/agendar',
   '/paciente/consultas',
   '/paciente/historico',
+  '/perfil',
   '/profissional',
   '/profissional/disponibilidade',
   '/profissional/agenda',

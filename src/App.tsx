@@ -19,6 +19,9 @@ import NovoCadastro from './pages/NovoCadastro'
 import PacienteConsultas from './pages/PacienteConsultas'
 import PacienteHistorico from './pages/PacienteHistorico'
 import PacienteInicio from './pages/PacienteInicio'
+import EsqueciSenha from './pages/EsqueciSenha'
+import MeuPerfil from './pages/MeuPerfil'
+import RedefinirSenha from './pages/RedefinirSenha'
 import PrimeiroAcesso from './pages/PrimeiroAcesso'
 import ProfissionalAgenda from './pages/ProfissionalAgenda'
 import ProfissionalDisponibilidade from './pages/ProfissionalDisponibilidade'
@@ -40,6 +43,9 @@ function App() {
       <Route path="/" element={<Inicio />} />
       <Route path="/login" element={<Login />} />
 
+      <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+      <Route path="/redefinir-senha" element={<RedefinirSenha />} />
+
       <Route path="/cadastro" element={<NovoCadastro />} />
       <Route path="/cadastro/paciente" element={<CadastroPaciente />} />
       <Route path="/cadastro/medico" element={<CadastroProfissional perfil="Médico" />} />
@@ -47,6 +53,8 @@ function App() {
       <Route path="/cadastro/terapeuta" element={<CadastroProfissional perfil="Terapeuta" />} />
 
       <Route path="/primeiro-acesso" element={<RotaProtegida area="primeiro-acesso"><PrimeiroAcesso /></RotaProtegida>} />
+
+      <Route path="/perfil" element={<RotaProtegida area="logado"><MeuPerfil /></RotaProtegida>} />
 
       <Route path="/paciente" element={<RotaProtegida area="paciente"><PacienteInicio /></RotaProtegida>} />
       <Route path="/paciente/agendar" element={<RotaProtegida area="paciente"><AgendarConsulta /></RotaProtegida>} />

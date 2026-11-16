@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom'
 import { podeAcessar, primeiroAcessoPendente, telaInicialDo, usuarioLogado } from '../data/usuarios'
 
 interface RotaProtegidaProps {
-  area: string // 'paciente', 'primeiro-acesso', 'profissional' ou 'admin'
+  area: string // 'paciente', 'primeiro-acesso', 'profissional', 'admin' ou 'logado' (qualquer perfil)
   children: ReactNode
 }
 
@@ -14,7 +14,7 @@ function RotaProtegida({ area, children }: RotaProtegidaProps) {
   const usuario = usuarioLogado()
 
   if (usuario === null) return <Navigate to="/login" replace />
-  if (area === 'paciente' && podeAcessar(usuario, 'paciente') && primeiroAcessoPendente(usuario.id)) {
+  if ((area === 'paciente' || area === 'logado') && podeAcessar(usuario, 'paciente') && primeiroAcessoPendente(usuario.id)) {
     return <Navigate to="/primeiro-acesso" replace />
   }
   if (!podeAcessar(usuario, area)) return <Navigate to={telaInicialDo(usuario)} replace />

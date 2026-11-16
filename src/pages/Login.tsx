@@ -81,6 +81,11 @@ function Login() {
               >
                 <Campo id="email" rotulo="Email" tipo="email" placeholder="seu@email.com" valor={email} aoMudar={setEmail} autoComplete="email" />
                 <Campo id="senha" rotulo="Senha" tipo="password" placeholder="••••••••" valor={senha} aoMudar={setSenha} autoComplete="current-password" />
+                <p className="-mt-2 mb-5 text-right text-sm">
+                  <Link to="/esqueci-senha" className="font-semibold text-primary hover:underline">
+                    Esqueci minha senha
+                  </Link>
+                </p>
 
                 <Botao enviar larguraTotal>
                   Entrar

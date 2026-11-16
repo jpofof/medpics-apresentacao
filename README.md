@@ -61,6 +61,11 @@ Para recomeçar do zero: apague os dados do site no navegador, ou aumente `VERSA
 - `/profissional/relatorios`: Consultas por período, Faltas e cancelamentos e Atendimentos por profissional, com filtros Período e Profissional, totais e tabela que vira cartões no celular (sem gráficos nem exportação). Sem resultado: "Nenhum registro encontrado para os filtros selecionados".
 - Visibilidade (só o cargo conta, ser administrador não muda): Terapeuta vê só os próprios; Médico e Dentista veem os próprios e os dos Terapeutas, nunca um do outro. O filtro de profissional lista só quem o usuário pode ver (`profissionaisVisiveis` em `src/data/relatorios.ts`).
 
+## Redefinir senha e meu perfil
+- `/esqueci-senha` (link "Esqueci minha senha" no login): pede o e-mail e mostra "Se o e-mail estiver cadastrado, você receberá um link para redefinir a senha". Não há e-mail real: se a conta existe, o link aparece na tela como "e-mail simulado", válido por 15 minutos e de uso único.
+- `/redefinir-senha?codigo=...`: nova senha + confirmação. "As senhas não coincidem", "Senha redefinida com sucesso" e, com link vencido ou já usado, orientação para nova solicitação.
+- `/perfil` (todos os perfis): Nome, Telefone, E-mail, Endereço e Senha com confirmação. "E-mail já cadastrado" e "Alteração efetuada com sucesso". CPF, nascimento e cargo só aparecem para consulta. Código em `src/data/senha.ts`.
+
 ## Mapa de pastas
 - `src/App.tsx` — rotas. `/paciente`, `/primeiro-acesso`, `/profissional` e `/admin` ficam dentro de `RotaProtegida`. Cadastros: `/cadastro`, `/cadastro/paciente|medico|dentista|terapeuta`. Admin cadastra paciente em `/admin/novo-paciente`.
 - `src/pages` — uma página por arquivo. `src/components` — peças reutilizáveis (layout do painel, campos, botões, navbar...).

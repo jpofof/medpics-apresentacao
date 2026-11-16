@@ -195,6 +195,7 @@ export function telaInicialDo(usuario: Usuario): string {
 
 // "area" é o início da rota: 'paciente', 'primeiro-acesso', 'profissional' ou 'admin'
 export function podeAcessar(usuario: Usuario, area: string): boolean {
+  if (area === 'logado') return true // qualquer pessoa logada (ex.: /perfil)
   if (area === 'paciente') return buscarPaciente(usuario.id) !== null
   if (area === 'primeiro-acesso') return primeiroAcessoPendente(usuario.id)
   if (area === 'profissional') return buscarProfissional(usuario.id) !== null
