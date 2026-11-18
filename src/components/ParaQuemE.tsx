@@ -12,7 +12,7 @@ const beneficios: string[] = [
 
 function ParaQuemE() {
   return (
-    <section id="para-quem" className="scroll-mt-20 bg-fundo py-16 md:py-24">
+    <section id="para-quem-e" className="scroll-mt-20 bg-fundo py-16 md:py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 lg:grid-cols-[7fr_5fr] lg:gap-16">
         <div>
           <p className="mb-5 text-pequeno font-bold uppercase tracking-[0.2em] text-verde-cta">Para Quem É</p>

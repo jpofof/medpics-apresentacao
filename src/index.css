@@ -29,7 +29,7 @@
   --text-titulo-grande--line-height: 1.15;
 
   /* Fonte única do projeto: para trocar, mude só esta linha (e o link no index.html) */
-  --breakpoint-menu: 1400px; /* menu do topo em uma linha só a partir daqui; antes disso, botão ☰ */
+  --breakpoint-menu: 1280px; /* menu do topo em uma linha só a partir daqui; antes disso, botão ☰ */
 
   --font-sans: "Nunito Sans", system-ui, sans-serif;
 }

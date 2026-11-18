@@ -42,7 +42,7 @@ function ComeceHoje() {
             Criar conta grátis
           </Link>
           <a
-            href="#para-quem"
+            href="#para-quem-e"
             className="inline-flex min-h-14 items-center gap-2 rounded-full border-2 border-fundo px-8 py-3.5 text-botao font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-fundo/85 hover:bg-fundo/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fundo active:translate-y-0"
           >
             <img src={balaoIcone} alt="" className="h-[17px] w-[17px]" />
