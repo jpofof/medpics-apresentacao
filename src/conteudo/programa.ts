@@ -15,7 +15,7 @@ export const programas: ProgramaItem[] = [
     imagem: integrativoSemanal,
     titulo: 'Acompanhamento Integrativo Semanal',
     descricao: 'Sessões individuais de meditação, acupuntura e fitoterapia.',
-    detalhe: 'O prescritor indica quais práticas integrativas podem contribuir, em sessões semanais ou quinzenais.',
+    detalhe: 'O médico indica quais práticas integrativas podem contribuir, em sessões semanais ou quinzenais.',
   },
   {
     imagem: praticasIntegrativas,
@@ -28,6 +28,6 @@ export const programas: ProgramaItem[] = [
     imagem: acompanhamentoSemana,
     titulo: 'Acompanhamento Semanal Cannabis Medicinal',
     descricao: 'Acompanhamento semanal com ajuste de dosagem.',
-    detalhe: 'A equipe acompanha sua evolução, esclarece dúvidas e conversa com o prescritor sempre que necessário.',
+    detalhe: 'A equipe acompanha sua evolução, esclarece dúvidas e conversa com o médico sempre que necessário.',
   },
 ]
