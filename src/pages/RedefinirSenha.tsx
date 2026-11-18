@@ -28,7 +28,7 @@ function RedefinirSenha() {
       {pronto && (
         <div className="flex flex-col gap-4">
           <Mensagem>Senha redefinida com sucesso</Mensagem>
-          <Link to="/login" className="font-semibold text-verde-cta hover:underline">
+          <Link to="/login" className="inline-flex min-h-11 items-center font-semibold text-verde-cta hover:underline">
             Ir para o login
           </Link>
         </div>
@@ -37,7 +37,7 @@ function RedefinirSenha() {
       {!pronto && erroDoLink !== '' && (
         <div className="flex flex-col gap-4">
           <Mensagem tipo="erro">{erroDoLink}</Mensagem>
-          <Link to="/esqueci-senha" className="font-semibold text-verde-cta hover:underline">
+          <Link to="/esqueci-senha" className="inline-flex min-h-11 items-center font-semibold text-verde-cta hover:underline">
             Solicitar um novo link
           </Link>
         </div>

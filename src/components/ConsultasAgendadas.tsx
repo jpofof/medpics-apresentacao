@@ -71,7 +71,7 @@ function ConsultasAgendadas({ idPaciente, aoMudar }: ConsultasAgendadasProps) {
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                   <div className="min-w-0 flex-1 basis-44">
                     <strong className="block break-words text-[15px] text-escuro">{consulta.titulo}</strong>
-                    <span className="block break-words text-[13px] text-marrom opacity-80">{consulta.detalhe}</span>
+                    <span className="block break-words text-[13px] text-marrom">{consulta.detalhe}</span>
                   </div>
                   <div className="text-[13px] text-marrom">
                     <p className="font-semibold">{formatarData(consulta.data)}</p>

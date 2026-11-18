@@ -152,7 +152,7 @@ function AdminUsuarios() {
                     <div className="min-w-0 flex-1 basis-56">
                       <strong className="block break-words text-[15px] text-escuro">{usuario.nome}</strong>
                       <span className="block break-words text-[13px] text-marrom">{descricaoDoPerfil(usuario.id)}</span>
-                      <span className="block break-words text-[12px] text-marrom opacity-75">
+                      <span className="block break-words text-[12px] text-marrom">
                         {usuario.email} · cadastro em {formatarData(usuario.cadastro)}
                       </span>
                     </div>

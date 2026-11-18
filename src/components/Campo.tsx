@@ -1,3 +1,4 @@
+import MensagemDoCampo from './MensagemDoCampo'
 interface CampoProps {
   id: string
   rotulo: string
@@ -25,14 +26,10 @@ function Campo({ id, rotulo, tipo = 'text', placeholder, valor, aoMudar, autoCom
         aria-invalid={erro ? true : undefined}
         onChange={(e) => aoMudar && aoMudar(e.target.value)}
         className={`h-[54px] w-full rounded-xl border-[1.5px] bg-fundo px-4 text-sm text-escuro transition-colors duration-200 placeholder:text-marrom hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-leve/60 ${
-          erro ? 'border-marrom' : 'border-marrom-claro'
+          erro ? 'border-erro border-2' : 'border-marrom-claro'
         }`}
       />
-      {erro && (
-        <p role="alert" className="mt-1 text-xs text-marrom">
-          {erro}
-        </p>
-      )}
+      {erro && <MensagemDoCampo texto={erro} />}
     </div>
   )
 }

@@ -7,9 +7,9 @@ interface FooterProps {
 }
 
 function Footer({ compacto = false }: FooterProps) {
-  const linkClasse = `${compacto ? 'text-xs' : 'text-sm'} text-fundo transition-colors duration-200 hover:text-verde-leve focus-visible:outline-2 focus-visible:outline-verde-leve`
+  const linkClasse = `inline-flex min-h-11 items-center ${compacto ? 'text-xs' : 'text-sm'} text-fundo transition-colors duration-200 hover:text-verde-leve focus-visible:outline-2 focus-visible:outline-verde-leve`
   const tituloClasse = `${compacto ? 'mb-2 text-xs' : 'mb-4 text-sm'} font-semibold tracking-wider text-verde-leve`
-  const listaClasse = `flex flex-col ${compacto ? 'gap-1.5' : 'gap-3'}`
+  const listaClasse = `flex flex-col ${compacto ? 'gap-0' : 'gap-1'}`
 
   return (
     <footer className={`bg-escuro text-fundo ${compacto ? 'pb-3 pt-6' : 'pb-4 pt-12'}`}>

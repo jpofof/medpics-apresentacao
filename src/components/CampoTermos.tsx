@@ -1,3 +1,4 @@
+import MensagemDoCampo from './MensagemDoCampo'
 interface CampoTermosProps {
   aceito: boolean
   aoMudar: (aceito: boolean) => void
@@ -18,11 +19,7 @@ function CampoTermos({ aceito, aoMudar, texto = 'Aceito os Termos de Uso e a Pol
         />
         <span>{texto}</span>
       </label>
-      {erro && (
-        <p role="alert" className="mt-1 text-xs text-marrom">
-          {erro}
-        </p>
-      )}
+      {erro && <MensagemDoCampo texto={erro} />}
     </div>
   )
 }

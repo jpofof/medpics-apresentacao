@@ -73,7 +73,7 @@ function NovoCadastro() {
 
               <p className="mt-6 text-center text-sm text-marrom">
                 Já tenho conta.{' '}
-                <Link to="/login" className="font-semibold text-verde-cta hover:underline">
+                <Link to="/login" className="inline-flex min-h-11 items-center font-semibold text-verde-cta hover:underline">
                   Fazer login
                 </Link>
               </p>

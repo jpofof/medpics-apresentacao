@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { avisosDoPaciente, dispensarAviso } from '../data/agenda'
 import { formatarDataHora } from '../data/datas'
 import Botao from './Botao'
+import IconeSimbolo from './IconeSimbolo'
 
 interface AvisosDoPacienteProps {
   idPaciente: number
@@ -17,9 +18,12 @@ function AvisosDoPaciente({ idPaciente }: AvisosDoPacienteProps) {
   return (
     <section aria-label="Avisos" className="flex flex-col gap-3" data-dispensados={dispensados}>
       {avisos.map((aviso) => (
-        <div key={aviso.id} role="status" className="flex flex-col gap-3 rounded-2xl border border-marrom/30 bg-marrom/10 p-4 sm:flex-row sm:items-center">
+        <div key={aviso.id} role="status" className="flex flex-col gap-3 rounded-2xl border-2 border-erro bg-fundo p-4 sm:flex-row sm:items-center">
+          <span className="text-erro">
+            <IconeSimbolo nome="alerta" className="h-6 w-6" />
+          </span>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-marrom">Consulta cancelada</p>
+            <p className="text-sm font-bold text-erro">Consulta cancelada</p>
             <p className="break-words text-sm text-escuro">{aviso.texto}</p>
             <p className="mt-1 text-xs text-marrom">{formatarDataHora(aviso.criadoEm)}</p>
           </div>

@@ -13,6 +13,9 @@
   --color-marrom: #6e5a4f;
   --color-marrom-claro: #9f8675;
 
+  /* ÚNICA exceção à paleta: vermelho funcional só para erro e status negativo */
+  --color-erro: #b3261e;
+
   /* Fonte única do projeto: para trocar, mude só esta linha (e o link no index.html) */
   --font-sans: "Nunito Sans", system-ui, sans-serif;
 }

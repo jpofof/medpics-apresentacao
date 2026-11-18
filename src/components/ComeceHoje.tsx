@@ -22,7 +22,7 @@ function ComeceHoje() {
   return (
     <section
       id="comece-hoje"
-      className="scroll-mt-20 bg-verde-cta py-20 text-center md:py-28"
+      className="scroll-mt-20 bg-linear-to-br from-verde-cta to-escuro py-20 text-center md:py-28"
     >
       <div className="mx-auto max-w-4xl px-5">
         <p className="mb-6 text-[11.5px] uppercase tracking-[0.22em] text-white">Comece hoje</p>

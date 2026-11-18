@@ -1,19 +1,33 @@
 import type { ReactNode } from 'react'
+import IconeSimbolo from './IconeSimbolo'
 
 interface MensagemProps {
-  tipo?: string // "sucesso" (padrão) ou "erro"
+  tipo?: string // "sucesso" (padrão), "erro" ou "aviso"
   children: ReactNode
 }
 
-// Faixa de aviso: verde para sucesso, marrom para erro
+// Caixa de mensagem: sempre com ícone e texto (a cor nunca é a única pista)
 function Mensagem({ tipo = 'sucesso', children }: MensagemProps) {
-  const ehErro = tipo === 'erro'
+  let cores = 'border-verde-cta bg-verde-leve'
+  let corIcone = 'text-verde-cta'
+  let icone = 'check'
+  if (tipo === 'erro') {
+    cores = 'border-erro bg-fundo'
+    corIcone = 'text-erro'
+    icone = 'alerta'
+  }
+  if (tipo === 'aviso') {
+    cores = 'border-verde-medio bg-bege'
+    corIcone = 'text-escuro'
+    icone = 'info'
+  }
+
   return (
-    <div
-      role={ehErro ? 'alert' : 'status'}
-      className={`rounded-xl border px-4 py-3 text-sm ${ehErro ? 'border-marrom/40 bg-marrom/10 text-marrom' : 'border-verde-cta/40 bg-verde-cta/10 text-verde-cta'}`}
-    >
-      {children}
+    <div role={tipo === 'erro' ? 'alert' : 'status'} className={`flex items-start gap-3 rounded-xl border-2 px-4 py-3 text-sm font-bold text-escuro ${cores}`}>
+      <span className={`mt-0.5 ${corIcone}`}>
+        <IconeSimbolo nome={icone} />
+      </span>
+      <div>{children}</div>
     </div>
   )
 }

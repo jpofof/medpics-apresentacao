@@ -21,7 +21,7 @@ function PainelLateral({ corFundo, titulo, texto, beneficios, rodape }: PainelLa
       <img src={folha} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-30" />
 
       <div className="relative border-b border-fundo/10 px-6 py-5 lg:px-8 lg:py-8">
-        <Link to="/" className="inline-block rounded-lg focus-visible:outline-2 focus-visible:outline-fundo">
+        <Link to="/" className="inline-flex min-h-11 items-center rounded-lg focus-visible:outline-2 focus-visible:outline-fundo">
           <img src={logo} alt="MedPics - voltar ao início" className="w-40 lg:w-52" />
         </Link>
       </div>

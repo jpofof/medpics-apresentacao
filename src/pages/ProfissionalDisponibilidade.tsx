@@ -80,7 +80,7 @@ function ProfissionalDisponibilidade() {
                     {bloco.horaInicio} às {bloco.horaFim}
                   </span>
                   {bloco.inicioBloqueio !== '' && (
-                    <span className="block text-[12px] text-marrom opacity-80">
+                    <span className="block text-[12px] text-marrom">
                       de {formatarData(bloco.inicioBloqueio)} até {formatarData(bloco.fimBloqueio)}
                     </span>
                   )}

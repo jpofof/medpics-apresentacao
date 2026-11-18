@@ -23,7 +23,7 @@ function ListaConsultas({ consultas, mensagemVazia }: ListaConsultasProps) {
           </div>
           <div className="min-w-0 flex-1 basis-40">
             <strong className="block break-words text-[15px] text-escuro">{consulta.titulo}</strong>
-            {consulta.detalhe && <span className="block break-words text-[13px] text-marrom opacity-80">{consulta.detalhe}</span>}
+            {consulta.detalhe && <span className="block break-words text-[13px] text-marrom">{consulta.detalhe}</span>}
           </div>
           <EtiquetaStatus texto={consulta.status} />
         </li>

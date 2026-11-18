@@ -39,7 +39,7 @@ function ProfissionalInicio() {
         subtitulo={profissional.cargo + ' · ' + profissional.especialidade + ' · ' + formatarData(hoje)}
       />
 
-      {!temDisponibilidade(usuario.id) && <Mensagem tipo="erro">Cadastre sua disponibilidade para receber agendamentos.</Mensagem>}
+      {!temDisponibilidade(usuario.id) && <Mensagem tipo="aviso">Cadastre sua disponibilidade para receber agendamentos.</Mensagem>}
 
       <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
         <CartaoIndicador numero={deHoje.length} texto="Consultas hoje" icone={agendamentosIcone} />

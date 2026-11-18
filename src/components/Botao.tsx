@@ -13,7 +13,7 @@ function Botao({ children, variante = 'primario', enviar = false, desabilitado =
     cores = 'bg-fundo text-verde-cta border border-escuro/10 hover:bg-verde-cta hover:text-white active:bg-escuro'
   }
   if (variante === 'perigo') {
-    cores = 'bg-fundo text-marrom border border-marrom/40 hover:bg-marrom hover:text-fundo active:bg-marrom/80'
+    cores = 'bg-fundo text-erro font-bold border-2 border-erro hover:bg-erro hover:text-fundo active:bg-erro'
   }
 
   return (

@@ -82,7 +82,7 @@ function Login() {
                 <Campo id="email" rotulo="Email" tipo="email" placeholder="seu@email.com" valor={email} aoMudar={setEmail} autoComplete="email" />
                 <Campo id="senha" rotulo="Senha" tipo="password" placeholder="••••••••" valor={senha} aoMudar={setSenha} autoComplete="current-password" />
                 <p className="-mt-2 mb-5 text-right text-sm">
-                  <Link to="/esqueci-senha" className="font-semibold text-verde-cta hover:underline">
+                  <Link to="/esqueci-senha" className="inline-flex min-h-11 items-center font-semibold text-verde-cta hover:underline">
                     Esqueci minha senha
                   </Link>
                 </p>
@@ -112,7 +112,7 @@ function Login() {
 
               <p className="mt-8 border-t border-marrom-claro pt-6 text-center text-sm text-marrom">
                 Ainda não tem conta?{' '}
-                <Link to="/cadastro" className="font-semibold text-verde-cta hover:underline">
+                <Link to="/cadastro" className="inline-flex min-h-11 items-center font-semibold text-verde-cta hover:underline">
                   Cadastre-se
                 </Link>
               </p>
