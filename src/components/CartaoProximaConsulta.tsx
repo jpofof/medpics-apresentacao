@@ -18,7 +18,7 @@ const classeDoBotao =
 function CartaoProximaConsulta({ consulta, rotuloBotao, destinoBotao, mensagemVazia, rotuloVazio, destinoVazio }: CartaoProximaConsultaProps) {
   return (
     <section className="flex flex-col justify-center gap-3 rounded-2xl bg-verde-cta p-6 text-white lg:px-8">
-      <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-verde-leve">Próxima consulta</p>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-white">Próxima consulta</p>
       {consulta ? (
         <>
           <h3 className="break-words text-[24px] font-semibold leading-tight">{consulta.titulo}</h3>
