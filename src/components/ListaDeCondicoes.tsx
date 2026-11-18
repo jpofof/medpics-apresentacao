@@ -1,16 +1,17 @@
 import { condicoes } from '../conteudo/condicoes'
 
-// Lista das condições acompanhadas (mesma lista e mesma ordem na página inicial e em /cannabis-medicinal)
+// Lista das condições acompanhadas (mesma lista e mesma ordem na página inicial e em /cannabis-medicinal).
+// Caixas todas do mesmo tamanho: colunas iguais e linhas com a mesma altura.
 function ListaDeCondicoes() {
   return (
-    <ul className="grid gap-3 sm:grid-cols-2">
+    <ul className="grid auto-rows-fr grid-cols-1 gap-3 min-[480px]:grid-cols-2 min-[1024px]:grid-cols-4">
       {condicoes.map((condicao) => (
         <li
           key={condicao.nome}
-          className="flex items-center gap-3.5 rounded-3xl border-2 border-verde-medio bg-fundo px-5 py-4"
+          className="flex h-full min-h-24 flex-col items-center justify-center gap-2 rounded-3xl border-2 border-verde-medio bg-fundo p-4 text-center"
         >
           <img src={condicao.icone} alt="" className="h-10 w-10 shrink-0" />
-          <span className="text-corpo text-escuro">{condicao.nome}</span>
+          <span className="break-words text-corpo text-escuro">{condicao.nome}</span>
         </li>
       ))}
     </ul>
