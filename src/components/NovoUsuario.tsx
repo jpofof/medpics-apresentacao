@@ -39,8 +39,8 @@ function NovoUsuario({ aoConcluir, aoCancelar }: NovoUsuarioProps) {
     setEtapa(2)
   }
 
-  const classeDaCaixa = 'flex min-h-11 cursor-pointer items-center gap-3 text-sm text-texto'
-  const classeDoCheckbox = 'h-5 w-5 shrink-0 cursor-pointer accent-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary'
+  const classeDaCaixa = 'flex min-h-11 cursor-pointer items-center gap-3 text-sm text-escuro'
+  const classeDoCheckbox = 'h-5 w-5 shrink-0 cursor-pointer accent-verde-cta focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta'
 
   if (etapa === 2) {
     return (

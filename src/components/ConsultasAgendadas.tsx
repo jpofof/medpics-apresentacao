@@ -59,7 +59,7 @@ function ConsultasAgendadas({ idPaciente, aoMudar }: ConsultasAgendadasProps) {
 
       {agendadas.length === 0 ? (
         <div className="py-6 text-center">
-          <p className="mb-1 font-titulo text-2xl text-texto">Nenhuma consulta agendada</p>
+          <p className="mb-1 text-2xl text-escuro">Nenhuma consulta agendada</p>
           <p className="text-sm text-marrom">Quando houver uma consulta marcada, ela aparece aqui.</p>
         </div>
       ) : (
@@ -67,14 +67,14 @@ function ConsultasAgendadas({ idPaciente, aoMudar }: ConsultasAgendadasProps) {
           {agendadas.map((agendamento) => {
             const consulta = resumoParaPaciente(agendamento)
             return (
-              <li key={agendamento.id} className="rounded-[18px] border border-black/5 bg-[#f7f5f0] px-4 py-4">
+              <li key={agendamento.id} className="rounded-[18px] border border-escuro/5 bg-bege px-4 py-4">
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                   <div className="min-w-0 flex-1 basis-44">
-                    <strong className="block break-words text-[15px] text-texto">{consulta.titulo}</strong>
+                    <strong className="block break-words text-[15px] text-escuro">{consulta.titulo}</strong>
                     <span className="block break-words text-[13px] text-marrom opacity-80">{consulta.detalhe}</span>
                   </div>
                   <div className="text-[13px] text-marrom">
-                    <p className="font-medium">{formatarData(consulta.data)}</p>
+                    <p className="font-semibold">{formatarData(consulta.data)}</p>
                     <p className="opacity-75">{consulta.hora}</p>
                   </div>
                   <EtiquetaStatus texto={consulta.status} />

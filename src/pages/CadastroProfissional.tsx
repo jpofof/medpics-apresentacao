@@ -41,7 +41,7 @@ function CadastroProfissional({ perfil }: CadastroProfissionalProps) {
       <main className="flex flex-1 flex-col">
         <div className="grid flex-1 lg:grid-cols-[1fr_3fr]">
           <PainelLateral
-            corFundo="bg-texto"
+            corFundo="bg-escuro"
             titulo="Faça parte da equipe MedPics"
             texto="Junte-se à nossa rede de profissionais dedicados à cannabis medicinal e práticas integrativas."
             beneficios={[
@@ -54,10 +54,10 @@ function CadastroProfissional({ perfil }: CadastroProfissionalProps) {
 
           <section className="flex items-start bg-fundo lg:items-center">
             <div className="mx-auto w-full max-w-2xl px-6 py-12 sm:px-12 lg:py-16">
-              <Link to="/cadastro" className="mb-4 inline-block text-sm text-marrom hover:text-primary hover:underline">
+              <Link to="/cadastro" className="mb-4 inline-block text-sm text-marrom hover:text-verde-cta hover:underline">
                 ← Escolher outro perfil
               </Link>
-              <h2 className="mb-2 font-titulo text-[40px] leading-tight text-primary">Cadastro: {perfil}</h2>
+              <h2 className="mb-2 text-[40px] leading-tight text-verde-cta">Cadastro: {perfil}</h2>
               <p className="mb-8 text-sm text-marrom">
                 Preencha seus dados. O cadastro fica aguardando a aprovação do administrador.
               </p>
@@ -80,7 +80,7 @@ function CadastroProfissional({ perfil }: CadastroProfissionalProps) {
 
               <p className="mt-6 text-center text-sm text-marrom">
                 Já tenho conta.{' '}
-                <Link to="/login" className="font-semibold text-primary hover:underline">
+                <Link to="/login" className="font-semibold text-verde-cta hover:underline">
                   Fazer login
                 </Link>
               </p>

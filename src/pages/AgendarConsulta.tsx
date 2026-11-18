@@ -20,7 +20,7 @@ function AgendarConsulta() {
         </Cartao>
         <p className="mt-4 text-sm text-marrom">
           Veja suas consultas em{' '}
-          <Link to="/paciente/consultas" className="inline-flex min-h-11 items-center font-semibold text-primary hover:underline">
+          <Link to="/paciente/consultas" className="inline-flex min-h-11 items-center font-semibold text-verde-cta hover:underline">
             Minhas consultas
           </Link>
           .

@@ -39,7 +39,7 @@ function RedesSociais() {
             rel="noopener noreferrer"
             aria-label={rede.rotulo}
             title={rede.nome}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-fundo-2/30 text-fundo transition-colors duration-200 hover:border-verde-suave hover:text-verde-suave focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-suave active:bg-white/10"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-bege/30 text-fundo transition-colors duration-200 hover:border-verde-leve hover:text-verde-leve focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-leve active:bg-fundo/10"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
               <path d={rede.desenho} />

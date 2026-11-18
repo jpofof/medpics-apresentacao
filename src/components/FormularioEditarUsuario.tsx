@@ -80,12 +80,12 @@ function FormularioEditarUsuario({ idUsuario, aoConcluir, aoCancelar }: Formular
         <>
           <p className="mb-2 text-sm text-marrom">Cargo: {profissional.cargo} (não pode ser alterado depois do cadastro)</p>
           <CamposProfissionais cargo={profissional.cargo} dados={extras} aoMudar={mudarExtras} erros={erros} />
-          <label className="mb-5 flex min-h-11 cursor-pointer items-center gap-3 text-sm text-texto">
+          <label className="mb-5 flex min-h-11 cursor-pointer items-center gap-3 text-sm text-escuro">
             <input
               type="checkbox"
               checked={ehAdmin}
               onChange={(e) => setEhAdmin(e.target.checked)}
-              className="h-5 w-5 shrink-0 cursor-pointer accent-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              className="h-5 w-5 shrink-0 cursor-pointer accent-verde-cta focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta"
             />
             Administrador (permissão adicional)
           </label>

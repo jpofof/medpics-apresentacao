@@ -10,7 +10,7 @@ interface MiniCalendarioProps {
 const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
 const classeDoBotaoSeta =
-  'h-11 w-11 rounded-full border border-black/10 text-lg text-marrom transition-colors duration-200 hover:bg-fundo-2 focus-visible:outline-2 focus-visible:outline-primary active:bg-fundo-2'
+  'h-11 w-11 rounded-full border border-escuro/10 text-lg text-marrom transition-colors duration-200 hover:bg-bege focus-visible:outline-2 focus-visible:outline-verde-cta active:bg-bege'
 
 // Calendário do mês com os dias que têm consulta marcados
 function MiniCalendario({ diasMarcados, legenda }: MiniCalendarioProps) {
@@ -41,7 +41,7 @@ function MiniCalendario({ diasMarcados, legenda }: MiniCalendarioProps) {
   return (
     <Cartao>
       <div className="mb-4 flex items-center justify-between gap-2">
-        <h3 className="font-titulo text-[17px] text-texto">
+        <h3 className="text-[17px] text-escuro">
           {meses[mes]} {ano}
         </h3>
         <div className="flex gap-2">
@@ -56,7 +56,7 @@ function MiniCalendario({ diasMarcados, legenda }: MiniCalendarioProps) {
 
       <div className="grid grid-cols-7 gap-y-1 text-center text-[12px]">
         {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((letra, indice) => (
-          <span key={indice} className="py-1 font-semibold text-marrom-claro">
+          <span key={indice} className="py-1 font-semibold text-marrom">
             {letra}
           </span>
         ))}
@@ -66,10 +66,10 @@ function MiniCalendario({ diasMarcados, legenda }: MiniCalendarioProps) {
               <span
                 className={`flex h-8 w-8 items-center justify-center rounded-full ${
                   diasMarcados.includes(textoDoDia(dia))
-                    ? 'bg-primary font-semibold text-white'
+                    ? 'bg-verde-cta font-semibold text-white'
                     : textoDoDia(dia) === hoje
-                      ? 'border border-marrom-claro text-texto'
-                      : 'text-texto'
+                      ? 'border border-marrom-claro text-escuro'
+                      : 'text-escuro'
                 }`}
               >
                 {dia}
@@ -79,9 +79,9 @@ function MiniCalendario({ diasMarcados, legenda }: MiniCalendarioProps) {
         ))}
       </div>
 
-      <hr className="my-4 border-fundo-2" />
+      <hr className="my-4 border-bege" />
       <p className="flex items-center gap-2 text-[12px] text-marrom">
-        <span className="h-2.5 w-2.5 rounded-full bg-primary" /> {legenda}
+        <span className="h-2.5 w-2.5 rounded-full bg-verde-cta" /> {legenda}
       </p>
     </Cartao>
   )

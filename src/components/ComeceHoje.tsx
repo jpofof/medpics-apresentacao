@@ -22,16 +22,16 @@ function ComeceHoje() {
   return (
     <section
       id="comece-hoje"
-      className="scroll-mt-20 bg-[#5a6a4e] bg-[radial-gradient(ellipse_38%_38%_at_98%_2%,rgba(160,180,140,0.22)_0%,transparent_70%),radial-gradient(ellipse_38%_38%_at_2%_98%,rgba(160,180,140,0.18)_0%,transparent_70%)] py-20 text-center md:py-28"
+      className="scroll-mt-20 bg-verde-cta py-20 text-center md:py-28"
     >
       <div className="mx-auto max-w-4xl px-5">
-        <p className="mb-6 text-[11.5px] uppercase tracking-[0.22em] text-white/55">Comece hoje</p>
-        <h2 className="mb-6 font-titulo text-[clamp(2.2rem,5vw,3.4rem)] font-normal leading-[1.18] text-white">
+        <p className="mb-6 text-[11.5px] uppercase tracking-[0.22em] text-white">Comece hoje</p>
+        <h2 className="mb-6 text-[clamp(2.2rem,5vw,3.4rem)] font-normal leading-[1.18] text-white">
           Sua transformação começa com
           <br />
-          um <em className="text-white/70">primeiro passo</em>
+          um <em className="text-white">primeiro passo</em>
         </h2>
-        <p className="mx-auto mb-11 max-w-xl text-[15.5px] font-light leading-relaxed text-white/70">
+        <p className="mx-auto mb-11 max-w-xl text-[15.5px] font-normal leading-relaxed text-white">
           Junte-se aos pacientes que encontraram equilíbrio, alívio e qualidade de vida com o acompanhamento
           especializado da MedPics.
         </p>
@@ -39,14 +39,14 @@ function ComeceHoje() {
         <div className="mb-12 flex flex-wrap items-center justify-center gap-4">
           <Link
             to="/cadastro"
-            className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-[15px] font-medium text-texto shadow-[0_4px_20px_rgba(0,0,0,0.12)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-fundo hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:translate-y-0"
+            className="inline-flex items-center gap-2 rounded-full bg-fundo px-8 py-3.5 text-[15px] font-semibold text-escuro shadow-lg shadow-escuro/15 transition-all duration-200 hover:-translate-y-0.5 hover:bg-fundo hover:text-verde-cta focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fundo active:translate-y-0"
           >
             <img src={usuarioIcone} alt="" className="h-[17px] w-[17px]" />
             Criar minha conta gratuitamente
           </Link>
           <a
             href="#para-quem"
-            className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-white/45 px-8 py-3.5 text-[15px] text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-white/85 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:translate-y-0"
+            className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-fundo/45 px-8 py-3.5 text-[15px] text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-fundo/85 hover:bg-fundo/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fundo active:translate-y-0"
           >
             <img src={balaoIcone} alt="" className="h-[17px] w-[17px]" />
             Falar com especialista
@@ -55,7 +55,7 @@ function ComeceHoje() {
 
         <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
           {selos.map((selo) => (
-            <li key={selo.texto} className="inline-flex items-center gap-2 text-[13px] font-light text-white/60">
+            <li key={selo.texto} className="inline-flex items-center gap-2 text-[13px] font-normal text-white">
               <img src={selo.icone} alt="" className="h-4 w-4 opacity-65" />
               {selo.texto}
             </li>

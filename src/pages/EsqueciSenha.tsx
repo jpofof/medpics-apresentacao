@@ -36,10 +36,10 @@ function EsqueciSenha() {
         <div className="mt-6 flex flex-col gap-4">
           <Mensagem>Se o e-mail estiver cadastrado, você receberá um link para redefinir a senha</Mensagem>
           {codigo !== '' && (
-            <div className="rounded-xl border border-dashed border-marrom-claro bg-fundo-2/40 p-4 text-sm text-marrom">
-              <p className="mb-1 font-semibold text-texto">E-mail simulado (só na demonstração)</p>
+            <div className="rounded-xl border border-dashed border-marrom-claro bg-bege/40 p-4 text-sm text-marrom">
+              <p className="mb-1 font-semibold text-escuro">E-mail simulado (só na demonstração)</p>
               <p className="mb-2">O link abaixo vale por 15 minutos:</p>
-              <Link to={'/redefinir-senha?codigo=' + codigo} className="break-all font-semibold text-primary hover:underline">
+              <Link to={'/redefinir-senha?codigo=' + codigo} className="break-all font-semibold text-verde-cta hover:underline">
                 Redefinir minha senha
               </Link>
             </div>
@@ -47,8 +47,8 @@ function EsqueciSenha() {
         </div>
       )}
 
-      <p className="mt-8 border-t border-borda pt-6 text-center text-sm text-marrom">
-        <Link to="/login" className="font-semibold text-primary hover:underline">
+      <p className="mt-8 border-t border-marrom-claro pt-6 text-center text-sm text-marrom">
+        <Link to="/login" className="font-semibold text-verde-cta hover:underline">
           ← Voltar para o login
         </Link>
       </p>

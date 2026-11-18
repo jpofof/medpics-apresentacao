@@ -18,10 +18,10 @@ function ConsultaDaAgenda({ consulta, aoRegistrar }: ConsultaDaAgendaProps) {
   const podeRegistrar = podeRegistrarAtendimento(consulta)
 
   return (
-    <li className={`rounded-[18px] border px-4 py-3 ${esperandoRegistro ? 'border-marrom-claro bg-fundo-2' : 'border-black/5 bg-[#f7f5f0]'}`}>
+    <li className={`rounded-[18px] border px-4 py-3 ${esperandoRegistro ? 'border-marrom-claro bg-bege' : 'border-escuro/5 bg-bege'}`}>
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
         <div className="min-w-0 flex-1 basis-48">
-          <strong className="block break-words text-[15px] text-texto">{paciente === null ? 'Paciente' : paciente.nome}</strong>
+          <strong className="block break-words text-[15px] text-escuro">{paciente === null ? 'Paciente' : paciente.nome}</strong>
           <span className="block break-words text-[13px] text-marrom">
             {formatarData(consulta.data)} às {consulta.hora}
           </span>
@@ -29,7 +29,7 @@ function ConsultaDaAgenda({ consulta, aoRegistrar }: ConsultaDaAgendaProps) {
         </div>
         <div className="flex flex-col items-start gap-1 sm:items-end">
           <EtiquetaStatus texto={consulta.status} />
-          {esperandoRegistro && <span className="text-[12px] font-medium text-marrom">Aguardando registro do atendimento</span>}
+          {esperandoRegistro && <span className="text-[12px] font-semibold text-marrom">Aguardando registro do atendimento</span>}
         </div>
       </div>
 

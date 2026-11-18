@@ -74,7 +74,7 @@ function FormularioDisponibilidade({ idProfissional, disponibilidade, aoConcluir
       </div>
 
       {emPeriodo ? (
-        <p className="mb-5 rounded-xl bg-fundo-2 px-4 py-3 text-sm text-marrom">
+        <p className="mb-5 rounded-xl bg-bege px-4 py-3 text-sm text-marrom">
           Status atual: {disponibilidade.status}. Para mudar, prorrogue ou encerre o período de férias/licença.
         </p>
       ) : (

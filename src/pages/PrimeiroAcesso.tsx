@@ -43,7 +43,7 @@ function PrimeiroAcesso() {
       <main className="flex flex-1 flex-col">
         <div className="grid flex-1 lg:grid-cols-[1fr_3fr]">
           <PainelLateral
-            corFundo="bg-texto"
+            corFundo="bg-escuro"
             titulo="Primeiro acesso"
             texto="Falta pouco para você usar o sistema: confirme as informações abaixo."
             beneficios={[
@@ -56,7 +56,7 @@ function PrimeiroAcesso() {
 
           <section className="flex items-start bg-fundo lg:items-center">
             <div className="mx-auto w-full max-w-3xl px-6 py-12 sm:px-12 lg:py-16">
-              <h2 className="mb-2 font-titulo text-[40px] leading-tight text-primary">Olá, {usuario.nome.split(' ')[0]}</h2>
+              <h2 className="mb-2 text-[40px] leading-tight text-verde-cta">Olá, {usuario.nome.split(' ')[0]}</h2>
               <p className="mb-8 text-sm text-marrom">
                 {termosPendentes && 'Aceite os termos de uso. '}
                 {anamnesePendente && (paciente.exigeNovaAnamnese ? 'Sua conta foi reativada: preencha uma nova anamnese.' : 'Preencha a sua anamnese.')}

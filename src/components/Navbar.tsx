@@ -12,7 +12,7 @@ const links = [
 ]
 
 const classeDoLink =
-  'block whitespace-nowrap rounded-lg px-3 py-2 font-medium transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-primary xl:px-2 xl:text-sm'
+  'block whitespace-nowrap rounded-lg px-3 py-2 font-semibold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-verde-cta xl:px-2 xl:text-sm'
 
 // Barra de navegação do topo (no celular os links ficam dentro do botão ☰)
 function Navbar() {
@@ -20,9 +20,9 @@ function Navbar() {
   const { hash } = useLocation() // seção clicada, ex: "#cannabis"
 
   return (
-    <header className="sticky top-0 z-50 border-b-2 border-borda-nav bg-fundo">
+    <header className="sticky top-0 z-50 border-b-2 border-bege bg-fundo">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between px-5 py-3 xl:flex-nowrap xl:gap-4">
-        <Link to="/" onClick={() => setMenuAberto(false)} className="rounded-lg focus-visible:outline-2 focus-visible:outline-primary">
+        <Link to="/" onClick={() => setMenuAberto(false)} className="rounded-lg focus-visible:outline-2 focus-visible:outline-verde-cta">
           <img src={logo} alt="MedPics" className="max-h-[53px]" />
         </Link>
 
@@ -31,7 +31,7 @@ function Navbar() {
           aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
           aria-expanded={menuAberto}
           onClick={() => setMenuAberto(!menuAberto)}
-          className="min-h-11 min-w-11 rounded-lg px-3 py-1 text-2xl transition-colors duration-200 hover:bg-fundo-2 focus-visible:outline-2 focus-visible:outline-primary xl:hidden"
+          className="min-h-11 min-w-11 rounded-lg px-3 py-1 text-2xl transition-colors duration-200 hover:bg-bege focus-visible:outline-2 focus-visible:outline-verde-cta xl:hidden"
         >
           {menuAberto ? '✕' : '☰'}
         </button>
@@ -43,7 +43,7 @@ function Navbar() {
                 <a
                   href={'/' + link.ancora}
                   onClick={() => setMenuAberto(false)}
-                  className={`${classeDoLink} ${hash === link.ancora ? 'bg-fundo-2 text-primary' : 'text-black hover:bg-fundo-2 hover:text-primary'}`}
+                  className={`${classeDoLink} ${hash === link.ancora ? 'bg-bege text-verde-cta' : 'text-escuro hover:bg-bege hover:text-verde-cta'}`}
                 >
                   {link.texto}
                 </a>
@@ -53,7 +53,7 @@ function Navbar() {
               <Link
                 to="/login"
                 onClick={() => setMenuAberto(false)}
-                className="block rounded-full bg-primary px-5 py-2 text-center font-medium text-white transition-colors duration-200 hover:bg-texto focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:bg-black"
+                className="block rounded-full bg-verde-cta px-5 py-2 text-center font-semibold text-white transition-colors duration-200 hover:bg-escuro hover:text-fundo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta active:bg-escuro"
               >
                 Cadastro/Login
               </Link>

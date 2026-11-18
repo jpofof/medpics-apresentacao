@@ -13,7 +13,7 @@ function BuscaPaciente({ somenteAtivos, aoEscolher }: BuscaPacienteProps) {
 
   return (
     <div>
-      <label htmlFor="busca-paciente" className="mb-2 block text-sm font-medium text-marrom">
+      <label htmlFor="busca-paciente" className="mb-2 block text-sm font-semibold text-marrom">
         Pesquisar paciente por nome ou CPF
       </label>
       <input
@@ -22,11 +22,11 @@ function BuscaPaciente({ somenteAtivos, aoEscolher }: BuscaPacienteProps) {
         value={texto}
         placeholder="Digite o nome ou o CPF"
         onChange={(e) => setTexto(e.target.value)}
-        className="mb-4 h-[54px] w-full rounded-xl border-[1.5px] border-borda bg-fundo px-4 text-sm text-texto transition-colors duration-200 placeholder:text-[#b8b0a4] hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-suave/60"
+        className="mb-4 h-[54px] w-full rounded-xl border-[1.5px] border-marrom-claro bg-fundo px-4 text-sm text-escuro transition-colors duration-200 placeholder:text-marrom hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-leve/60"
       />
 
       {encontrados.length === 0 ? (
-        <p className="rounded-xl bg-fundo-2 px-4 py-3 text-sm text-marrom">Nenhum paciente encontrado.</p>
+        <p className="rounded-xl bg-bege px-4 py-3 text-sm text-marrom">Nenhum paciente encontrado.</p>
       ) : (
         <ul className="flex flex-col gap-2">
           {encontrados.map((paciente) => (
@@ -34,9 +34,9 @@ function BuscaPaciente({ somenteAtivos, aoEscolher }: BuscaPacienteProps) {
               <button
                 type="button"
                 onClick={() => aoEscolher(paciente.id, paciente.nome)}
-                className="min-h-11 w-full rounded-xl border border-borda bg-white px-4 py-3 text-left transition-colors duration-200 hover:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:bg-fundo-2"
+                className="min-h-11 w-full rounded-xl border border-marrom-claro bg-fundo px-4 py-3 text-left transition-colors duration-200 hover:border-verde-cta focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta active:bg-bege"
               >
-                <strong className="block break-words text-[15px] text-texto">{paciente.nome}</strong>
+                <strong className="block break-words text-[15px] text-escuro">{paciente.nome}</strong>
                 <span className="break-words text-[13px] text-marrom">
                   CPF {paciente.cpf} · {paciente.email}
                 </span>

@@ -34,7 +34,7 @@ function PacienteConsultas() {
         </Cartao>
         <div className="flex flex-col gap-4">
           <MiniCalendario diasMarcados={dias} legenda="Consulta agendada" />
-          <Link to="/paciente/historico" className="inline-flex min-h-11 items-center text-sm font-semibold text-primary hover:underline">
+          <Link to="/paciente/historico" className="inline-flex min-h-11 items-center text-sm font-semibold text-verde-cta hover:underline">
             Ver meu histórico completo
           </Link>
         </div>

@@ -36,8 +36,8 @@ function FormularioNovoPaciente({ aoConcluir }: FormularioNovoPacienteProps) {
   }
 
   const classeDaOpcao = (escolhida: boolean) =>
-    `rounded-2xl border-[1.5px] p-4 text-left transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-      escolhida ? 'border-primary bg-primary/10' : 'border-borda bg-white hover:border-primary active:bg-fundo-2'
+    `rounded-2xl border-[1.5px] p-4 text-left transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta ${
+      escolhida ? 'border-verde-cta bg-verde-cta/10' : 'border-marrom-claro bg-fundo hover:border-verde-cta active:bg-bege'
     }`
 
   return (
@@ -55,11 +55,11 @@ function FormularioNovoPaciente({ aoConcluir }: FormularioNovoPacienteProps) {
       <TituloDaSecao comEspacoAcima>Termos e anamnese</TituloDaSecao>
       <div role="radiogroup" aria-label="Como preencher termos e anamnese" className="mb-6 grid gap-3 sm:grid-cols-2">
         <button type="button" role="radio" aria-checked={aoTelefone} onClick={() => setAoTelefone(true)} className={classeDaOpcao(aoTelefone)}>
-          <p className="mb-1 font-titulo text-lg text-texto">Paciente ao telefone</p>
+          <p className="mb-1 text-lg text-escuro">Paciente ao telefone</p>
           <p className="text-sm text-marrom">Preencho a anamnese junto com o paciente e registro o aceite dos termos.</p>
         </button>
         <button type="button" role="radio" aria-checked={!aoTelefone} onClick={() => setAoTelefone(false)} className={classeDaOpcao(!aoTelefone)}>
-          <p className="mb-1 font-titulo text-lg text-texto">Deixar para o primeiro acesso</p>
+          <p className="mb-1 text-lg text-escuro">Deixar para o primeiro acesso</p>
           <p className="text-sm text-marrom">O próprio paciente aceita os termos e preenche a anamnese ao entrar.</p>
         </button>
       </div>

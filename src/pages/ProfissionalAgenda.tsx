@@ -74,10 +74,10 @@ function ProfissionalAgenda() {
           </div>
         </div>
 
-        <h2 className="mb-4 text-lg text-texto">{titulo}</h2>
+        <h2 className="mb-4 text-lg text-escuro">{titulo}</h2>
 
         {dias.length === 0 && (
-          <p className="rounded-xl bg-fundo-2 px-4 py-3 text-sm text-marrom">
+          <p className="rounded-xl bg-bege px-4 py-3 text-sm text-marrom">
             {modo === 'dia' ? 'Nenhuma consulta neste dia.' : 'Nenhuma consulta nesta semana.'}
           </p>
         )}

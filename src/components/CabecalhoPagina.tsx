@@ -11,7 +11,7 @@ function CabecalhoPagina({ titulo, subtitulo, icone, acao }: CabecalhoPaginaProp
   return (
     <div className="flex flex-wrap items-start justify-between gap-4">
       <div>
-        <h1 className="flex items-center gap-3 font-titulo text-[28px] font-semibold text-texto lg:text-[32px]">
+        <h1 className="flex items-center gap-3 text-[28px] font-semibold text-escuro lg:text-[32px]">
           {titulo}
           {icone && <img src={icone} alt="" className="h-7 w-7" />}
         </h1>

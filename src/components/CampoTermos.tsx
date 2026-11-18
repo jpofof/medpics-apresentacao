@@ -14,12 +14,12 @@ function CampoTermos({ aceito, aoMudar, texto = 'Aceito os Termos de Uso e a Pol
           type="checkbox"
           checked={aceito}
           onChange={(e) => aoMudar(e.target.checked)}
-          className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-verde-cta focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta"
         />
         <span>{texto}</span>
       </label>
       {erro && (
-        <p role="alert" className="mt-1 text-xs text-erro">
+        <p role="alert" className="mt-1 text-xs text-marrom">
           {erro}
         </p>
       )}

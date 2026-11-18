@@ -60,8 +60,8 @@ function FormularioAgendar({ idPaciente, aoAgendar }: FormularioAgendarProps) {
 
   if (profissionais.length === 0 && sucesso === '') {
     return (
-      <div className="rounded-xl bg-fundo-2 px-4 py-4 text-sm text-marrom">
-        <p className="mb-1 font-medium text-texto">Nenhum profissional com horários livres no momento.</p>
+      <div className="rounded-xl bg-bege px-4 py-4 text-sm text-marrom">
+        <p className="mb-1 font-semibold text-escuro">Nenhum profissional com horários livres no momento.</p>
         <p>Os horários aparecem até 30 dias à frente. Tente novamente mais tarde ou fale com a clínica.</p>
       </div>
     )
@@ -86,7 +86,7 @@ function FormularioAgendar({ idPaciente, aoAgendar }: FormularioAgendarProps) {
         </div>
       )}
 
-      <p id="rotulo-profissional" className="mb-2 text-sm font-medium text-marrom">
+      <p id="rotulo-profissional" className="mb-2 text-sm font-semibold text-marrom">
         Profissional
       </p>
       <div role="radiogroup" aria-labelledby="rotulo-profissional" className="mb-5 grid gap-3 sm:grid-cols-2">
@@ -97,11 +97,11 @@ function FormularioAgendar({ idPaciente, aoAgendar }: FormularioAgendarProps) {
             role="radio"
             aria-checked={idProfissional === p.id}
             onClick={() => escolherProfissional(p.id)}
-            className={`min-h-11 rounded-2xl border-[1.5px] p-4 text-left transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-              idProfissional === p.id ? 'border-primary bg-primary/10' : 'border-borda bg-white hover:border-primary active:bg-fundo-2'
+            className={`min-h-11 rounded-2xl border-[1.5px] p-4 text-left transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta ${
+              idProfissional === p.id ? 'border-verde-cta bg-verde-cta/10' : 'border-marrom-claro bg-fundo hover:border-verde-cta active:bg-bege'
             }`}
           >
-            <strong className="block break-words text-[15px] text-texto">{p.nome}</strong>
+            <strong className="block break-words text-[15px] text-escuro">{p.nome}</strong>
             <span className="text-[13px] text-marrom">
               {p.cargo} · {p.especialidade}
             </span>
@@ -124,7 +124,7 @@ function FormularioAgendar({ idPaciente, aoAgendar }: FormularioAgendarProps) {
         />
       )}
 
-      <p className="mb-2 text-sm font-medium text-marrom">Horário</p>
+      <p className="mb-2 text-sm font-semibold text-marrom">Horário</p>
       {dataEscolhida !== '' ? (
         <div className="mb-6 grid grid-cols-3 gap-3 sm:grid-cols-4">
           {horas.map((h) => (
@@ -133,8 +133,8 @@ function FormularioAgendar({ idPaciente, aoAgendar }: FormularioAgendarProps) {
               type="button"
               aria-pressed={hora === h}
               onClick={() => setHora(h)}
-              className={`min-h-11 rounded-xl border px-3 py-3 text-sm font-medium transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-                hora === h ? 'border-primary bg-primary text-white' : 'border-borda bg-white text-texto hover:border-primary active:bg-fundo-2'
+              className={`min-h-11 rounded-xl border px-3 py-3 text-sm font-semibold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta ${
+                hora === h ? 'border-verde-cta bg-verde-cta text-white' : 'border-marrom-claro bg-fundo text-escuro hover:border-verde-cta active:bg-bege'
               }`}
             >
               {h}
@@ -142,7 +142,7 @@ function FormularioAgendar({ idPaciente, aoAgendar }: FormularioAgendarProps) {
           ))}
         </div>
       ) : (
-        <p className="mb-6 rounded-xl bg-fundo-2 px-4 py-3 text-sm text-marrom">Escolha o profissional e a data para ver os horários livres.</p>
+        <p className="mb-6 rounded-xl bg-bege px-4 py-3 text-sm text-marrom">Escolha o profissional e a data para ver os horários livres.</p>
       )}
 
       <Botao enviar desabilitado={hora === ''}>

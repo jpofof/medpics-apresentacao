@@ -17,10 +17,10 @@ function AvisosDoPaciente({ idPaciente }: AvisosDoPacienteProps) {
   return (
     <section aria-label="Avisos" className="flex flex-col gap-3" data-dispensados={dispensados}>
       {avisos.map((aviso) => (
-        <div key={aviso.id} role="status" className="flex flex-col gap-3 rounded-2xl border border-erro/30 bg-erro/10 p-4 sm:flex-row sm:items-center">
+        <div key={aviso.id} role="status" className="flex flex-col gap-3 rounded-2xl border border-marrom/30 bg-marrom/10 p-4 sm:flex-row sm:items-center">
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-medium text-erro">Consulta cancelada</p>
-            <p className="break-words text-sm text-texto">{aviso.texto}</p>
+            <p className="text-sm font-semibold text-marrom">Consulta cancelada</p>
+            <p className="break-words text-sm text-escuro">{aviso.texto}</p>
             <p className="mt-1 text-xs text-marrom">{formatarDataHora(aviso.criadoEm)}</p>
           </div>
           <Botao

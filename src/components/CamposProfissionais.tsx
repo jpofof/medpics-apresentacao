@@ -36,7 +36,7 @@ function CamposProfissionais({ cargo, dados, aoMudar, erros }: CamposProfissiona
             <Campo id="posGraduacao" rotulo="Pós-graduação (se houver)" valor={dados.posGraduacao} aoMudar={(v) => aoMudar('posGraduacao', v)} />
           </div>
           <div className="mb-5">
-            <label htmlFor="formacoes" className="mb-2 block text-sm font-medium text-marrom">
+            <label htmlFor="formacoes" className="mb-2 block text-sm font-semibold text-marrom">
               Formações complementares (se houver)
             </label>
             <textarea
@@ -44,7 +44,7 @@ function CamposProfissionais({ cargo, dados, aoMudar, erros }: CamposProfissiona
               rows={4}
               value={dados.formacoes}
               onChange={(e) => aoMudar('formacoes', e.target.value)}
-              className="w-full rounded-xl border-[1.5px] border-borda bg-fundo px-4 py-3 text-sm text-texto transition-colors duration-200 placeholder:text-[#b8b0a4] hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-suave/60"
+              className="w-full rounded-xl border-[1.5px] border-marrom-claro bg-fundo px-4 py-3 text-sm text-escuro transition-colors duration-200 placeholder:text-marrom hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-leve/60"
             />
           </div>
         </>
