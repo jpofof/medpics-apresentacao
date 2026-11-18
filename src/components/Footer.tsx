@@ -28,14 +28,29 @@ function Footer({ compacto = false }: FooterProps) {
             <h5 className={tituloClasse}>CLÍNICA</h5>
             <ul className={listaClasse}>
               <li>
-                <a href="/#como-funciona" className={linkClasse}>
-                  Como Funciona
-                </a>
+                <Link to="/cannabis-medicinal" className={linkClasse}>
+                  Cannabis Medicinal
+                </Link>
               </li>
               <li>
-                <a href="/#depoimentos" className={linkClasse}>
+                <Link to="/programa-terapeutico" className={linkClasse}>
+                  Programa
+                </Link>
+              </li>
+              <li>
+                <Link to="/praticas-integrativas" className={linkClasse}>
+                  Práticas Integrativas
+                </Link>
+              </li>
+              <li>
+                <Link to="/#como-funciona" className={linkClasse}>
+                  Como Funciona
+                </Link>
+              </li>
+              <li>
+                <Link to="/#depoimentos" className={linkClasse}>
                   Depoimentos
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

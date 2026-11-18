@@ -16,7 +16,7 @@ function RolagemDaPagina() {
   useEffect(() => {
     document.title = tituloDaPagina(pathname)
     const secao = hash === '' ? null : document.getElementById(hash.slice(1))
-    if (secao) secao.scrollIntoView()
+    if (secao) secao.scrollIntoView({ behavior: 'instant' })
     else window.scrollTo({ top: 0, behavior: 'instant' })
   }, [pathname, hash])
 

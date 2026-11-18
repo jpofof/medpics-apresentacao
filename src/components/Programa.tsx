@@ -1,31 +1,5 @@
-import integrativoSemanal from '../assets/landing/integrativo-semanal.webp'
-import praticasIntegrativas from '../assets/landing/praticas-integrativas.webp'
-import acompanhamentoSemana from '../assets/landing/acompanhamento-semana.webp'
-
-interface ProgramaItem {
-  imagem: string
-  titulo: string
-  descricao: string
-}
-
-const programas: ProgramaItem[] = [
-  {
-    imagem: integrativoSemanal,
-    titulo: 'Acompanhamento Integrativo Semanal',
-    descricao: 'Sessões individuais de meditação, acupuntura e fitoterapia.',
-  },
-  {
-    imagem: praticasIntegrativas,
-    titulo: 'Práticas Integrativas Individuais',
-    // TEXTO PROVISÓRIO: a clínica ainda vai confirmar
-    descricao: 'Atendimento individual com terapeutas especializados em práticas integrativas.',
-  },
-  {
-    imagem: acompanhamentoSemana,
-    titulo: 'Acompanhamento Semanal Cannabis Medicinal',
-    descricao: 'Acompanhamento semanal com ajuste de dosagem.',
-  },
-]
+import { Link } from 'react-router-dom'
+import { programas } from '../conteudo/programa'
 
 function Programa() {
   return (
@@ -51,12 +25,12 @@ function Programa() {
               <div className="relative px-6 pb-7 pt-24">
                 <p className="mb-3 text-corpo font-bold leading-snug text-fundo">{programa.titulo}</p>
                 <p className="mb-5 text-corpo font-normal text-fundo">{programa.descricao}</p>
-                <a
-                  href="#comece-hoje"
+                <Link
+                  to="/programa-terapeutico"
                   className="inline-flex min-h-14 items-center rounded-full bg-fundo px-6 text-botao font-semibold text-escuro transition-colors duration-300 hover:bg-bege focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fundo"
                 >
                   Saiba mais
-                </a>
+                </Link>
               </div>
             </article>
           ))}

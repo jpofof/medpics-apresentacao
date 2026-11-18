@@ -11,12 +11,15 @@ import AdminNovoPaciente from './pages/AdminNovoPaciente'
 import AdminPeriodos from './pages/AdminPeriodos'
 import AdminUsuarios from './pages/AdminUsuarios'
 import AgendarConsulta from './pages/AgendarConsulta'
+import CannabisMedicinalPagina from './pages/CannabisMedicinalPagina'
 import CadastroPaciente from './pages/CadastroPaciente'
 import CadastroProfissional from './pages/CadastroProfissional'
 import Inicio from './pages/Inicio'
 import Login from './pages/Login'
 import NaoEncontrada from './pages/NaoEncontrada'
 import NovoCadastro from './pages/NovoCadastro'
+import PraticasIntegrativas from './pages/PraticasIntegrativas'
+import ProgramaTerapeutico from './pages/ProgramaTerapeutico'
 import PacienteConsultas from './pages/PacienteConsultas'
 import PacienteHistorico from './pages/PacienteHistorico'
 import PacienteInicio from './pages/PacienteInicio'
@@ -44,6 +47,9 @@ function App() {
     <RolagemDaPagina />
       <Routes>
         <Route path="/" element={<Inicio />} />
+        <Route path="/cannabis-medicinal" element={<CannabisMedicinalPagina />} />
+        <Route path="/programa-terapeutico" element={<ProgramaTerapeutico />} />
+        <Route path="/praticas-integrativas" element={<PraticasIntegrativas />} />
         <Route path="/login" element={<Login />} />
   
         <Route path="/esqueci-senha" element={<EsqueciSenha />} />

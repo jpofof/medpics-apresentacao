@@ -1,27 +1,5 @@
-import ansiedade from '../assets/landing/ansiedade.svg'
-import insonia from '../assets/landing/insonia.svg'
-import dorCronica from '../assets/landing/dor_cronica.svg'
-import fibromialgia from '../assets/landing/fibromialgia.svg'
-import tdah from '../assets/landing/TDAH.svg'
-import autismo from '../assets/landing/autismo.svg'
-import depressao from '../assets/landing/depressao.svg'
-import enxaqueca from '../assets/landing/enxaqueca.svg'
-
-interface Condicao {
-  nome: string
-  icone: string
-}
-
-const condicoes: Condicao[] = [
-  { nome: 'Ansiedade e Estresse', icone: ansiedade },
-  { nome: 'Insônia e Sono', icone: insonia },
-  { nome: 'Dor Crônica', icone: dorCronica },
-  { nome: 'Fibromialgia', icone: fibromialgia },
-  { nome: 'TDAH e TOC', icone: tdah },
-  { nome: 'Autismo (TEA)', icone: autismo },
-  { nome: 'Depressão', icone: depressao },
-  { nome: 'Enxaqueca', icone: enxaqueca },
-]
+import { Link } from 'react-router-dom'
+import ListaDeCondicoes from './ListaDeCondicoes'
 
 function CannabisMedicinal() {
   return (
@@ -50,23 +28,15 @@ function CannabisMedicinal() {
 
         <div>
           <p className="mb-5 text-pequeno font-bold uppercase tracking-[0.2em] text-verde-cta">Condições acompanhadas</p>
-          <div className="mb-6 grid gap-3 sm:grid-cols-2">
-            {condicoes.map((condicao) => (
-              <div
-                key={condicao.nome}
-                className="flex items-center gap-3.5 rounded-3xl border border-transparent bg-fundo px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-escuro"
-              >
-                <img src={condicao.icone} alt="" className="h-10 w-10 shrink-0" />
-                <p className="text-pequeno text-escuro">{condicao.nome}</p>
-              </div>
-            ))}
+          <div className="mb-6">
+            <ListaDeCondicoes />
           </div>
-          <a
-            href="#programa"
-            className="inline-flex h-[50px] items-center rounded-full border border-verde-medio px-8 text-pequeno text-escuro transition-colors duration-300 hover:border-verde-cta hover:bg-verde-cta hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta active:bg-escuro"
+          <Link
+            to="/cannabis-medicinal"
+            className="inline-flex min-h-14 items-center rounded-full border-2 border-verde-medio px-8 text-botao font-semibold text-escuro transition-colors duration-300 hover:border-verde-cta hover:bg-verde-cta hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta active:bg-escuro"
           >
             Ver todas as condições
-          </a>
+          </Link>
         </div>
       </div>
     </section>
