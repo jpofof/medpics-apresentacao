@@ -56,11 +56,11 @@ function FormularioNovoPaciente({ aoConcluir }: FormularioNovoPacienteProps) {
       <div role="radiogroup" aria-label="Como preencher termos e anamnese" className="mb-6 grid gap-3 sm:grid-cols-2">
         <button type="button" role="radio" aria-checked={aoTelefone} onClick={() => setAoTelefone(true)} className={classeDaOpcao(aoTelefone)}>
           <p className="mb-1 text-lg text-escuro">Paciente ao telefone</p>
-          <p className="text-sm text-marrom">Preencho a anamnese junto com o paciente e registro o aceite dos termos.</p>
+          <p className="text-pequeno text-marrom">Preencho a anamnese junto com o paciente e registro o aceite dos termos.</p>
         </button>
         <button type="button" role="radio" aria-checked={!aoTelefone} onClick={() => setAoTelefone(false)} className={classeDaOpcao(!aoTelefone)}>
           <p className="mb-1 text-lg text-escuro">Deixar para o primeiro acesso</p>
-          <p className="text-sm text-marrom">O próprio paciente aceita os termos e preenche a anamnese ao entrar.</p>
+          <p className="text-pequeno text-marrom">O próprio paciente aceita os termos e preenche a anamnese ao entrar.</p>
         </button>
       </div>
 

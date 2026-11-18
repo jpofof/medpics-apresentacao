@@ -25,7 +25,7 @@ function ProfissionalHistorico() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Cartao titulo="Buscar paciente">
-          <label htmlFor="busca" className="mb-2 block text-sm font-semibold text-marrom">
+          <label htmlFor="busca" className="mb-2 block text-pequeno font-semibold text-marrom">
             Nome ou CPF
           </label>
           <input
@@ -34,11 +34,11 @@ function ProfissionalHistorico() {
             value={texto}
             placeholder="Digite o nome ou o CPF"
             onChange={(e) => setTexto(e.target.value)}
-            className="mb-4 h-[54px] w-full rounded-xl border-[1.5px] border-marrom-claro bg-fundo px-4 text-sm text-escuro transition-colors duration-200 placeholder:text-marrom hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-leve/60"
+            className="mb-4 h-[54px] w-full rounded-xl border-[1.5px] border-marrom-claro bg-fundo px-4 text-pequeno text-escuro transition-colors duration-200 placeholder:text-marrom hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-leve/60"
           />
 
           {pacientes.length === 0 ? (
-            <p className="rounded-xl bg-bege px-4 py-3 text-sm text-marrom">
+            <p className="rounded-xl bg-bege px-4 py-3 text-pequeno text-marrom">
               {texto === '' ? 'Você ainda não atendeu nenhum paciente.' : 'Nenhum paciente seu foi encontrado com esta busca.'}
             </p>
           ) : (
@@ -49,12 +49,12 @@ function ProfissionalHistorico() {
                     type="button"
                     onClick={() => setIdEscolhido(paciente.id)}
                     aria-pressed={paciente.id === idEscolhido}
-                    className={`min-h-11 w-full rounded-xl border px-4 py-3 text-left transition-colors duration-200 hover:border-verde-cta focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta active:bg-bege ${
+                    className={`min-h-12 w-full rounded-xl border px-4 py-3 text-left transition-colors duration-200 hover:border-verde-cta focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta active:bg-bege ${
                       paciente.id === idEscolhido ? 'border-verde-cta bg-verde-cta/10' : 'border-marrom-claro bg-fundo'
                     }`}
                   >
-                    <strong className="block break-words text-[15px] text-escuro">{paciente.nome}</strong>
-                    <span className="break-words text-[13px] text-marrom">CPF {paciente.cpf === '' ? 'não informado' : paciente.cpf}</span>
+                    <strong className="block break-words text-pequeno text-escuro">{paciente.nome}</strong>
+                    <span className="break-words text-pequeno text-marrom">CPF {paciente.cpf === '' ? 'não informado' : paciente.cpf}</span>
                   </button>
                 </li>
               ))}
@@ -66,7 +66,7 @@ function ProfissionalHistorico() {
           {escolhido ? (
             <ListaConsultas consultas={consultas} mensagemVazia="Nenhuma consulta com este paciente." />
           ) : (
-            <p className="rounded-xl bg-bege px-4 py-3 text-sm text-marrom">Escolha um paciente para ver o histórico.</p>
+            <p className="rounded-xl bg-bege px-4 py-3 text-pequeno text-marrom">Escolha um paciente para ver o histórico.</p>
           )}
         </Cartao>
       </div>

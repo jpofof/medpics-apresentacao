@@ -78,9 +78,9 @@ function FormularioEditarUsuario({ idUsuario, aoConcluir, aoCancelar }: Formular
 
       {profissional !== null && (
         <>
-          <p className="mb-2 text-sm text-marrom">Cargo: {profissional.cargo} (não pode ser alterado depois do cadastro)</p>
+          <p className="mb-2 text-pequeno text-marrom">Cargo: {profissional.cargo} (não pode ser alterado depois do cadastro)</p>
           <CamposProfissionais cargo={profissional.cargo} dados={extras} aoMudar={mudarExtras} erros={erros} />
-          <label className="mb-5 flex min-h-11 cursor-pointer items-center gap-3 text-sm text-escuro">
+          <label className="mb-5 flex min-h-11 cursor-pointer items-center gap-3 text-pequeno text-escuro">
             <input
               type="checkbox"
               checked={ehAdmin}

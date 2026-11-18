@@ -21,7 +21,7 @@ function EtiquetaStatus({ texto }: EtiquetaStatusProps) {
   }
 
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${estilo}`}>
+    <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-pequeno font-semibold ${estilo}`}>
       <IconeSimbolo nome={icone} className="h-4 w-4" />
       {texto}
     </span>

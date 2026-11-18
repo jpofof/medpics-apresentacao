@@ -77,7 +77,7 @@ function ProfissionalAgenda() {
         <h2 className="mb-4 text-lg text-escuro">{titulo}</h2>
 
         {dias.length === 0 && (
-          <p className="rounded-xl bg-bege px-4 py-3 text-sm text-marrom">
+          <p className="rounded-xl bg-bege px-4 py-3 text-pequeno text-marrom">
             {modo === 'dia' ? 'Nenhuma consulta neste dia.' : 'Nenhuma consulta nesta semana.'}
           </p>
         )}
@@ -85,7 +85,7 @@ function ProfissionalAgenda() {
         {dias.map((dia) => (
           <div key={dia} className="mb-5">
             {modo === 'semana' && (
-              <h3 className="mb-2 text-sm font-semibold text-marrom">
+              <h3 className="mb-2 text-pequeno font-semibold text-marrom">
                 {nomesDiasSemana[diaDaSemana(dia)]}, {formatarData(dia)}
               </h3>
             )}

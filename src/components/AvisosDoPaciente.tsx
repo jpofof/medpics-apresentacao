@@ -23,9 +23,9 @@ function AvisosDoPaciente({ idPaciente }: AvisosDoPacienteProps) {
             <IconeSimbolo nome="info" className="h-6 w-6" />
           </span>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-bold text-escuro">Consulta cancelada</p>
-            <p className="break-words text-sm text-escuro">{aviso.texto}</p>
-            <p className="mt-1 text-xs text-marrom">{formatarDataHora(aviso.criadoEm)}</p>
+            <p className="text-pequeno font-bold text-escuro">Consulta cancelada</p>
+            <p className="break-words text-pequeno text-escuro">{aviso.texto}</p>
+            <p className="mt-1 text-pequeno text-marrom">{formatarDataHora(aviso.criadoEm)}</p>
           </div>
           <Botao
             variante="secundario"

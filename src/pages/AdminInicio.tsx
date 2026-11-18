@@ -39,19 +39,19 @@ function AdminInicio() {
 
       <Cartao titulo="Cadastros aguardando aprovação" icone={atividadesIcone}>
         {pendentes.length === 0 ? (
-          <p className="rounded-xl bg-bege px-4 py-3 text-sm text-marrom">Nenhum cadastro aguardando aprovação.</p>
+          <p className="rounded-xl bg-bege px-4 py-3 text-pequeno text-marrom">Nenhum cadastro aguardando aprovação.</p>
         ) : (
           <ul>
             {pendentes.slice(0, 5).map((usuario) => (
               <li key={usuario.id} className="flex items-center justify-between gap-3 border-b border-bege py-3 last:border-0">
-                <strong className="min-w-0 break-words text-[15px] text-escuro">{usuario.nome}</strong>
-                <span className="shrink-0 text-[13px] text-marrom">{buscarProfissional(usuario.id)?.cargo}</span>
+                <strong className="min-w-0 break-words text-pequeno text-escuro">{usuario.nome}</strong>
+                <span className="shrink-0 text-pequeno text-marrom">{buscarProfissional(usuario.id)?.cargo}</span>
               </li>
             ))}
           </ul>
         )}
         <div className="mt-4">
-          <Link to="/admin/cadastros" className="inline-flex min-h-11 items-center text-sm font-semibold text-verde-cta hover:underline">
+          <Link to="/admin/cadastros" className="inline-flex min-h-11 items-center text-pequeno font-semibold text-verde-cta hover:underline">
             Ver cadastros pendentes
           </Link>
         </div>

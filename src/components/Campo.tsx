@@ -14,7 +14,7 @@ interface CampoProps {
 function Campo({ id, rotulo, tipo = 'text', placeholder, valor, aoMudar, autoComplete, erro }: CampoProps) {
   return (
     <div className="mb-5">
-      <label htmlFor={id} className="mb-2 block text-sm font-semibold text-marrom">
+      <label htmlFor={id} className="mb-2 block text-botao font-semibold text-marrom">
         {rotulo}
       </label>
       <input
@@ -25,7 +25,7 @@ function Campo({ id, rotulo, tipo = 'text', placeholder, valor, aoMudar, autoCom
         autoComplete={autoComplete}
         aria-invalid={erro ? true : undefined}
         onChange={(e) => aoMudar && aoMudar(e.target.value)}
-        className={`h-[54px] w-full rounded-xl border-[1.5px] bg-fundo px-4 text-sm text-escuro transition-colors duration-200 placeholder:text-marrom hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-leve/60 ${
+        className={`h-[54px] w-full rounded-xl border-[1.5px] bg-fundo px-4 text-botao text-escuro transition-colors duration-200 placeholder:text-marrom hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-leve/60 ${
           erro ? 'border-erro border-2' : 'border-marrom-claro'
         }`}
       />

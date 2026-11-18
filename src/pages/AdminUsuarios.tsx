@@ -110,7 +110,7 @@ function AdminUsuarios() {
       <Cartao>
         <div className="mb-5 grid gap-3 sm:grid-cols-2">
           <div>
-            <label htmlFor="busca" className="mb-1 block text-xs font-semibold text-marrom">
+            <label htmlFor="busca" className="mb-1 block text-pequeno font-semibold text-marrom">
               Buscar por nome
             </label>
             <input
@@ -118,18 +118,18 @@ function AdminUsuarios() {
               type="text"
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
-              className="h-11 w-full rounded-xl border-[1.5px] border-marrom-claro bg-fundo px-3 text-sm text-escuro hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-leve/60"
+              className="h-12 w-full rounded-xl border-[1.5px] border-marrom-claro bg-fundo px-3 text-pequeno text-escuro hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-leve/60"
             />
           </div>
           <div>
-            <label htmlFor="filtro" className="mb-1 block text-xs font-semibold text-marrom">
+            <label htmlFor="filtro" className="mb-1 block text-pequeno font-semibold text-marrom">
               Status da conta
             </label>
             <select
               id="filtro"
               value={filtro}
               onChange={(e) => setFiltro(e.target.value)}
-              className="h-11 w-full rounded-xl border-[1.5px] border-marrom-claro bg-fundo px-3 text-sm text-escuro hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-leve/60"
+              className="h-12 w-full rounded-xl border-[1.5px] border-marrom-claro bg-fundo px-3 text-pequeno text-escuro hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-leve/60"
             >
               {filtrosDeStatus.map((opcao) => (
                 <option key={opcao} value={opcao}>
@@ -141,7 +141,7 @@ function AdminUsuarios() {
         </div>
 
         {usuarios.length === 0 ? (
-          <p className="rounded-xl bg-bege px-4 py-3 text-sm text-marrom">Nenhum usuário encontrado para este filtro.</p>
+          <p className="rounded-xl bg-bege px-4 py-3 text-pequeno text-marrom">Nenhum usuário encontrado para este filtro.</p>
         ) : (
           <ul className="flex flex-col gap-3">
             {usuarios.map((usuario) => {
@@ -150,9 +150,9 @@ function AdminUsuarios() {
                 <li key={usuario.id} className="rounded-[18px] border border-escuro/5 bg-bege p-4">
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                     <div className="min-w-0 flex-1 basis-56">
-                      <strong className="block break-words text-[15px] text-escuro">{usuario.nome}</strong>
-                      <span className="block break-words text-[13px] text-marrom">{descricaoDoPerfil(usuario.id)}</span>
-                      <span className="block break-words text-[12px] text-marrom">
+                      <strong className="block break-words text-pequeno text-escuro">{usuario.nome}</strong>
+                      <span className="block break-words text-pequeno text-marrom">{descricaoDoPerfil(usuario.id)}</span>
+                      <span className="block break-words text-pequeno text-marrom">
                         {usuario.email} · cadastro em {formatarData(usuario.cadastro)}
                       </span>
                     </div>

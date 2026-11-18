@@ -22,22 +22,21 @@ function Introducao() {
     <section id="introducao" className="scroll-mt-20 bg-fundo py-16 md:py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 lg:grid-cols-2">
         <div className="flex flex-col gap-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-marrom">
+          <p className="text-pequeno font-bold uppercase tracking-[0.12em] text-marrom">
             Saúde Integrativa · Online · Humanizada
           </p>
-          <h1 className="text-[34px] font-semibold leading-[1.18] text-escuro md:text-[48px]">
+          <h1 className="text-titulo font-semibold leading-[1.18] text-escuro md:text-titulo-grande">
             Transforme sua
             <br />
             relação com a <span className="italic text-verde-cta">saúde</span>
           </h1>
-          <p className="text-[17px] font-normal leading-relaxed text-marrom">
-            Cannabis Medicinal e Práticas Integrativas — atendimento 100% online, com médicos certificados em
-            Canabinologia e terapeutas especializados em PICS, onde você estiver.
+          <p className="max-w-[60ch] text-corpo font-normal text-marrom">
+            Cannabis medicinal e práticas integrativas, com atendimento 100% online, onde você estiver.
           </p>
           <div>
             <a
               href="#comece-hoje"
-              className="inline-flex h-[52px] items-center rounded-full bg-verde-cta px-8 text-[15px] font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-escuro hover:text-fundo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta active:translate-y-0"
+              className="inline-flex min-h-14 items-center rounded-full bg-verde-cta px-8 text-botao font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-escuro hover:text-fundo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta active:translate-y-0"
             >
               Conhecer Tratamentos
             </a>

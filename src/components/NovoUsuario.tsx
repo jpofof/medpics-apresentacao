@@ -39,13 +39,13 @@ function NovoUsuario({ aoConcluir, aoCancelar }: NovoUsuarioProps) {
     setEtapa(2)
   }
 
-  const classeDaCaixa = 'flex min-h-11 cursor-pointer items-center gap-3 text-sm text-escuro'
+  const classeDaCaixa = 'flex min-h-11 cursor-pointer items-center gap-3 text-pequeno text-escuro'
   const classeDoCheckbox = 'h-5 w-5 shrink-0 cursor-pointer accent-verde-cta focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta'
 
   if (etapa === 2) {
     return (
       <div>
-        <p className="mb-4 text-sm text-marrom">{comoPaciente ? 'Perfil: Paciente' : 'Perfil: ' + cargoFinal + (ehAdmin ? ' + Administrador' : '')}</p>
+        <p className="mb-4 text-pequeno text-marrom">{comoPaciente ? 'Perfil: Paciente' : 'Perfil: ' + cargoFinal + (ehAdmin ? ' + Administrador' : '')}</p>
         {comoPaciente ? (
           <FormularioNovoPaciente aoConcluir={aoConcluir} />
         ) : (

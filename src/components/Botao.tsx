@@ -21,7 +21,7 @@ function Botao({ children, variante = 'primario', enviar = false, desabilitado =
       type={enviar ? 'submit' : 'button'}
       onClick={aoClicar}
       disabled={desabilitado}
-      className={`rounded-xl px-5 py-3 text-base font-semibold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta disabled:cursor-not-allowed disabled:opacity-50 ${cores} ${larguraTotal ? 'w-full' : ''}`}
+      className={`min-h-14 rounded-xl px-5 py-3 text-botao font-semibold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta disabled:cursor-not-allowed disabled:opacity-50 ${cores} ${larguraTotal ? 'w-full' : ''}`}
     >
       {children}
     </button>

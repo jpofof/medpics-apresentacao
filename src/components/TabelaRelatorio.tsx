@@ -10,7 +10,7 @@ function TabelaRelatorio({ relatorio }: TabelaRelatorioProps) {
     <div>
       {/* Telas médias e grandes: tabela */}
       <div className="hidden overflow-x-auto md:block">
-        <table className="w-full text-left text-sm">
+        <table className="w-full text-left text-pequeno">
           <thead>
             <tr className="border-b border-marrom-claro text-marrom">
               {relatorio.colunas.map((coluna) => (
@@ -39,7 +39,7 @@ function TabelaRelatorio({ relatorio }: TabelaRelatorioProps) {
         {relatorio.linhas.map((linha, i) => (
           <li key={i} className="rounded-[18px] border border-escuro/5 bg-bege px-4 py-3">
             {linha.map((celula, j) => (
-              <p key={j} className="flex flex-wrap justify-between gap-x-3 py-0.5 text-[13px]">
+              <p key={j} className="flex flex-wrap justify-between gap-x-3 py-0.5 text-pequeno">
                 <span className="text-marrom">{relatorio.colunas[j]}</span>
                 <span className="break-words text-right font-semibold text-escuro">{celula}</span>
               </p>
@@ -48,7 +48,7 @@ function TabelaRelatorio({ relatorio }: TabelaRelatorioProps) {
         ))}
       </ul>
 
-      <p className="mt-4 flex flex-wrap gap-x-6 gap-y-1 rounded-xl bg-bege px-4 py-3 text-sm font-semibold text-escuro">
+      <p className="mt-4 flex flex-wrap gap-x-6 gap-y-1 rounded-xl bg-bege px-4 py-3 text-pequeno font-semibold text-escuro">
         {relatorio.totais.map((total) => (
           <span key={total}>{total}</span>
         ))}

@@ -7,7 +7,7 @@ interface FormularioAnamneseProps {
 }
 
 const classeDoCampoPequeno =
-  'h-11 w-full rounded-xl border-[1.5px] border-marrom-claro bg-fundo px-3 text-sm text-escuro transition-colors duration-200 placeholder:text-marrom hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-leve/60'
+  'h-12 w-full rounded-xl border-[1.5px] border-marrom-claro bg-fundo px-3 text-botao text-escuro transition-colors duration-200 placeholder:text-marrom hover:border-verde-medio focus:border-verde-medio focus:outline-2 focus:outline-verde-leve/60'
 
 // Formulário de anamnese (7 categorias do catálogo). A página dona guarda o "estado" e o passa para cá.
 // Hábitos com frequência: Sim/Não, e se Sim, frequência. Demais itens: caixa de marcar. Observação é opcional.
@@ -38,7 +38,7 @@ function FormularioAnamnese({ estado, aoMudar }: FormularioAnamneseProps) {
 
   return (
     <div>
-      <p className="mb-6 text-sm text-marrom">
+      <p className="mb-6 text-botao text-marrom">
         Marque os itens que se aplicam a você. Em tabagismo, álcool, drogas, remédios/opioides e atividade física, responda
         Sim ou Não e, se for Sim, informe a frequência. Itens não marcados significam que não se aplicam.
       </p>
@@ -46,7 +46,7 @@ function FormularioAnamnese({ estado, aoMudar }: FormularioAnamneseProps) {
       {catalogo.map((categoria) => (
         <fieldset key={categoria.nome} className="mb-6 min-w-0 rounded-2xl border border-escuro/10 bg-bege/40 p-4 sm:p-5">
           <legend className="px-2 text-lg text-escuro">{categoria.nome}</legend>
-          {categoria.provisoria && <p className="mb-3 text-xs text-marrom">Lista provisória: a clínica ainda vai definir as opções finais.</p>}
+          {categoria.provisoria && <p className="mb-3 text-pequeno text-marrom">Lista provisória: a clínica ainda vai definir as opções finais.</p>}
 
           <div className="grid gap-3 sm:grid-cols-2">
             {categoria.itens.map((item) => {
@@ -60,9 +60,9 @@ function FormularioAnamnese({ estado, aoMudar }: FormularioAnamneseProps) {
                     className="rounded-xl border border-escuro/10 bg-fundo p-4 sm:col-span-2"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
-                      <p className="text-[15px] font-semibold text-escuro">{item.nome}</p>
+                      <p className="text-pequeno font-semibold text-escuro">{item.nome}</p>
                       <div role="radiogroup" aria-label={item.nome} className="flex gap-5">
-                        <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-escuro">
+                        <label className="flex min-h-11 cursor-pointer items-center gap-2 text-botao text-escuro">
                           <input
                             type="radio"
                             name={'habito-' + item.nome}
@@ -72,7 +72,7 @@ function FormularioAnamnese({ estado, aoMudar }: FormularioAnamneseProps) {
                           />
                           Sim
                         </label>
-                        <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-escuro">
+                        <label className="flex min-h-11 cursor-pointer items-center gap-2 text-botao text-escuro">
                           <input
                             type="radio"
                             name={'habito-' + item.nome}
@@ -87,7 +87,7 @@ function FormularioAnamnese({ estado, aoMudar }: FormularioAnamneseProps) {
 
                     {marcado && (
                       <div className="mt-2 grid gap-3 sm:grid-cols-2">
-                        <label className="block text-xs font-semibold text-marrom">
+                        <label className="block text-pequeno font-semibold text-marrom">
                           Frequência
                           <input
                             type="text"
@@ -97,7 +97,7 @@ function FormularioAnamnese({ estado, aoMudar }: FormularioAnamneseProps) {
                             className={`${classeDoCampoPequeno} mt-1`}
                           />
                         </label>
-                        <label className="block text-xs font-semibold text-marrom">
+                        <label className="block text-pequeno font-semibold text-marrom">
                           Observação (opcional)
                           <input
                             type="text"
@@ -120,7 +120,7 @@ function FormularioAnamnese({ estado, aoMudar }: FormularioAnamneseProps) {
                     marcado ? 'border-verde-cta/60' : 'border-escuro/10 hover:border-verde-cta/40'
                   }`}
                 >
-                  <label className="flex min-h-11 cursor-pointer items-center gap-3 text-sm text-escuro">
+                  <label className="flex min-h-11 cursor-pointer items-center gap-3 text-botao text-escuro">
                     <input
                       type="checkbox"
                       checked={marcado !== undefined}

@@ -64,10 +64,10 @@ function Login() {
           <section className="flex items-center bg-fundo">
             <div className="mx-auto w-full max-w-xl px-6 py-12 sm:px-12 lg:py-16">
               <h2 className="mb-2 text-[40px] leading-tight text-verde-cta">Entre na conta</h2>
-              <p className="mb-8 text-sm text-marrom">Informe seu e-mail e sua senha para continuar</p>
+              <p className="mb-8 text-botao text-marrom">Informe seu e-mail e sua senha para continuar</p>
 
               {aviso && (
-                <div role="status" className="mb-5 rounded-xl border border-verde-cta/40 bg-verde-cta/10 px-4 py-3 text-sm text-verde-cta">
+                <div role="status" className="mb-5 rounded-xl border border-verde-cta/40 bg-verde-cta/10 px-4 py-3 text-botao text-verde-cta">
                   {aviso}
                 </div>
               )}
@@ -81,7 +81,7 @@ function Login() {
               >
                 <Campo id="email" rotulo="Email" tipo="email" placeholder="seu@email.com" valor={email} aoMudar={setEmail} autoComplete="email" />
                 <Campo id="senha" rotulo="Senha" tipo="password" placeholder="••••••••" valor={senha} aoMudar={setSenha} autoComplete="current-password" />
-                <p className="-mt-2 mb-5 text-right text-sm">
+                <p className="-mt-2 mb-5 text-right text-botao">
                   <Link to="/esqueci-senha" className="inline-flex min-h-11 items-center font-semibold text-verde-cta hover:underline">
                     Esqueci minha senha
                   </Link>
@@ -94,15 +94,15 @@ function Login() {
 
               {/* Entra direto numa conta de demonstração */}
               <div className="mt-8 rounded-2xl border border-dashed border-marrom-claro bg-bege/40 p-4">
-                <p className="mb-1 text-sm font-semibold text-escuro">Acesso rápido</p>
-                <p className="mb-3 text-xs text-marrom">Clique para entrar direto numa conta de demonstração.</p>
+                <p className="mb-1 text-botao font-semibold text-escuro">Acesso rápido</p>
+                <p className="mb-3 text-pequeno text-marrom">Clique para entrar direto numa conta de demonstração.</p>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                   {acessoRapido.map((conta) => (
                     <button
                       key={conta.email}
                       type="button"
                       onClick={() => entrarComConta(conta.email)}
-                      className="min-h-11 rounded-xl border border-marrom-claro bg-fundo px-2 py-2 text-xs font-semibold text-marrom transition-colors duration-200 hover:border-verde-cta hover:text-verde-cta focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta active:bg-bege"
+                      className="min-h-11 rounded-xl border border-marrom-claro bg-fundo px-2 py-2 text-pequeno font-semibold text-marrom transition-colors duration-200 hover:border-verde-cta hover:text-verde-cta focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta active:bg-bege"
                     >
                       {conta.texto}
                     </button>
@@ -110,7 +110,7 @@ function Login() {
                 </div>
                 </div>
 
-              <p className="mt-8 border-t border-marrom-claro pt-6 text-center text-sm text-marrom">
+              <p className="mt-8 border-t border-marrom-claro pt-6 text-center text-botao text-marrom">
                 Ainda não tem conta?{' '}
                 <Link to="/cadastro" className="inline-flex min-h-11 items-center font-semibold text-verde-cta hover:underline">
                   Cadastre-se

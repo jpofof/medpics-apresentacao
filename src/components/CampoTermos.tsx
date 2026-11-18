@@ -10,7 +10,7 @@ interface CampoTermosProps {
 function CampoTermos({ aceito, aoMudar, texto = 'Aceito os Termos de Uso e a Política de Privacidade (LGPD) da Clínica MedPics', erro }: CampoTermosProps) {
   return (
     <div className="mb-6">
-      <label className="flex min-h-11 cursor-pointer items-start gap-3 text-sm text-marrom">
+      <label className="flex min-h-11 cursor-pointer items-start gap-3 text-botao text-marrom">
         <input
           type="checkbox"
           checked={aceito}

@@ -23,7 +23,7 @@ function Mensagem({ tipo = 'sucesso', children }: MensagemProps) {
   }
 
   return (
-    <div role={tipo === 'erro' ? 'alert' : 'status'} className={`flex items-start gap-3 rounded-xl border-2 px-4 py-3 text-sm font-bold text-escuro ${cores}`}>
+    <div role={tipo === 'erro' ? 'alert' : 'status'} className={`flex items-start gap-3 rounded-xl border-2 px-4 py-3 text-pequeno font-bold text-escuro ${cores}`}>
       <span className={`mt-0.5 ${corIcone}`}>
         <IconeSimbolo nome={icone} />
       </span>

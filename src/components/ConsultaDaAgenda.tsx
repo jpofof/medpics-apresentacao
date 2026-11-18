@@ -21,15 +21,15 @@ function ConsultaDaAgenda({ consulta, aoRegistrar }: ConsultaDaAgendaProps) {
     <li className={`rounded-[18px] border px-4 py-3 ${esperandoRegistro ? 'border-marrom-claro bg-bege' : 'border-escuro/5 bg-bege'}`}>
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
         <div className="min-w-0 flex-1 basis-48">
-          <strong className="block break-words text-[15px] text-escuro">{paciente === null ? 'Paciente' : paciente.nome}</strong>
-          <span className="block break-words text-[13px] text-marrom">
+          <strong className="block break-words text-pequeno text-escuro">{paciente === null ? 'Paciente' : paciente.nome}</strong>
+          <span className="block break-words text-pequeno text-marrom">
             {formatarData(consulta.data)} às {consulta.hora}
           </span>
-          <span className="block break-words text-[13px] text-marrom">Telefone: {paciente === null || paciente.telefone === '' ? 'não informado' : paciente.telefone}</span>
+          <span className="block break-words text-pequeno text-marrom">Telefone: {paciente === null || paciente.telefone === '' ? 'não informado' : paciente.telefone}</span>
         </div>
         <div className="flex flex-col items-start gap-1 sm:items-end">
           <EtiquetaStatus texto={consulta.status} />
-          {esperandoRegistro && <span className="text-[12px] font-semibold text-marrom">Aguardando registro do atendimento</span>}
+          {esperandoRegistro && <span className="text-pequeno font-semibold text-marrom">Aguardando registro do atendimento</span>}
         </div>
       </div>
 
@@ -41,7 +41,7 @@ function ConsultaDaAgenda({ consulta, aoRegistrar }: ConsultaDaAgendaProps) {
           <Botao variante="secundario" desabilitado={!podeRegistrar} aoClicar={() => aoRegistrar(consulta.id, 'Faltou')}>
             Paciente faltou
           </Botao>
-          {!podeRegistrar && <p className="self-center text-[12px] text-marrom">Disponível a partir do horário da consulta.</p>}
+          {!podeRegistrar && <p className="self-center text-pequeno text-marrom">Disponível a partir do horário da consulta.</p>}
         </div>
       )}
     </li>

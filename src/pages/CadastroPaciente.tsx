@@ -56,11 +56,11 @@ function CadastroPaciente() {
 
           <section className="flex items-start bg-fundo lg:items-center">
             <div className="mx-auto w-full max-w-3xl px-6 py-12 sm:px-12 lg:py-16">
-              <Link to="/cadastro" className="mb-4 inline-flex min-h-11 items-center text-sm text-marrom hover:text-verde-cta hover:underline">
+              <Link to="/cadastro" className="mb-4 inline-flex min-h-11 items-center text-botao text-marrom hover:text-verde-cta hover:underline">
                 ← Escolher outro perfil
               </Link>
               <h2 className="mb-2 text-[40px] leading-tight text-verde-cta">Criar conta</h2>
-              <p className="mb-2 text-sm text-marrom">
+              <p className="mb-2 text-botao text-marrom">
                 Etapa {etapa} de 2: {etapa === 1 ? 'seus dados' : 'anamnese'}
               </p>
               <div className="mb-8 flex gap-2" aria-hidden="true">
@@ -112,7 +112,7 @@ function CadastroPaciente() {
                 </form>
               )}
 
-              <p className="mt-6 text-center text-sm text-marrom">
+              <p className="mt-6 text-center text-botao text-marrom">
                 Já tenho conta.{' '}
                 <Link to="/login" className="inline-flex min-h-11 items-center font-semibold text-verde-cta hover:underline">
                   Fazer login

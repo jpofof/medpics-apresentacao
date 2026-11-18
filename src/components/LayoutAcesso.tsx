@@ -31,7 +31,7 @@ function LayoutAcesso({ titulo, subtitulo, children }: LayoutAcessoProps) {
           <section className="flex items-center bg-fundo">
             <div className="mx-auto w-full max-w-xl px-6 py-12 sm:px-12 lg:py-16">
               <h2 className="mb-2 text-[40px] leading-tight text-verde-cta">{titulo}</h2>
-              <p className="mb-8 text-sm text-marrom">{subtitulo}</p>
+              <p className="mb-8 text-botao text-marrom">{subtitulo}</p>
               {children}
             </div>
           </section>

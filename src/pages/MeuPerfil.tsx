@@ -41,7 +41,7 @@ function MeuPerfil() {
       {erros.geral && <Mensagem tipo="erro">{erros.geral}</Mensagem>}
 
       <Cartao>
-        <p className="mb-5 text-sm text-marrom">
+        <p className="mb-5 text-pequeno text-marrom">
           CPF: {usuario.cpf === '' ? 'não informado' : usuario.cpf} · Nascimento: {usuario.nascimento === '' ? 'não informado' : formatarData(usuario.nascimento)}
         </p>
         <form

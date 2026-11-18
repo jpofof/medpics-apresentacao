@@ -69,18 +69,18 @@ function ProfissionalDisponibilidade() {
 
       <Cartao titulo="Meus horários">
         {blocos.length === 0 ? (
-          <p className="rounded-xl bg-bege px-4 py-3 text-sm text-marrom">Nenhuma disponibilidade cadastrada. Clique em “Nova disponibilidade” para começar.</p>
+          <p className="rounded-xl bg-bege px-4 py-3 text-pequeno text-marrom">Nenhuma disponibilidade cadastrada. Clique em “Nova disponibilidade” para começar.</p>
         ) : (
           <ul className="flex flex-col gap-3">
             {blocos.map((bloco) => (
               <li key={bloco.id} className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-[18px] border border-escuro/5 bg-bege px-4 py-3">
                 <div className="min-w-0 flex-1 basis-44">
-                  <strong className="block text-[15px] text-escuro">{nomesDiasSemana[bloco.diaSemana]}</strong>
-                  <span className="text-[13px] text-marrom">
+                  <strong className="block text-pequeno text-escuro">{nomesDiasSemana[bloco.diaSemana]}</strong>
+                  <span className="text-pequeno text-marrom">
                     {bloco.horaInicio} às {bloco.horaFim}
                   </span>
                   {bloco.inicioBloqueio !== '' && (
-                    <span className="block text-[12px] text-marrom">
+                    <span className="block text-pequeno text-marrom">
                       de {formatarData(bloco.inicioBloqueio)} até {formatarData(bloco.fimBloqueio)}
                     </span>
                   )}
@@ -103,7 +103,7 @@ function ProfissionalDisponibilidade() {
             ))}
           </ul>
         )}
-        <p className="mt-4 text-[13px] text-marrom">
+        <p className="mt-4 text-pequeno text-marrom">
           Horários livres para agendamento nos próximos 30 dias: <strong>{horariosLivres(usuario.id).length}</strong>
         </p>
       </Cartao>

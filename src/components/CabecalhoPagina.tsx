@@ -15,7 +15,7 @@ function CabecalhoPagina({ titulo, subtitulo, icone, acao }: CabecalhoPaginaProp
           {titulo}
           {icone && <img src={icone} alt="" className="h-7 w-7" />}
         </h1>
-        {subtitulo && <p className="mt-1 text-[13px] text-marrom">{subtitulo}</p>}
+        {subtitulo && <p className="mt-1 text-pequeno text-marrom">{subtitulo}</p>}
       </div>
       {acao}
     </div>

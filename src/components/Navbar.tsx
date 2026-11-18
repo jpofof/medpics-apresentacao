@@ -12,7 +12,7 @@ const links = [
 ]
 
 const classeDoLink =
-  'block whitespace-nowrap rounded-lg px-3 py-2 font-semibold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-verde-cta xl:px-2 xl:text-sm'
+  'block whitespace-nowrap rounded-lg px-3 py-2 text-botao font-semibold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-verde-cta menu:px-2'
 
 // Barra de navegação do topo (no celular os links ficam dentro do botão ☰)
 function Navbar() {
@@ -21,7 +21,7 @@ function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b-2 border-bege bg-fundo">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between px-5 py-3 xl:flex-nowrap xl:gap-4">
+      <div className="mx-auto flex max-w-[90rem] flex-wrap items-center justify-between px-5 py-3 menu:flex-nowrap menu:gap-4">
         <Link to="/" onClick={() => setMenuAberto(false)} className="rounded-lg focus-visible:outline-2 focus-visible:outline-verde-cta">
           <img src={logo} alt="MedPics" className="max-h-[53px]" />
         </Link>
@@ -31,13 +31,13 @@ function Navbar() {
           aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
           aria-expanded={menuAberto}
           onClick={() => setMenuAberto(!menuAberto)}
-          className="min-h-11 min-w-11 rounded-lg px-3 py-1 text-2xl transition-colors duration-200 hover:bg-bege focus-visible:outline-2 focus-visible:outline-verde-cta xl:hidden"
+          className="min-h-11 min-w-11 rounded-lg px-3 py-1 text-2xl transition-colors duration-200 hover:bg-bege focus-visible:outline-2 focus-visible:outline-verde-cta menu:hidden"
         >
           {menuAberto ? '✕' : '☰'}
         </button>
 
-        <nav className={`${menuAberto ? 'block' : 'hidden'} w-full xl:block xl:w-auto`}>
-          <ul className="mt-4 flex flex-col gap-1 xl:mt-0 xl:flex-row xl:items-center">
+        <nav className={`${menuAberto ? 'block' : 'hidden'} w-full menu:block menu:w-auto`}>
+          <ul className="mt-4 flex flex-col gap-1 menu:mt-0 menu:flex-row menu:items-center">
             {links.map((link) => (
               <li key={link.ancora}>
                 <a
@@ -49,11 +49,11 @@ function Navbar() {
                 </a>
               </li>
             ))}
-            <li className="mt-2 xl:ml-3 xl:mt-0">
+            <li className="mt-2 menu:ml-3 menu:mt-0">
               <Link
                 to="/login"
                 onClick={() => setMenuAberto(false)}
-                className="block rounded-full bg-verde-cta px-5 py-2 text-center font-semibold text-white transition-colors duration-200 hover:bg-escuro hover:text-fundo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta active:bg-escuro"
+                className="block min-h-12 rounded-full bg-verde-cta px-5 py-3 text-center text-botao font-semibold text-white transition-colors duration-200 hover:bg-escuro hover:text-fundo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta active:bg-escuro"
               >
                 Cadastro/Login
               </Link>

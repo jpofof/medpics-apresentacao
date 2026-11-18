@@ -25,7 +25,7 @@ function AdminPeriodos() {
           {profissional ? (
             <PeriodoFeriasLicenca key={profissional.id} idProfissional={profissional.id} />
           ) : (
-            <p className="rounded-xl bg-bege px-4 py-3 text-sm text-marrom">Escolha um profissional para ver ou registrar o período.</p>
+            <p className="rounded-xl bg-bege px-4 py-3 text-pequeno text-marrom">Escolha um profissional para ver ou registrar o período.</p>
           )}
         </Cartao>
       </div>

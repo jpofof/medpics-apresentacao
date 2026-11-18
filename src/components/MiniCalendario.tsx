@@ -54,7 +54,7 @@ function MiniCalendario({ diasMarcados, legenda }: MiniCalendarioProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-7 gap-y-1 text-center text-[12px]">
+      <div className="grid grid-cols-7 gap-y-1 text-center text-pequeno">
         {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((letra, indice) => (
           <span key={indice} className="py-1 font-semibold text-marrom">
             {letra}
@@ -80,7 +80,7 @@ function MiniCalendario({ diasMarcados, legenda }: MiniCalendarioProps) {
       </div>
 
       <hr className="my-4 border-bege" />
-      <p className="flex items-center gap-2 text-[12px] text-marrom">
+      <p className="flex items-center gap-2 text-pequeno text-marrom">
         <span className="h-2.5 w-2.5 rounded-full bg-verde-cta" /> {legenda}
       </p>
     </Cartao>

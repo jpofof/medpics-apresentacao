@@ -12,7 +12,7 @@ function CartaoIndicador({ numero, texto, icone }: CartaoIndicadorProps) {
     <Cartao>
       <img src={icone} alt="" className="mb-2 h-7 w-7" />
       <p className="text-[32px] font-semibold leading-none text-escuro sm:text-[40px]">{numero}</p>
-      <p className="mt-1 text-[12px] leading-tight text-marrom sm:text-[13px]">{texto}</p>
+      <p className="mt-1 text-pequeno leading-tight text-marrom sm:text-pequeno">{texto}</p>
     </Cartao>
   )
 }

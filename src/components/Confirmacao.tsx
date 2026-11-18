@@ -12,7 +12,7 @@ interface ConfirmacaoProps {
 function Confirmacao({ mensagem, textoConfirmar = 'Confirmar', perigo = false, aoConfirmar, aoCancelar }: ConfirmacaoProps) {
   return (
     <div role="group" aria-label="Confirmação" className="rounded-xl border border-marrom-claro bg-bege/60 p-4">
-      <p className="mb-4 text-sm text-escuro">{mensagem}</p>
+      <p className="mb-4 text-pequeno text-escuro">{mensagem}</p>
       <div className="flex flex-col gap-3 sm:flex-row">
         <Botao variante={perigo ? 'perigo' : 'primario'} aoClicar={aoConfirmar}>
           {textoConfirmar}

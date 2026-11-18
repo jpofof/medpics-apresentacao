@@ -7,8 +7,8 @@ interface FooterProps {
 }
 
 function Footer({ compacto = false }: FooterProps) {
-  const linkClasse = `inline-flex min-h-11 items-center ${compacto ? 'text-xs' : 'text-sm'} text-fundo transition-colors duration-200 hover:text-verde-leve focus-visible:outline-2 focus-visible:outline-verde-leve`
-  const tituloClasse = `${compacto ? 'mb-2 text-xs' : 'mb-4 text-sm'} font-semibold tracking-wider text-verde-leve`
+  const linkClasse = `inline-flex min-h-11 items-center text-pequeno text-fundo transition-colors duration-200 hover:text-verde-leve focus-visible:outline-2 focus-visible:outline-verde-leve`
+  const tituloClasse = `${compacto ? 'mb-2' : 'mb-4'} text-pequeno font-bold tracking-wider text-verde-leve`
   const listaClasse = `flex flex-col ${compacto ? 'gap-0' : 'gap-1'}`
 
   return (
@@ -17,9 +17,8 @@ function Footer({ compacto = false }: FooterProps) {
         <div className={`grid md:grid-cols-3 ${compacto ? 'gap-4' : 'gap-8'}`}>
           <div>
             <img src={logo} alt="MedPics" className={`brightness-0 invert ${compacto ? 'mb-2 max-h-[36px]' : 'mb-3 max-h-[53px]'}`} />
-            <p className={`max-w-xs leading-relaxed text-bege ${compacto ? 'text-xs' : 'text-sm'}`}>
-              Cannabis Medicinal e Práticas Integrativas e Complementares. Transformando vidas com ciência, cuidado e
-              humanização.
+            <p className={`max-w-xs leading-relaxed text-bege text-pequeno`}>
+              Cannabis medicinal e práticas integrativas, com ciência, cuidado e humanização.
             </p>
             {/* Redes sociais só no rodapé completo (a página inicial) */}
             {!compacto && <RedesSociais />}
@@ -60,9 +59,8 @@ function Footer({ compacto = false }: FooterProps) {
 
         <hr className={`border-bege/20 ${compacto ? 'my-3' : 'my-6'}`} />
 
-        <div className="flex flex-col gap-1 text-xs text-verde-leve md:flex-row md:justify-between">
+        <div className="flex flex-col gap-1 text-pequeno text-verde-leve md:flex-row md:justify-between">
           <p>&copy; 2026 MedPics — Todos os direitos reservados</p>
-          <p>Cannabis Medicinal • Práticas Integrativas • Atendimento Online</p>
         </div>
       </div>
     </footer>

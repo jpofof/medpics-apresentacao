@@ -16,7 +16,21 @@
   /* ÚNICA exceção à paleta: vermelho funcional só para erro e status negativo */
   --color-erro: #b3261e;
 
+  /* Escala de tamanhos (público idoso): nada abaixo de 16px */
+  --text-pequeno: 16px; /* rótulos, legendas, rodapé */
+  --text-pequeno--line-height: 1.5;
+  --text-botao: 18px; /* botões, menu, campos de formulário */
+  --text-botao--line-height: 1.5;
+  --text-corpo: 20px; /* parágrafos e itens de lista */
+  --text-corpo--line-height: 1.6;
+  --text-titulo: 36px; /* títulos de seção no celular */
+  --text-titulo--line-height: 1.15;
+  --text-titulo-grande: 48px; /* títulos de seção a partir de md */
+  --text-titulo-grande--line-height: 1.15;
+
   /* Fonte única do projeto: para trocar, mude só esta linha (e o link no index.html) */
+  --breakpoint-menu: 1400px; /* menu do topo em uma linha só a partir daqui; antes disso, botão ☰ */
+
   --font-sans: "Nunito Sans", system-ui, sans-serif;
 }
 

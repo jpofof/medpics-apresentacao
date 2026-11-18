@@ -29,7 +29,7 @@ function AdminCancelar() {
           ) : (
             <div>
               <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-bege px-4 py-3">
-                <p className="min-w-0 break-words text-sm text-escuro">
+                <p className="min-w-0 break-words text-pequeno text-escuro">
                   Paciente: <strong>{nomePaciente}</strong>
                 </p>
                 <Botao variante="secundario" aoClicar={() => setIdPaciente(0)}>

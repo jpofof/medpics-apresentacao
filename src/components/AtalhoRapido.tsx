@@ -18,8 +18,8 @@ function AtalhoRapido({ texto, descricao, para, icone }: AtalhoRapidoProps) {
         <IconeMenu nome={icone} />
       </span>
       <span className="min-w-0 flex-1">
-        <strong className="block break-words text-[14px] text-escuro">{texto}</strong>
-        <span className="block break-words text-[12px] text-marrom">{descricao}</span>
+        <strong className="block break-words text-pequeno text-escuro">{texto}</strong>
+        <span className="block break-words text-pequeno text-marrom">{descricao}</span>
       </span>
     </>
   )

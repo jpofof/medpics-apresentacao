@@ -107,7 +107,7 @@ function PeriodoFeriasLicenca({ idProfissional, aoMudar }: PeriodoFeriasLicencaP
 
       {periodo !== null ? (
         <div>
-          <p className="mb-4 text-sm text-escuro">
+          <p className="mb-4 text-pequeno text-escuro">
             <strong>{periodo.tipo}</strong> de {formatarData(periodo.inicio)} até {formatarData(periodo.fim)}. Nenhum horário fica disponível nesse período.
           </p>
 

@@ -28,19 +28,19 @@ function PainelLateral({ corFundo, titulo, texto, beneficios, rodape }: PainelLa
 
       <div className="relative flex flex-1 flex-col px-6 py-6 lg:px-8 lg:py-10">
         <h1 className="mb-2 text-[26px] leading-tight text-fundo lg:mb-4 lg:text-[32px]">{titulo}</h1>
-        <p className="text-[14px] leading-relaxed text-fundo lg:mb-10 lg:text-[15px]">{texto}</p>
+        <p className="text-pequeno leading-relaxed text-fundo lg:mb-10 lg:text-pequeno">{texto}</p>
 
         <ul className="mt-auto hidden flex-col gap-6 lg:flex">
           {beneficios.map((beneficio) => (
             <li key={beneficio.texto} className="flex items-center gap-4">
               <img src={beneficio.icone} alt="" className="h-12 w-12 shrink-0" />
-              <span className="text-[15px] leading-snug text-fundo">{beneficio.texto}</span>
+              <span className="text-pequeno leading-snug text-fundo">{beneficio.texto}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      <p className="relative hidden border-t border-fundo/10 px-8 py-6 text-sm text-fundo lg:block">{rodape}</p>
+      <p className="relative hidden border-t border-fundo/10 px-8 py-6 text-botao text-fundo lg:block">{rodape}</p>
     </div>
   )
 }

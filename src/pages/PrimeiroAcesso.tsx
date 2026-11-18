@@ -57,7 +57,7 @@ function PrimeiroAcesso() {
           <section className="flex items-start bg-fundo lg:items-center">
             <div className="mx-auto w-full max-w-3xl px-6 py-12 sm:px-12 lg:py-16">
               <h2 className="mb-2 text-[40px] leading-tight text-verde-cta">Olá, {usuario.nome.split(' ')[0]}</h2>
-              <p className="mb-8 text-sm text-marrom">
+              <p className="mb-8 text-pequeno text-marrom">
                 {termosPendentes && 'Aceite os termos de uso. '}
                 {anamnesePendente && (paciente.exigeNovaAnamnese ? 'Sua conta foi reativada: preencha uma nova anamnese.' : 'Preencha a sua anamnese.')}
               </p>
