@@ -4,7 +4,7 @@ import ListaDeCondicoes from './ListaDeCondicoes'
 function CannabisMedicinal() {
   return (
     <section id="cannabis" className="scroll-mt-20 bg-bege py-16 md:py-24">
-      <div className="mx-auto grid max-w-6xl gap-12 px-5">
+      <div className="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-[5fr_6fr] lg:items-start lg:gap-20">
         <div>
           <p className="mb-4 text-pequeno font-bold uppercase tracking-[0.2em] text-verde-cta">Cannabis Medicinal</p>
           <h2 className="mb-7 text-titulo font-normal leading-[1.15] text-escuro md:text-titulo-grande">
@@ -29,7 +29,7 @@ function CannabisMedicinal() {
         <div>
           <p className="mb-5 text-pequeno font-bold uppercase tracking-[0.2em] text-verde-cta">Condições acompanhadas</p>
           <div className="mb-6">
-            <ListaDeCondicoes />
+            <ListaDeCondicoes colunasGrandes={2} />
           </div>
           <Link
             to="/cannabis-medicinal"

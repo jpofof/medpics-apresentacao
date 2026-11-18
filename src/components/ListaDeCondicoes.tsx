@@ -2,9 +2,16 @@ import { condicoes } from '../conteudo/condicoes'
 
 // Lista das condições acompanhadas (mesma lista e mesma ordem na página inicial e em /cannabis-medicinal).
 // Caixas todas do mesmo tamanho: colunas iguais e linhas com a mesma altura.
-function ListaDeCondicoes() {
+// colunasGrandes: número de colunas em telas grandes (4 por padrão; a página inicial usa 2, pois a lista fica numa coluna mais estreita).
+interface ListaDeCondicoesProps {
+  colunasGrandes?: number
+}
+
+function ListaDeCondicoes({ colunasGrandes = 4 }: ListaDeCondicoesProps) {
+  const classeGrande = colunasGrandes === 2 ? 'min-[1024px]:grid-cols-2' : 'min-[1024px]:grid-cols-4'
+
   return (
-    <ul className="grid auto-rows-fr grid-cols-1 gap-3 min-[480px]:grid-cols-2 min-[1024px]:grid-cols-4">
+    <ul className={`grid auto-rows-fr grid-cols-1 gap-3 min-[480px]:grid-cols-2 ${classeGrande}`}>
       {condicoes.map((condicao) => (
         <li
           key={condicao.nome}
