@@ -30,7 +30,7 @@ function NovoCadastro() {
       <main className="flex flex-1 flex-col">
         <div className="grid flex-1 lg:grid-cols-[1fr_3fr]">
           <PainelLateral
-            corFundo="bg-texto"
+            corFundo="bg-escuro"
             titulo="Comece sua jornada de cuidado"
             texto="Escolha o seu perfil e preencha o formulário na próxima etapa."
             beneficios={[
@@ -43,9 +43,9 @@ function NovoCadastro() {
 
           <section className="flex items-center bg-fundo">
             <div className="mx-auto w-full max-w-2xl px-6 py-12 sm:px-12 lg:py-16">
-              <p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-verde-medio">Cadastro</p>
-              <h2 className="mb-2 font-titulo text-[40px] leading-tight text-primary">Como deseja se cadastrar?</h2>
-              <p className="mb-8 text-sm text-marrom">Selecione seu perfil — o formulário abrirá na próxima etapa</p>
+              <p className="mb-2 text-pequeno font-semibold uppercase tracking-[0.2em] text-verde-cta">Cadastro</p>
+              <h2 className="mb-2 text-[40px] leading-tight text-verde-cta">Como deseja se cadastrar?</h2>
+              <p className="mb-8 text-botao text-marrom">Selecione seu perfil — o formulário abrirá na próxima etapa</p>
 
               <div role="radiogroup" className="mb-8 grid gap-4 sm:grid-cols-2">
                 {opcoes.map((opcao) => (
@@ -55,14 +55,14 @@ function NovoCadastro() {
                     role="radio"
                     aria-checked={rotaEscolhida === opcao.rota}
                     onClick={() => setRotaEscolhida(opcao.rota)}
-                    className={`rounded-2xl border-[1.5px] p-5 text-left transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+                    className={`rounded-2xl border-[1.5px] p-5 text-left transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta ${
                       rotaEscolhida === opcao.rota
-                        ? 'border-primary bg-primary/10'
-                        : 'border-borda bg-white hover:border-primary active:bg-fundo-2'
+                        ? 'border-verde-cta bg-verde-cta/10'
+                        : 'border-marrom-claro bg-fundo hover:border-verde-cta active:bg-bege'
                     }`}
                   >
-                    <p className="mb-1 font-titulo text-xl text-texto">{opcao.titulo}</p>
-                    <p className="text-sm text-marrom">{opcao.descricao}</p>
+                    <p className="mb-1 text-xl text-escuro">{opcao.titulo}</p>
+                    <p className="text-botao text-marrom">{opcao.descricao}</p>
                   </button>
                 ))}
               </div>
@@ -71,9 +71,9 @@ function NovoCadastro() {
                 Continuar
               </Botao>
 
-              <p className="mt-6 text-center text-sm text-marrom">
+              <p className="mt-6 text-center text-botao text-marrom">
                 Já tenho conta.{' '}
-                <Link to="/login" className="font-semibold text-primary hover:underline">
+                <Link to="/login" className="inline-flex min-h-11 items-center font-semibold text-verde-cta hover:underline">
                   Fazer login
                 </Link>
               </p>

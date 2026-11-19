@@ -1,20 +1,49 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Botao from '../components/Botao'
 import Campo from '../components/Campo'
 import Footer from '../components/Footer'
 import PainelLateral from '../components/PainelLateral'
+import { entrarNaConta, salvarSessao, telaInicialDo, usuarioLogado } from '../data/usuarios'
 import checkIcone from '../assets/check-cadastro.svg'
 import cadeadoIcone from '../assets/cadeado.svg'
 import celularIcone from '../assets/celular.svg'
 
-const perfis = ['Paciente', 'Médico', 'Dentista', 'Terapeuta', 'Administrador']
+// Contas de demonstração do "Acesso rápido" (sempre visível: o login é livre)
+const acessoRapido = [
+  { texto: 'Paciente', email: 'paciente@medpics.com' },
+  { texto: 'Médico', email: 'medico@medpics.com' },
+  { texto: 'Dentista', email: 'dentista@medpics.com' },
+  { texto: 'Terapeuta', email: 'terapeuta@medpics.com' },
+  { texto: 'Admin (médico + administrador)', email: 'admin@medpics.com' },
+  { texto: 'Aguardando', email: 'aguardando@medpics.com' },
+  { texto: 'Recusado', email: 'recusado@medpics.com' },
+  { texto: 'Inativo', email: 'inativo@medpics.com' },
+]
 
-// Tela de login. Versão de apresentação: o botão Entrar sempre entra, no perfil escolhido
-// (e-mail e senha são ignorados). Paciente vai para o painel do paciente; os outros para o painel em desenvolvimento.
+// Tela de login única (e-mail + senha). O perfil é descoberto pelos dados da conta.
+// LOGIN LIVRE (não depende de VALIDACOES_ATIVAS): "Entrar" sempre entra, sem checar senha nem status da conta (veja entrarNaConta).
 function Login() {
-  const [perfil, setPerfil] = useState('Paciente')
+  const [email, setEmail] = useState('')
+  const [senha, setSenha] = useState('')
   const navigate = useNavigate()
+  const { search } = useLocation() // ex: "?cadastro=paciente", vindo do fim do cadastro
+
+  // Quem já está logado vai direto para a própria tela
+  const logado = usuarioLogado()
+  if (logado !== null) return <Navigate to={telaInicialDo(logado)} replace />
+
+  let aviso = ''
+  if (search === '?cadastro=paciente') aviso = 'Cadastro efetuado com sucesso. Entre com seu e-mail e senha.'
+  if (search === '?cadastro=profissional') aviso = 'Cadastro enviado para aprovação do administrador. Você já pode entrar.'
+
+  // A senha digitada não é conferida
+  function entrarComConta(emailDaConta: string) {
+    const resultado = entrarNaConta(emailDaConta)
+    if (resultado.usuario === null) return
+    salvarSessao(resultado.usuario.id)
+    navigate(telaInicialDo(resultado.usuario))
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -34,49 +63,56 @@ function Login() {
 
           <section className="flex items-center bg-fundo">
             <div className="mx-auto w-full max-w-xl px-6 py-12 sm:px-12 lg:py-16">
-              <h2 className="mb-2 font-titulo text-[40px] leading-tight text-primary">Entre na conta</h2>
-              <p className="mb-8 text-sm text-marrom">Escolha o seu perfil e clique em Entrar</p>
+              <h2 className="mb-2 text-[40px] leading-tight text-verde-cta">Entre na conta</h2>
+              <p className="mb-8 text-botao text-marrom">Informe seu e-mail e sua senha para continuar</p>
+
+              {aviso && (
+                <div role="status" className="mb-5 rounded-xl border border-verde-cta/40 bg-verde-cta/10 px-4 py-3 text-botao text-verde-cta">
+                  {aviso}
+                </div>
+              )}
 
               <form
                 noValidate
                 onSubmit={(evento) => {
                   evento.preventDefault()
-                  navigate(perfil === 'Paciente' ? '/paciente' : '/profissional')
+                  entrarComConta(email)
                 }}
               >
-                <p id="rotulo-perfil" className="mb-2 text-sm font-medium text-marrom">
-                  Entrar como
+                <Campo id="email" rotulo="Email" tipo="email" placeholder="seu@email.com" valor={email} aoMudar={setEmail} autoComplete="email" />
+                <Campo id="senha" rotulo="Senha" tipo="password" placeholder="••••••••" valor={senha} aoMudar={setSenha} autoComplete="current-password" />
+                <p className="-mt-2 mb-5 text-right text-botao">
+                  <Link to="/esqueci-senha" className="inline-flex min-h-11 items-center font-semibold text-verde-cta hover:underline">
+                    Esqueci minha senha
+                  </Link>
                 </p>
-                <div role="radiogroup" aria-labelledby="rotulo-perfil" className="mb-6 flex flex-wrap gap-2">
-                  {perfis.map((opcao) => (
-                    <button
-                      key={opcao}
-                      type="button"
-                      role="radio"
-                      aria-checked={perfil === opcao}
-                      onClick={() => setPerfil(opcao)}
-                      className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-                        perfil === opcao
-                          ? 'border-primary bg-primary text-white'
-                          : 'border-borda bg-white text-marrom hover:border-primary hover:text-primary active:bg-fundo-2'
-                      }`}
-                    >
-                      {opcao}
-                    </button>
-                  ))}
-                </div>
-
-                <Campo id="email" rotulo="Email" placeholder="seu@email.com" />
-                <Campo id="senha" rotulo="Senha" tipo="password" placeholder="••••••••" />
 
                 <Botao enviar larguraTotal>
                   Entrar
                 </Botao>
               </form>
 
-              <p className="mt-8 border-t border-borda pt-6 text-center text-sm text-marrom">
+              {/* Entra direto numa conta de demonstração */}
+              <div className="mt-8 rounded-2xl border border-dashed border-marrom-claro bg-bege/40 p-4">
+                <p className="mb-1 text-botao font-semibold text-escuro">Acesso rápido</p>
+                <p className="mb-3 text-pequeno text-marrom">Clique para entrar direto numa conta de demonstração.</p>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  {acessoRapido.map((conta) => (
+                    <button
+                      key={conta.email}
+                      type="button"
+                      onClick={() => entrarComConta(conta.email)}
+                      className="min-h-11 rounded-xl border border-marrom-claro bg-fundo px-2 py-2 text-pequeno font-semibold text-marrom transition-colors duration-200 hover:border-verde-cta hover:text-verde-cta focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-cta active:bg-bege"
+                    >
+                      {conta.texto}
+                    </button>
+                  ))}
+                </div>
+                </div>
+
+              <p className="mt-8 border-t border-marrom-claro pt-6 text-center text-botao text-marrom">
                 Ainda não tem conta?{' '}
-                <Link to="/cadastro" className="font-semibold text-primary hover:underline">
+                <Link to="/cadastro" className="inline-flex min-h-11 items-center font-semibold text-verde-cta hover:underline">
                   Cadastre-se
                 </Link>
               </p>
